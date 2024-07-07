@@ -7,7 +7,7 @@ FLAGS = -Wall -Wextra -Werror -I./includes
 all: $(NAME)
 
 $(NAME): $(SRC)
-	$(CC) $(FLAGS) srcs/main.c $(SRC) -o $(NAME)
+	$(CC) $(FLAGS) parcing.c $(SRC) -o $(NAME)
 
 clean:
 	rm -r $(NAME)
