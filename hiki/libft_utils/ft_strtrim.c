@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ansa <eel-ansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 15:25:54 by eel-ansa          #+#    #+#             */
-/*   Updated: 2023/12/25 10:38:22 by eel-ansa         ###   ########.fr       */
+/*   Created: 2023/12/15 21:43:01 by eel-ansa          #+#    #+#             */
+/*   Updated: 2023/12/21 00:55:46 by eel-ansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *data)
+char	*ft_strtrim(char *s1, char *set)
 {
-	t_list	*node;
+	int		i;
+	int		j;
+	char	*str;
 
-	node = (t_list *)malloc(sizeof(t_list));
-	if (!node)
+	if (!s1 || !set)
 		return (NULL);
-	node->data = ft_strdup(data);
-	node->next = NULL;
-	return (node);
+	if ((ft_strlen(s1) == 0 && ft_strlen(set) == 0))
+		return (ft_strdup(""));
+	else if (!ft_strlen(s1))
+		return (ft_strdup(""));
+	i = 0;
+	j = ft_strlen(s1);
+	while (s1[i] && ft_strchr(set, s1[i]))
+		i++;
+	while (ft_strchr(set, s1[j]))
+		j--;
+	str = ft_substr(s1, i, j - i + 1);
+	if (!str)
+		return (NULL);
+	return (str);
 }

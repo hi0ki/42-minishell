@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ansa <eel-ansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 15:25:54 by eel-ansa          #+#    #+#             */
-/*   Updated: 2023/12/25 10:38:22 by eel-ansa         ###   ########.fr       */
+/*   Created: 2023/12/12 20:46:35 by eel-ansa          #+#    #+#             */
+/*   Updated: 2023/12/21 00:56:25 by eel-ansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *data)
+char	*ft_strdup(char *s1)
 {
-	t_list	*node;
+	char	*str;
+	int		i;
 
-	node = (t_list *)malloc(sizeof(t_list));
-	if (!node)
+	i = 0;
+	str = malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (!str)
 		return (NULL);
-	node->data = ft_strdup(data);
-	node->next = NULL;
-	return (node);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

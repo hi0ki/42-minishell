@@ -1,57 +1,86 @@
 #include "minishell.h"
 
-bool check_special_char(char *str)
+
+/*
+
+	wlit m7taj hir {'' & ""};
+	hadchi li mhtaj daba
+
+*/
+
+int check_special_char(char *str)
 {
 	int i;
 
 	i = 0;
-	// if (str[i] == '>' && str[i + 1] == '>')
-	// 	return (true);=
-	if (str[i] == '<' || str[i] == '>' )
+	if ((str[i] == '>' && str[i + 1] == '>') || 
+		(str[i] == '<' && str[i + 1] == '<'))
+		return (2);
+	if (str[i] == '<' || str[i] == '>' || str[i] == ' ' || 
+		str[i] == '|')
 	{
-		return (true);
+		return (1);
 	}
-	return (false);
+	return (0);
 }
 
-void ft_start(t_list *head, char *line)
+char *alloc_special_char(char *line)
 {
-	int i;
-	int j;
-	char str[255];
+	char *str;
+	int	i;
+	int type;
 
 	i = 0;
-	j = 0;
+	type = check_special_char(line + i);
+	str = malloc((type + 1) * sizeof(char));
+	if (type == 1)
+	{
+		str[i] = line[i];
+		i++;
+	}
+	else if (type == 2)
+	{
+		while (i < type)
+		{
+			str[i] = line[i];
+			i++;
+		}
+	}
+	str[i] = '\0';
+	return str;
+}
+
+t_list *ft_start(t_list *head, char *line)
+{
+	char	*str;
+	int		i;
+	int		index;
+	int		type;
+
+	i = 0;
+	index = 0;
 	head = NULL;
-	while(i <= ft_strlen(line))
+	while (i < ft_strlen(line))
 	{
-		if ((line[i] == ' ' || line[i] == '\0') && str[j - 1])
+		i += index;
+		index = get_index(line + i, " ><|");
+		if (index != 0)
 		{
+			str = ft_str_alloc(line + i, index);
 			ft_lstadd_back(&head, ft_lstnew(str));
-			ft_bzero(str, j);
-			j = 0;
-			i++;
+			free(str);
 		}
-		else if (check_special_char(line + i) == true)
+		else if (check_special_char(line + i) > 0)
 		{
+
+			str = alloc_special_char(line + i);
 			ft_lstadd_back(&head, ft_lstnew(str));
-			ft_bzero(str, j);
-			j = 0;
-			i++;
+			free(str);
+			i += check_special_char(line + i);
 		}
-		if (line[i] != ' ')
-		{
-			str[j] = line[i];
-			str[j + 1] = '\0';
-			j++;
-			i++;
-		}
-		else
-			i++;
 	}
-	while (head)
-	{
-		printf("%s\n", head->data);
-		head = head->next;
-	}
+	return (head);
 }
+
+
+

@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ansa <eel-ansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 15:25:54 by eel-ansa          #+#    #+#             */
-/*   Updated: 2023/12/25 10:38:22 by eel-ansa         ###   ########.fr       */
+/*   Created: 2023/12/13 12:35:57 by eel-ansa          #+#    #+#             */
+/*   Updated: 2023/12/21 00:55:43 by eel-ansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *data)
+char	*ft_substr(char *s, unsigned int start, int len)
 {
-	t_list	*node;
+	int	i;
+	char	*str;
 
-	node = (t_list *)malloc(sizeof(t_list));
-	if (!node)
+	if (!s)
 		return (NULL);
-	node->data = ft_strdup(data);
-	node->next = NULL;
-	return (node);
+	if (ft_strlen(s) <= start)
+		len = 0;
+	else if (ft_strlen(s) <= (start + len))
+		len = (ft_strlen(s) - start);
+	str = malloc(len * (sizeof(char)) + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = s[i + start];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
