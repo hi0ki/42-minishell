@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-ansa <eel-ansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 15:25:54 by eel-ansa          #+#    #+#             */
-/*   Updated: 2023/12/25 10:38:22 by eel-ansa         ###   ########.fr       */
+/*   Created: 2023/12/09 23:26:42 by eel-ansa          #+#    #+#             */
+/*   Updated: 2023/12/22 18:20:17 by eel-ansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *data)
+char	*ft_strchr(char *s, int c)
 {
-	t_list	*node;
+	int		i;
+	char	*str;
 
-	node = (t_list *)malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->data = ft_strdup(data);
-	node->next = NULL;
-	return (node);
+	i = 0;
+	str = (char *)s;
+	while (str[i] != '\0')
+	{
+		if (str[i] == (char)c)
+			return (str + i);
+		i++;
+	}
+	if (str[i] == (char)c)
+		return (str + i);
+	return (NULL);
 }
