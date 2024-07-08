@@ -23,25 +23,35 @@ void ft_start(t_list *head, char *line)
 	i = 0;
 	j = 0;
 	head = NULL;
-	while(line[i])
+	while(i <= ft_strlen(line))
 	{
-		if (check_special_char(line + i) == true)
-		{
-			str[j] = '\0';
-			ft_lstadd_back(&head, ft_lstnew(str));
-			printf("%s\n", head->data);
-			ft_bzero(str, j);
-			str[0] = line[i];
-		}
-		if (check_special_char(line + i) == true)
+		if ((line[i] == ' ' || line[i] == '\0') && str[j - 1])
 		{
 			ft_lstadd_back(&head, ft_lstnew(str));
-			printf("%s\n", head->data);
 			ft_bzero(str, j);
 			j = 0;
-		} 
-		str[j] = line[i];
-		j++;
-		i++;
+			i++;
+		}
+		else if (check_special_char(line + i) == true)
+		{
+			ft_lstadd_back(&head, ft_lstnew(str));
+			ft_bzero(str, j);
+			j = 0;
+			i++;
+		}
+		if (line[i] != ' ')
+		{
+			str[j] = line[i];
+			str[j + 1] = '\0';
+			j++;
+			i++;
+		}
+		else
+			i++;
+	}
+	while (head)
+	{
+		printf("%s\n", head->data);
+		head = head->next;
 	}
 }

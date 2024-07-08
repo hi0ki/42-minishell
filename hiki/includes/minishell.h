@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef struct s_list{
 	char *data;
@@ -16,7 +17,7 @@ typedef struct s_list{
 
 /*						 libft							*/
 void	ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstnew(void *content);
+t_list	*ft_lstnew(char *data);
 int	ft_strlen(char *str);
 void	ft_bzero(char *str, int n);
 
