@@ -30,6 +30,7 @@ char	*ft_str_alloc(char *line, int size);
 char	*alloc_special_char(char *line);
 int		check_special_char(char *str);
 int		get_index(char *line, char *str);
+int		ft_handle_quotes(char *line);
 
 /*						parsing							*/
 t_list *ft_start(t_list *head, char *line);

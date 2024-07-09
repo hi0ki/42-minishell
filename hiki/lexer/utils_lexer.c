@@ -60,3 +60,19 @@ int check_special_char(char *str)
 		return (3);
 	return (0);
 }
+
+int ft_handle_quotes(char *line)
+{
+	int i;
+	char c;
+
+	i = 0;
+	if	(line[i] == '\'')
+		c = '\'';
+	if (line[i] == '\"')
+		c = '\"';
+	i++;
+	while (line[i] && line[i] != c)
+		i++;
+	return (i - 1);
+}
