@@ -10,14 +10,11 @@
 #include <string.h>
 
 typedef struct s_list{
-	char *data;
-	struct s_list *next;
+	char			*data;
+	int				type;
+	struct s_list	*next;
 } t_list;
 
-// typedef enum {
-// 	command = 0,
-// 	file	= 1,
-// }
 /*						 libft							*/
 t_list	*ft_lstnew(char *data);
 void	ft_lstadd_back(t_list **lst, t_list *new);
@@ -28,9 +25,11 @@ char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);
 char	*ft_substr(char *s, unsigned int start, int len);
 
-/*						utils							*/
-int get_index(char *line, char *str);
-char *ft_str_alloc(char *line, int size);
+/*						utils for lexer							*/
+char	*ft_str_alloc(char *line, int size);
+char	*alloc_special_char(char *line);
+int		check_special_char(char *str);
+int		get_index(char *line, char *str);
 
 /*						parsing							*/
 t_list *ft_start(t_list *head, char *line);

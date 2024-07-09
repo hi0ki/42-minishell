@@ -1,7 +1,13 @@
-SRC = srcs/parsing/parsing.c srcs/parsing/lexer.c srcs/main.c
-LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c libft_utils/ft_strlen.c libft_utils/ft_bzero.c \
-		libft_utils/ft_strdup.c libft_utils/ft_str_alloc.c libft_utils/ft_strtrim.c\
-		libft_utils/ft_substr.c libft_utils/ft_strchr.c
+SRC = 	main.c \
+		parsing/parsing.c \
+		lexer/utils_lexer.c lexer/lexer.c \
+
+
+LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
+		libft_utils/ft_strlen.c libft_utils/ft_bzero.c \
+		libft_utils/ft_strdup.c libft_utils/ft_str_alloc.c \
+		libft_utils/ft_strtrim.c libft_utils/ft_substr.c  \
+		libft_utils/ft_strchr.c \
 
 NAME = minishell
 CC = cc
