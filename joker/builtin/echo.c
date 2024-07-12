@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 09:51:16 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/07/08 10:04:53 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:47:29 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_echo(int ac, char **av)
 		write (1, "\n", 1);
 }
 
-int main (int ac, char **av)
-{
-	ft_echo(ac, av);
-}
+// int main (int ac, char **av)
+// {
+// 	ft_echo(ac, av);
+// }
