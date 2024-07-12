@@ -74,5 +74,7 @@ int ft_handle_quotes(char *line)
 	i++;
 	while (line[i] && line[i] != c)
 		i++;
+	if (i == 1)
+		return (0);
 	return (i - 1);
 }

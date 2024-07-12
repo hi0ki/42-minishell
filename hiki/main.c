@@ -8,9 +8,9 @@ void ll()
 int main()
 {
 	atexit(ll);
-	t_list	*head;
+	t_lexer	*head;
 	char	*line;
-	t_list *tmp;
+	t_lexer *tmp;
 
 	while ((line = readline("minishell $> ")) != NULL)
 	{
