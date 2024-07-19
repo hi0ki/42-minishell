@@ -32,6 +32,7 @@ t_lexer	*lexer_lstnew(char *data)
 	if (!node)
 		return (NULL);
 	node->data = data;
+	node->type = 0;
 	node->next = NULL;
 	return (node);
 }

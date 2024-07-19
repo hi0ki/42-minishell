@@ -37,11 +37,13 @@ void	lexer_add_back(t_lexer **lst, t_lexer *new)
 		return ;
 	if (!*lst)
 	{
+		new->prev = NULL;
 		*lst = new;
 		return ;
 	}
 	last = *lst;
 	while (last->next)
 		last = last->next;
+	new->prev = last;
 	last->next = new;
 }
