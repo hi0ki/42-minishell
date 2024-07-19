@@ -6,16 +6,19 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:16:22 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/07/12 11:57:10 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:51:27 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <limits.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 typedef struct s_env{
 	char			*bfr_eql;
 	char			*after_eql;
+	int				env;
 	struct s_env	*next;
 }	t_env;
 
@@ -31,7 +34,7 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
-void	ft_puttsrn_fd(char *s, int fd)
+void	ft_putstrn_fd(char *s, int fd)
 {
 	int	i;
 
@@ -86,6 +89,18 @@ void	print_error(char **av)
 // 	return (ptr);
 // }
 
+int	ft_strlen(char *s)
+{
+	int i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while(s[i])
+		i++;
+	return (i);
+}
+
 char	*ft_strdup(char *s1)
 {
 	int		i;
@@ -108,7 +123,7 @@ char	*ft_strdup(char *s1)
 	return (dst);
 }
 
-void	add_env(char *bfr, char *aftr, t_env *env)
+int	add_env(char *bfr, char *aftr, t_env *env)
 {
 	// should add it befor the last element (verify and check reason) " * * * ... + *"
 	t_env	*new;
@@ -143,7 +158,7 @@ int	add_oldpwd(t_env *env)
 	// 	return (-1);
 	// should check if it exist first then add
 	add_env("OLDPWD=", cwd, env);
-	retun (0);
+	return (0);
 }
 int	ft_strncmp(char *s1, char *s2,int n)
 {
@@ -155,6 +170,20 @@ int	ft_strncmp(char *s1, char *s2,int n)
 	while (s1[i] == s2[i])
 	{
 		if ((s1[i] == '\0' && s2[i] == '\0') || i == n - 1)
+			return (0);
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] == s2[i])
+	{
+		if (s1[i] == '\0' && s2[i] == '\0')
 			return (0);
 		i++;
 	}
@@ -222,3 +251,110 @@ int    ft_cd(char **av, t_env *env)
 		return (r);
 	}
 }
+
+char	*ft_substr(char *s, unsigned int start, int len)
+{
+	char	*sbstr;
+	int		i;
+	int		flen;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (start >= ft_strlen(s) || !len)
+		return (ft_strdup(""));
+	flen = ft_strlen(s + start);
+	if (flen > len)
+		flen = len;
+	sbstr = (char *)malloc(flen + 1);
+	if (!sbstr)
+		return (NULL);
+	while (i < flen)
+	{
+		sbstr[i] = s[i + start];
+		i++;
+	}
+	sbstr[i] = '\0';
+	return (sbstr);
+}
+t_env	*ft_envnew(char *s)
+{
+	t_env	*n1;
+	int		i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	n1 = malloc(sizeof(t_env));
+	if (!n1)
+		return (NULL);
+	n1->env = 0;
+	while (s[i] && s[i] != '=')
+		i++;
+	n1->bfr_eql = ft_substr(s, 0, i);
+	if (s[i] && s[i] == '=')
+		n1->env = 1;
+	n1->after_eql = ft_substr(s, i + 1, ft_strlen(s));
+	n1->next = NULL;
+	return (n1);
+}
+
+void	ft_envaddback(t_env **head, t_env *new)
+{
+	t_env	*tmp;
+
+	tmp = *head;
+	if (!(*head))
+	{
+		// printf("rah dkhlt \n");
+		*head = new;
+		return ;
+	}
+
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
+// int main (int ac, char **av, char **envr)
+// {
+// 	(void)ac;
+// 	(void)av;
+// 	t_env	*env;
+// 	t_env	*new;
+// 	int i = 0;
+
+// 	env = NULL;
+// 	while (envr[i])
+// 	{
+// 		// printf("%s\n", envr[i]);
+// 		new = ft_envnew(envr[i]);
+// 		// printf("i'm %d\n", i);
+// 		ft_envaddback(&env, new);
+// 		// break;
+// 		i++;
+// 	}
+// 	// sleep (1);
+// 	// if (!env)
+// 	// 	printf("l9wada hadi\n");
+
+// 	// while (env)
+// 	// {
+// 	// 	printf("befor '=' : %s\n", env->bfr_eql);
+// 	// 	printf("------------------------------------------------------------------------\n");
+// 	// 	printf("after '=' : %s\n", env->after_eql);
+// 	// 	printf("------------------------------------------------------------------------\n");
+// 	// 	env = env->next;
+// 	// }
+
+// 	char ss[200];
+// 	getcwd(ss, 200);
+// 	printf("befor => %s\n", ss);
+// 	// chdir("/Users/mel-hime");
+// 	ft_cd(av, env);
+// 	getcwd(ss, 200);
+// 	printf("after => %s\n", ss);
+// 	// sleep (1);
+
+// 	return (0);
+// }
