@@ -30,17 +30,24 @@ void print_list(t_lexer *head)
 	}   
 }
 
-int main()
+int main(int ac, char **av, char **env)
 {
 	atexit(ll);
 	t_lexer	*head;
+	t_env *envr;
 	char	*line;
 
 	while ((line = readline("minishell $> ")) != NULL)
 	{
 		add_history(line);
 		head = ft_start(head, line);
-		print_list(head);   
+		// if (ft_strcmp(head->data, "cd") == 0)
+		// {
+		// 	 env_init(&envr, env);
+		// 		printf(">>>>>>>>>\n");
+		// 	ft_cd(head->next->next->data, envr);
+		// }
+		// print_list(head);   
 	}
 	// system("leaks -q minishell")
 }

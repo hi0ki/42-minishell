@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
+#include <limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -34,6 +35,13 @@ typedef struct s_lexer{
 	struct s_lexer	*next;
     struct s_lexer	*prev;
 } t_lexer;
+
+typedef struct s_env{
+	char			*bfr_eql;
+	char			*after_eql;
+	int				env;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_list{
 	char			*data;
@@ -64,4 +72,9 @@ void set_type(t_lexer **head);
 /*						parsing							*/
 t_lexer *ft_start(t_lexer *head, char *line);
 
+
+/*						builtin							*/
+void	env_init(t_env **env, char **envr);
+int    ft_cd(char **av, t_env *env);
+int	ft_strcmp(char *s1, char *s2);
 #endif

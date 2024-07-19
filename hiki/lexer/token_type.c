@@ -14,7 +14,7 @@ ila malgitch space njm3 dakchi li morah nichan
 
 */
 
-int ft_strcmp(char *s1, char *s2)
+static int _strcmp(char *s1, char *s2)
 {
 	int i;
 
@@ -34,17 +34,17 @@ int ft_strcmp(char *s1, char *s2)
 
 void set_type(t_lexer **node)
 {
-	if (!ft_strcmp(" ", (*node)->data))
+	if (!_strcmp(" ", (*node)->data))
 		(*node)->type = SPACE;
-	else if (!ft_strcmp("|", (*node)->data))
+	else if (!_strcmp("|", (*node)->data))
 		(*node)->type = PIPE;
-	else if (!ft_strcmp("<", (*node)->data))
+	else if (!_strcmp("<", (*node)->data))
 		(*node)->type = REDIRECT_INPUT;
-	else if (!ft_strcmp(">", (*node)->data))
+	else if (!_strcmp(">", (*node)->data))
 		(*node)->type = REDIRECT_OUTPUT;
-	else if (!ft_strcmp(">>", (*node)->data))
+	else if (!_strcmp(">>", (*node)->data))
 		(*node)->type = REDIRECT_APPEND;
-	else if (!ft_strcmp("<<", (*node)->data))
+	else if (!_strcmp("<<", (*node)->data))
 		(*node)->type = HEREDOC;
 	else if ((*node)->data[0] == '$')
 		(*node)->type = DOLLAR;

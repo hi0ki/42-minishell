@@ -1,7 +1,7 @@
 SRC = 	main.c \
 		parsing/parsing.c \
 		lexer/utils_lexer.c lexer/lexer.c lexer/token_type.c\
-
+		builtin/cd.c
 
 LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strlen.c libft_utils/ft_bzero.c \
