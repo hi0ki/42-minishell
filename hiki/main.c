@@ -5,25 +5,42 @@ void ll()
 	system("leaks -q minishell");
 }
 
+void print_list(t_lexer *head)
+{
+	t_lexer *tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		printf("Current Node:\n");
+		printf("Data: '%s'\n", tmp->data);
+		printf("Type: %d\n", tmp->type);
+		if (tmp->prev != NULL)
+		{
+			printf("Previous Node:\n");
+			printf("Data: '%s'\n", tmp->prev->data);
+			printf("Type: %d\n", tmp->prev->type);
+		} 
+		else
+			printf("Previous Node: NULL\n");
+		printf("--------------------------------\n");
+		head = head->next;
+		free(tmp->data);
+		free(tmp);
+	}   
+}
+
 int main()
 {
 	atexit(ll);
-	t_list	*head;
+	t_lexer	*head;
 	char	*line;
-	t_list *tmp;
 
 	while ((line = readline("minishell $> ")) != NULL)
 	{
+		add_history(line);
 		head = ft_start(head, line);
-		while (head != NULL)
-		{
-   	 		tmp = head;
-   	 		printf("%s\n", tmp->data); // Assuming 'data' is the name of the data field in your list node
-  	  		head = head->next;
-  	  		free(tmp->data);
-  	  		free(tmp);
-		}
+		print_list(head);   
 	}
 	// system("leaks -q minishell")
-
 }

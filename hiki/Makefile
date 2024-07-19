@@ -1,6 +1,6 @@
 SRC = 	main.c \
 		parsing/parsing.c \
-		lexer/utils_lexer.c lexer/lexer.c \
+		lexer/utils_lexer.c lexer/lexer.c lexer/token_type.c\
 
 
 LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
@@ -19,4 +19,4 @@ $(NAME): $(SRC) $(LIBFT)
 	$(CC) $(FLAGS)$(SRC) $(LIBFT) -o $(NAME)
 
 clean:
-	rm -r $(NAME)
+	rm -rf $(NAME)

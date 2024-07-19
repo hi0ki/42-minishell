@@ -1,0 +1,17 @@
+* 3la wdit variables
+----------------
+$VAR ✅
+"$VAR"✅
+'$VAR'❌
+--------------
+
+
+* 3la wdit single
+quotes || double la kano khawyn
+---------------
+> '' khas t3tik error >  No such file or directory
+	 ila drt nkhtazl quotes andy3 hadi o at3ti > syntax error near
+---------------
+
+
+* mora lexer 3ad anbda n3ti wach cmd ola arg daba f lexer anbda n3ti ha word ldackhi li mam3rofch

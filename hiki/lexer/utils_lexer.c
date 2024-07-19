@@ -54,7 +54,7 @@ int check_special_char(char *str)
 		(str[i] == '<' && str[i + 1] == '<'))
 		return (2);
 	else if (str[i] == '<' || str[i] == '>' || 
-		str[i] == '|')
+		str[i] == '|' || str[i] == ' ')
 		return (1);
 	else if (str[i] == '\'' || str[i] == '\"')
 		return (3);
@@ -74,5 +74,11 @@ int ft_handle_quotes(char *line)
 	i++;
 	while (line[i] && line[i] != c)
 		i++;
-	return (i - 1);
+	if (i == 1)
+	{
+		return (1);
+	}
+	else if (line[i] != c)
+		return (-1);
+	return (i);
 }

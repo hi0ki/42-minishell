@@ -23,3 +23,16 @@ t_list	*ft_lstnew(char *data)
 	node->next = NULL;
 	return (node);
 }
+
+t_lexer	*lexer_lstnew(char *data)
+{
+	t_lexer	*node;
+
+	node = (t_lexer *)malloc(sizeof(t_lexer));
+	if (!node)
+		return (NULL);
+	node->data = data;
+	node->type = 0;
+	node->next = NULL;
+	return (node);
+}
