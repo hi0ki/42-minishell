@@ -56,6 +56,8 @@ char	*ft_strdup(char *s1);
 char    *ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);
 char	*ft_substr(char *s, int start, int len);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putstrn_fd(char *s, int fd);
 
 /*						utils for lexer							*/
 t_lexer	*lexer_lstnew(char *data);
