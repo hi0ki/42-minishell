@@ -17,6 +17,7 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 		str = ft_str_alloc(line + i + 1, index - 1); // hna drt + 1 bach nfot qoute >' or "< o n9st 1 bach manwslch liha nakhd string li binathom safi
 		node = lexer_lstnew(str);
 		node->type = helper;
+		node->len = ft_strlen(node->data);
 		return node;
 	}
 	else if (type == 2)
@@ -30,6 +31,7 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 t_lexer *ft_start(t_lexer *head, char *line)
 {
 	char	*str;
+	char	*tmp;
 	int		i;
 	int		index;
 	int		nbr;
@@ -40,7 +42,9 @@ t_lexer *ft_start(t_lexer *head, char *line)
 	if (ft_strlen(line) == 0)
 		return (NULL);
 	head = NULL;
+	tmp = line;
 	line = ft_strtrim(line, " ");
+	free(tmp);
 	while (line[i])
 	{
 		index = get_index(line + i, " \"'><|");
@@ -53,7 +57,11 @@ t_lexer *ft_start(t_lexer *head, char *line)
 		{
 			nbr = ft_handle_quotes(line + i); // FACH AY3TINI ''
 			if (nbr == -1)
+			{
+				free_lst_lexer(&head);
+				free(line);
 				return (printf("\033[31mError\n\033[0m"), NULL); // khasni nzid lfree dyal dakchi li kan f head
+			}
 			lexer_add_back(&head, get_node(line, i, nbr, 1));
 			i += nbr + 1; // hna zdt 1 bach nfot > qoutes '"<
 		}
