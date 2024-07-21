@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 12:13:41 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/07/19 11:51:50 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:07:56 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void    print_all_env(t_env *env)
 		return ;
 	while (env)
 	{
+		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(env->bfr_eql, 1);
 		if (env->env == 1)
 		{
@@ -280,7 +281,7 @@ int ft_export(char **av, t_env *env)
 // int main (int ac, char **av, char **envr)
 // {
 // 	(void)ac;
-// 	// (void)av;
+// // 	// (void)av;
 // 	t_env	*env;
 // 	t_env	*new;
 // 	int i = 0;
@@ -299,7 +300,7 @@ int ft_export(char **av, t_env *env)
 // 	// if (!env)
 // 	// 	printf("l9wada hadi\n");
 	
-// 	ft_export(av, env);
+	// ft_export(av, env);
 
 // 	while (env)
 // 	{
