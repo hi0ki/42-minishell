@@ -10,43 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-
-typedef struct s_env{
-	char			*bfr_eql;
-	char			*after_eql;
-	int				env;
-	struct s_env	*next;
-}	t_env;
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
-
-void	ft_putstrn_fd(char *s, int fd)
-{
-	int	i;
-
-	i = 0;
-	if (s == NULL)
-		return ;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-	write(fd, "\n", 1);
-}
+#include "minishell.h"
 
 int ft_env(t_env *env)
 {

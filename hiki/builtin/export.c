@@ -10,76 +10,73 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "minishell.h"
 
-typedef struct s_env{
-	char			*bfr_eql;
-	char			*after_eql;
-	int				env;
-	struct s_env	*next;
-}	t_env;
+// typedef struct s_env{
+// 	char			*bfr_eql;
+// 	char			*after_eql;
+// 	int				env;
+// 	struct s_env	*next;
+// }	t_env;
 
-int	ft_strlen(char *s)
-{
-	int i;
+// int	ft_strlen(char *s)
+// {
+// 	int i;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while(s[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	if (!s)
+// 		return (0);
+// 	while(s[i])
+// 		i++;
+// 	return (i);
+// }
 
-char	*ft_strdup(char *s1)
-{
-	int		i;
-	char	*dst;
+// char	*ft_strdup(char *s1)
+// {
+// 	int		i;
+// 	char	*dst;
 
-	i = 0;
-	if (!(s1))
-		return (NULL);
-	while (s1[i] != '\0')
-		i++;
-	if (!(dst = malloc(sizeof(char) * (i + 1))))
-		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
+// 	i = 0;
+// 	if (!(s1))
+// 		return (NULL);
+// 	while (s1[i] != '\0')
+// 		i++;
+// 	if (!(dst = malloc(sizeof(char) * (i + 1))))
+// 		return (NULL);
+// 	i = 0;
+// 	while (s1[i] != '\0')
+// 	{
+// 		dst[i] = s1[i];
+// 		i++;
+// 	}
+// 	dst[i] = '\0';
+// 	return (dst);
+// }
+// void	ft_putstr_fd(char *s, int fd)
+// {
+// 	int	i;
 
-	i = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
-void	ft_putstrn_fd(char *s, int fd)
-{
-	int	i;
+// 	i = 0;
+// 	while (s[i])
+// 	{
+// 		write(fd, &s[i], 1);
+// 		i++;
+// 	}
+// }
+// void	ft_putstrn_fd(char *s, int fd)
+// {
+// 	int	i;
 
-	i = 0;
-	if (s == NULL)
-		return ;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-	write(fd, "\n", 1);
-}
+// 	i = 0;
+// 	if (s == NULL)
+// 		return ;
+// 	while (s[i] != '\0')
+// 	{
+// 		write(fd, &s[i], 1);
+// 		i++;
+// 	}
+// 	write(fd, "\n", 1);
+// }
 
 void    print_all_env(t_env *env)
 {
@@ -97,6 +94,8 @@ void    print_all_env(t_env *env)
 			write(1, "=", 1);
 			ft_putstrn_fd(env->after_eql, 1);        
 		}
+		else
+			write (1, "\n", 1);
 		env = env->next;
 	}
 	return ;
@@ -144,46 +143,46 @@ int	is_valid_arg(char *s)
 	return (1);
 }
 
-char	*ft_substr(char *s, unsigned int start, int len)
-{
-	char	*sbstr;
-	int		i;
-	int		flen;
+// char	*ft_substr(char *s, unsigned int start, int len)
+// {
+// 	char	*sbstr;
+// 	int		i;
+// 	int		flen;
 
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s) || !len)
-		return (ft_strdup(""));
-	flen = ft_strlen(s + start);
-	if (flen > len)
-		flen = len;
-	sbstr = (char *)malloc(flen + 1);
-	if (!sbstr)
-		return (NULL);
-	while (i < flen)
-	{
-		sbstr[i] = s[i + start];
-		i++;
-	}
-	sbstr[i] = '\0';
-	return (sbstr);
-}
-int	ft_strncmp(char *s1, char *s2,int n)
-{
-	size_t	i;
+// 	i = 0;
+// 	if (!s)
+// 		return (NULL);
+// 	if (start >= ft_strlen(s) || !len)
+// 		return (ft_strdup(""));
+// 	flen = ft_strlen(s + start);
+// 	if (flen > len)
+// 		flen = len;
+// 	sbstr = (char *)malloc(flen + 1);
+// 	if (!sbstr)
+// 		return (NULL);
+// 	while (i < flen)
+// 	{
+// 		sbstr[i] = s[i + start];
+// 		i++;
+// 	}
+// 	sbstr[i] = '\0';
+// 	return (sbstr);
+// }
+// int	ft_strncmp(char *s1, char *s2,int n)
+// {
+// 	size_t	i;
 
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (s1[i] == s2[i])
-	{
-		if ((s1[i] == '\0' && s2[i] == '\0') || i == n - 1)
-			return (0);
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
+// 	i = 0;
+// 	if (n == 0)
+// 		return (0);
+// 	while (s1[i] == s2[i])
+// 	{
+// 		if ((s1[i] == '\0' && s2[i] == '\0') || i == n - 1)
+// 			return (0);
+// 		i++;
+// 	}
+// 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+// }
 
 int	env_already_exist(t_env *env, char *av)
 {
@@ -212,52 +211,52 @@ int	env_already_exist(t_env *env, char *av)
 	return (-1);
 }
 
-t_env	*ft_envnew(char *s)
-{
-	t_env	*n1;
-	int		i;
+// t_env	*ft_envnew(char *s)
+// {
+// 	t_env	*n1;
+// 	int		i;
 
-	i = 0;
-	if (!s)
-		return (NULL);
-	n1 = malloc(sizeof(t_env));
-	if (!n1)
-		return (NULL);
-	n1->env = 0;
-	while (s[i] && s[i] != '=')
-		i++;
-	n1->bfr_eql = ft_substr(s, 0, i);
-	if (s[i] && s[i] == '=')
-		n1->env = 1;
-	n1->after_eql = ft_substr(s, i + 1, ft_strlen(s));
-	n1->next = NULL;
-	return (n1);
-}
+// 	i = 0;
+// 	if (!s)
+// 		return (NULL);
+// 	n1 = malloc(sizeof(t_env));
+// 	if (!n1)
+// 		return (NULL);
+// 	n1->env = 0;
+// 	while (s[i] && s[i] != '=')
+// 		i++;
+// 	n1->bfr_eql = ft_substr(s, 0, i);
+// 	if (s[i] && s[i] == '=')
+// 		n1->env = 1;
+// 	n1->after_eql = ft_substr(s, i + 1, ft_strlen(s));
+// 	n1->next = NULL;
+// 	return (n1);
+// }
 
-void	ft_envaddback(t_env **head, t_env *new)
-{
-	t_env	*tmp;
+// void	ft_envaddback(t_env **head, t_env *new)
+// {
+// 	t_env	*tmp;
 
-	tmp = *head;
-	if (!(*head))
-	{
-		// printf("rah dkhlt \n");
-		*head = new;
-		return ;
-	}
+// 	tmp = *head;
+// 	if (!(*head))
+// 	{
+// 		// printf("rah dkhlt \n");
+// 		*head = new;
+// 		return ;
+// 	}
 
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
+// 	while (tmp->next)
+// 		tmp = tmp->next;
+// 	tmp->next = new;
+// }
 
-int ft_export(char **av, t_env *env)
+int	ft_export(char **av, t_env *env)
 {
 	int error;
 	int i;
 
 	i = 1;
-	if (!av[i])
+	if (!av || !av[i])
 	{
 		print_all_env(env);
 		return (0);

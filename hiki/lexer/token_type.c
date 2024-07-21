@@ -50,4 +50,5 @@ void set_type(t_lexer **node)
 		(*node)->type = DOLLAR;
 	else
 		(*node)->type = WORD;
+	(*node)->len = ft_strlen((*node)->data);
 }

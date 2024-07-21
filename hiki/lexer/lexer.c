@@ -11,12 +11,13 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 	else if (type == 1)
 	{
 		if (line[i] == '\'')
-			helper = SINGLE_QUOTE;
+			helper = SQUOTE;
 		else if (line[i] == '\"')
-			helper = DOUBLE_QUOTE;
+			helper = DQUOTE;
 		str = ft_str_alloc(line + i + 1, index - 1); // hna drt + 1 bach nfot qoute >' or "< o n9st 1 bach manwslch liha nakhd string li binathom safi
 		node = lexer_lstnew(str);
 		node->type = helper;
+		node->len = ft_strlen(node->data);
 		return node;
 	}
 	else if (type == 2)
@@ -26,48 +27,73 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 	return node;
 }
 
-
-t_lexer *ft_start(t_lexer *head, char *line)
+static t_lexer *handle_word(t_lexer *head, char *line, int *i)
 {
-	char	*str;
-	int		i;
-	int		index;
-	int		nbr;
+    int index;
 
-	i = 0;
-	index = 0;
-	nbr = 0;
-	if (ft_strlen(line) == 0)
-		return (NULL);
-	head = NULL;
-	line = ft_strtrim(line, " ");
-	while (line[i])
-	{
-		index = get_index(line + i, " \"'><|");
-		if (index != 0)
-		{
-			lexer_add_back(&head, get_node(line, i, index, 0));
-			i += index;
-		}
+    index = get_index(line + *i, " \"'><|");
+    if (index != 0)
+    {
+        lexer_add_back(&head, get_node(line, *i, index, 0));
+        *i += index;
+    }
+    return head;
+}
+
+static t_lexer *handle_quote( t_lexer *head, char *line, int *i)
+{
+    int nbr;
+
+    nbr = ft_handle_quotes(line + *i);
+    if (nbr == -1)
+    {
+        free_lst_lexer(&head);
+        free(line);
+        printf("\033[31mError\n\033[0m");
+        return NULL;
+    }
+    lexer_add_back(&head, get_node(line, *i, nbr, 1));
+    *i += nbr + 1;
+    return head;
+}
+
+static t_lexer *handle_special_char(t_lexer *head, char *line, int *i)
+{
+    int nbr;
+
+    nbr = check_special_char(line + *i);
+    lexer_add_back(&head, get_node(line, *i, 0, 2));
+    *i += nbr;
+    while(line[*i] == ' ')
+        (*i)++;
+    return head;
+}
+
+t_lexer *start_lexer(t_lexer *head, char *line)
+{
+    char *tmp;
+    int i;
+
+    i = 0;
+    if (ft_strlen(line) == 0)
+        return NULL;
+    head = NULL;
+    tmp = line;
+    line = ft_strtrim(line, " ");
+    free(tmp);
+    while (line[i])
+    {
+        if (get_index(line + i, " \"'><|") != 0)
+            head = handle_word(head, line, &i);
 		else if (check_special_char(line + i) == 3)
-		{
-			nbr = ft_handle_quotes(line + i); // FACH AY3TINI ''
-			if (nbr == -1)
-				return (printf("\033[31mError\n\033[0m"), NULL); // khasni nzid lfree dyal dakchi li kan f head
-			lexer_add_back(&head, get_node(line, i, nbr, 1));
-			i += nbr + 1; // hna zdt 1 bach nfot > qoutes '"<
-		}
-		else if (check_special_char(line + i) > 0)
-		{
-			nbr = check_special_char(line + i);
-			lexer_add_back(&head, get_node(line, i, index, 2));
-			i += nbr;
-			while(line[i] == ' ') // to skip spaces bc we just one
-				i++;
-		}
-		else
-			i++;
-	}
-	free(line);
-	return (head);
+        {
+            head = handle_quote(head, line, &i);
+            if (head == NULL)
+                return NULL;
+        }
+        else if (check_special_char(line + i) > 0)
+            head = handle_special_char(head, line, &i);
+    }
+    free(line);
+    return head;
 }
