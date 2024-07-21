@@ -15,12 +15,12 @@ void print_list(t_lexer *head)
 		printf("Current Node:\n");
 		printf("Data: '%s'\n", tmp->data);
 		printf("Type: %d\n", tmp->type);
+		printf("var_quotes: %d\n", tmp->var_quotes);
 		printf("len: %d\n", tmp->len);
 		if (tmp->prev != NULL)
 		{
 			printf("Previous Node:\n");
 			printf("Data: '%s'\n", tmp->prev->data);
-			printf("Type: %d\n", tmp->prev->type);
 		} 
 		else
 			printf("Previous Node: NULL\n");
@@ -38,17 +38,14 @@ int main(int ac, char **av, char **envr)
 	t_env *env;
 	char	*line;
 
-			env_init(&env, envr);
+	env_init(&env, envr);
 	while ((line = readline("minishell $> ")) != NULL)
 	{
 		add_history(line);
-		head = ft_start(head, line);
-		if (ft_strcmp(head->data , "export") == 0)
-		{
-			
-			print_all_env(env);
-		}
-		// print_list(head);   
+		head = start_lexer(head, line);
+		start_parsing(&head, env);
+		print_list(head);   
 	}
+	free_lst_env(&env);
 	// system("leaks -q minishell")
 }
