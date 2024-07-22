@@ -6,8 +6,8 @@ SRC = 	main.c \
 LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strlen.c libft_utils/ft_bzero.c \
 		libft_utils/ft_strdup.c libft_utils/ft_str_alloc.c \
-		libft_utils/ft_strtrim.c libft_utils/ft_substr.c  \
-		libft_utils/ft_strchr.c libft_utils/ft_put.c \
+		libft_utils/ft_strtrim.c libft_utils/ft_substr.c libft_utils/ft_strjoin.c \
+		libft_utils/ft_strchr.c libft_utils/ft_put.c libft_utils/ft_isalpha.c\
 		libft_utils/ft_strcmp.c libft_utils/ft_free_list.c\
 
 NAME = minishell
@@ -17,7 +17,8 @@ FLAGS = -I./includes -I./libft -lreadline  #-Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(SRC) $(LIBFT)
-	$(CC) $(FLAGS)$(SRC) $(LIBFT) -o $(NAME)
+	@$(CC) $(FLAGS)$(SRC) $(LIBFT) -o $(NAME)
+	./minishell
 
 clean:
 	rm -rf $(NAME)

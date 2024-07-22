@@ -39,12 +39,12 @@ int main(int ac, char **av, char **envr)
 	char	*line;
 
 	env_init(&env, envr);
-	while ((line = readline("minishell $> ")) != NULL)
+	while ((line = readline("\033[0;32mminishell[$]:\033[0m ")) != NULL)
 	{
 		add_history(line);
 		head = start_lexer(head, line);
 		start_parsing(&head, env);
-		print_list(head);   
+		print_list(head);
 	}
 	free_lst_env(&env);
 	// system("leaks -q minishell")

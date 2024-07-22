@@ -71,6 +71,7 @@ void	ft_bzero(char *str, int n);
 char	*ft_strdup(char *s1);
 char    *ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);
+int		ft_isalpha(int c);
 char	*ft_substr(char *s, int start, int len);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putstrn_fd(char *s, int fd);
@@ -78,6 +79,7 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2,int n);
 void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
+char    *ft_strjoin(char *s1, char *s2);
 
 /*					lexer & set_tyep &utils_lexer			*/
 t_lexer *start_lexer(t_lexer *head, char *line);

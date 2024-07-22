@@ -3,6 +3,8 @@
 $VAR ✅
 "$VAR"✅
 '$VAR'❌
+ echo path=$PATH // khas it9smo o dak varibale i3mr b data dyalo
+handlit varibale wst double quotes o varibale bohdo kan3mrhom kolchi howa hadak
 --------------
 
 

@@ -33,6 +33,7 @@ t_lexer	*lexer_lstnew(char *data)
 		return (NULL);
 	node->data = data;
 	node->type = 0;
+	node->var_quotes = 0;
 	node->next = NULL;
 	return (node);
 }
