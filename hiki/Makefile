@@ -1,5 +1,5 @@
 SRC = 	main.c \
-		parsing/parsing.c \
+		parsing/parsing.c parsing/fill_variables.c\
 		lexer/utils_lexer.c lexer/lexer.c lexer/token_type.c\
 		builtin/cd.c builtin/init_env.c builtin/echo.c builtin/env.c builtin/export.c\
 

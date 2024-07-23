@@ -94,6 +94,7 @@ void 	set_type(t_lexer **head);
 
 /*						parsing							*/
 void start_parsing(t_lexer **head, t_env *env);
+void fill_variables(t_lexer **head, t_env *env);
 
 /*						builtin && utils builtin							*/
 int    	ft_cd(char **av, t_env *env);

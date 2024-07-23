@@ -15,6 +15,5 @@ int main() {
     } else {
         perror("getcwd");
     }
-
     return 0;
 }
