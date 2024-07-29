@@ -64,6 +64,8 @@ static t_lexer *handle_special_char(t_lexer *head, char *line, int *i)
     nbr = check_special_char(line + *i);
     lexer_add_back(&head, get_node(line, *i, 0, 2));
     *i += nbr;
+    if (line[*i - nbr] != ' ')
+        return (head);
     while(line[*i] == ' ')
         (*i)++;
     return head;

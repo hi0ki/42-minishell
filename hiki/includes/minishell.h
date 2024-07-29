@@ -59,12 +59,15 @@ typedef struct s_env{
 }	t_env;
 
 typedef struct s_list{
-	char			*data;
-	
+	char *path_cmd;
+	char **arr;
 	struct s_list	*next;
 } t_list;
+
+
+void shell(t_list **lst, char **env);
 /*						 libft							*/
-t_list	*ft_lstnew(char *data);
+t_list	*ft_lstnew(void);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 int		ft_strlen(char *str);
 void	ft_bzero(char *str, int n);
@@ -79,7 +82,9 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2,int n);
 void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
+void 	free_list(t_list **lst);
 char    *ft_strjoin(char *s1, char *s2);
+char	**ft_split(char const *s, char c);
 
 /*					lexer & set_tyep &utils_lexer			*/
 t_lexer *start_lexer(t_lexer *head, char *line);
@@ -95,6 +100,16 @@ void 	set_type(t_lexer **head);
 /*						parsing							*/
 void start_parsing(t_lexer **head, t_env *env);
 void fill_variables(t_lexer **head, t_env *env);
+void join_nodes(t_lexer **head);
+void create_lst(t_list **lst, t_lexer **head, t_env **env);
+void parsing_type(t_lexer **head);
+/*						parisng utils				*/
+int count_cmd(t_lexer *head);
+int size_node(t_lexer *head);
+
+/*						env 						*/
+char *get_value_env(t_env *env, char *av);
+
 
 /*						builtin && utils builtin							*/
 int    	ft_cd(char **av, t_env *env);

@@ -17,3 +17,18 @@ quotes || double la kano khawyn
 
 
 * mora lexer 3ad anbda n3ti wach cmd ola arg daba f lexer anbda n3ti ha word ldackhi li mam3rofch
+
+---------------------------------------
+/*
+
+example
+	var="ls -a"
+	inpute : $var fhad case kahsni nspliti b space and quotes
+	inpute2 : ls $var hna khasni nspliti ha b space hna fach anhandli ambiguous redirect
+
+*/
+
+
+
+
+////////////// khasni ndir ila 3tani varibale machi f quotes may3tih walo ims7o 

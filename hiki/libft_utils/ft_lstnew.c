@@ -12,14 +12,13 @@
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *data)
+t_list	*ft_lstnew(void)
 {
 	t_list	*node;
 
 	node = (t_list *)malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	node->data = data;
 	node->next = NULL;
 	return (node);
 }
