@@ -65,7 +65,7 @@ void check_path(t_list **node, char **array)
 	(*node)->path_cmd = NULL;
 }
 
-void fill_path(t_list **lst, t_env *env)
+void fill_path(t_list **lst, t_env *env, char **envr)
 {
 	char **array;
 	char *str;
@@ -78,6 +78,7 @@ void fill_path(t_list **lst, t_env *env)
 	while (tmp)
 	{
 		check_path(&tmp, array);
+		tmp->env = envr;
 		tmp = tmp->next;
 	}
 	while (array[i])
@@ -89,7 +90,7 @@ void fill_path(t_list **lst, t_env *env)
 	free(str);
 }
 
-void create_lst(t_list **lst, t_lexer **head, t_env **env)
+void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 {
 	int size;
 	
@@ -101,5 +102,5 @@ void create_lst(t_list **lst, t_lexer **head, t_env **env)
 		size--;
 	}
 	fill_arr(lst, head, size);
-	fill_path(lst, *env);
+	fill_path(lst, *env, envr);
 }

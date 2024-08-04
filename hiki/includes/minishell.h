@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/07/21 10:03:11 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/04 13:15:48 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <dirent.h>
+#include <fcntl.h>
 
 #define CMD	1
 #define ARG 2
@@ -61,6 +63,7 @@ typedef struct s_env{
 typedef struct s_list{
 	char *path_cmd;
 	char **arr;
+	char **env;
 	struct s_list	*next;
 } t_list;
 
@@ -101,7 +104,7 @@ void 	set_type(t_lexer **head);
 void start_parsing(t_lexer **head, t_env *env);
 void fill_variables(t_lexer **head, t_env *env);
 void join_nodes(t_lexer **head);
-void create_lst(t_list **lst, t_lexer **head, t_env **env);
+void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr);
 void parsing_type(t_lexer **head);
 /*						parisng utils				*/
 int count_cmd(t_lexer *head);

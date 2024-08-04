@@ -68,7 +68,7 @@ int main(int ac, char **av, char **envr)
 		if (lexer != NULL)
 		{
 			start_parsing(&lexer, env);
-			create_lst(&lst, &lexer, &env);
+			create_lst(&lst, &lexer, &env, envr);
 			print_list(lexer);
 			print_array(lst);
 			// shell(&lst, envr);
