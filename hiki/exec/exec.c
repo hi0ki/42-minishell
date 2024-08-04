@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/04 12:53:55 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:48:29 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 // 	write(fd, "\n", 1);
 // }
 
-int err_msg(char *path)
+static int err_msg(char *path)
 {
 	DIR *f;
 	int fd;
@@ -72,22 +72,35 @@ int err_msg(char *path)
 		ft_putstrn_fd(": No such file or directory", 2);
 	else if (fd == -1 && f != NULL)
 		ft_putstrn_fd(": is a directory", 2);
-	else if (fd != -1 && f == NULL);
+	else if (fd != -1 && f == NULL)
 		ft_putstrn_fd("permission denied", 2);
 	//'''''''''''''''''''''''''
+	if (ft_strchr(path, '/') == NULL || (fd == -1 && f == NULL))
+		r = 127;
+	else
+		r = 126;
+	if (f)
+		closedir(f);
+	close(fd);
+	return (r);
 }
 
-int ft_exec(t_list *lst, char **env)
+int ft_exe(t_list *lst)
 {
 	int r;
-	int id;
+	int pid;
 
 	r = 0;
-	id = fork();
-	if (id = 0)
+	pid = fork();
+	if (pid == 0)
 	{
-		execve(lst->path_cmd, lst->arr, env);
+		if (ft_strchr(lst->path_cmd, '/') != NULL)
+			execve(lst->path_cmd, lst->arr, lst->env);
+		r = err_msg(lst->path_cmd);
 		exit(r);
 	}
-	
+	else
+		waitpid(pid, &r, 0);
+	r = (r == 32512 || r == 32256) ? r / 256 : !!r;
+	return (r);
 }

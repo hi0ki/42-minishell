@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/04 13:15:48 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:48:34 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,9 @@ int		ft_env(t_env *env);
 void	env_init(t_env **env, char **envr);
 void	ft_envaddback(t_env **head, t_env *new);
 t_env	*ft_envnew(char *s);
+
+/*						execution							*/
+int ft_exe(t_list *lst);
 
 #endif
 
