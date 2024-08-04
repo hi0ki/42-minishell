@@ -41,7 +41,7 @@ void print_array(t_list *lst)
 		printf("path = %s\n", temp->path_cmd);
 		while (temp->arr[i] != NULL)
 		{
-			printf("%s ", temp->arr[i]);
+			printf("|%s |", temp->arr[i]);
 			i++;
 		}
 		printf("\n");
@@ -57,19 +57,25 @@ int main(int ac, char **av, char **envr)
 	t_env 	*env;
 	char	*line;
 
+	// char **arr = ft_split("mehdi\thowa ana", " \t");
+	(void)ac;
+	(void)av;
 	env_init(&env, envr);
 	while ((line = readline("\033[0;32mminishell[$]:\033[0m ")) != NULL)
 	{
 		add_history(line);
 		lexer = start_lexer(lexer, line);
-		start_parsing(&lexer, env);
-		create_lst(&lst, &lexer, &env);
-		// shell(&lst, envr);
-		print_list(lexer);
-		print_array(lst);
+		if (lexer != NULL)
+		{
+			start_parsing(&lexer, env);
+			create_lst(&lst, &lexer, &env);
+			print_list(lexer);
+			print_array(lst);
+			// shell(&lst, envr);
+		}
 	}
-	// free_lst_env(&env);
-	// free_list(&lst);
+	free_lst_env(&env);
 	// free_lst_lexer(&lexer);
-	// system("leaks -q minishell")
+	// free_list(&lst);
+	// // system("leaks -q minishell")
 }

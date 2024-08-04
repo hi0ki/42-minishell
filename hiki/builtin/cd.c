@@ -40,7 +40,7 @@ int	add_env(char *bfr, char *aftr, t_env *env)
 int	add_oldpwd(t_env *env)
 {
 	char	cwd[PATH_MAX];
-	char	*old_pwd;
+	// char	*old_pwd;
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (-1);
@@ -53,7 +53,7 @@ int	add_oldpwd(t_env *env)
 
 char	*get_path(t_env *env, char *key, int n)
 {
-	char	*nwd;
+	// char	*nwd;
 	while (env)
 	{
 		if (!ft_strncmp(env->bfr_eql, key, n))

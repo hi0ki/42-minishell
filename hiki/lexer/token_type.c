@@ -36,6 +36,8 @@ void set_type(t_lexer **node)
 {
 	if (!_strcmp(" ", (*node)->data))
 		(*node)->type = SPACE;
+	else if (!_strcmp("\t", (*node)->data))
+		(*node)->type = SPACE;
 	else if (!_strcmp("|", (*node)->data))
 		(*node)->type = PIPE;
 	else if (!_strcmp("<", (*node)->data))

@@ -74,7 +74,7 @@ void fill_path(t_list **lst, t_env *env)
 	int i = 0;
 	tmp = *lst;
 	str = get_value_env(env, "PATH");
-	array = ft_split(str, ':');
+	array = ft_split(str, ":");
 	while (tmp)
 	{
 		check_path(&tmp, array);
@@ -92,7 +92,6 @@ void fill_path(t_list **lst, t_env *env)
 void create_lst(t_list **lst, t_lexer **head, t_env **env)
 {
 	int size;
-	int i;
 	
 	*lst = NULL;
 	size = size_node(*head);

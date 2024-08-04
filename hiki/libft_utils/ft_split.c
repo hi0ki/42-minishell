@@ -1,22 +1,31 @@
 #include "minishell.h"
 
-static int	c_word(char const *s, char c)
+static int	c_word(char const *s, char *c)
 {
-	int	i;
-	int	cnt;
+    int	i;
+    int j;
+    int	cnt;
 
-	cnt = 0;
-	i = 0;
-	while (s[i])
-	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i] != c && s[i])
-			cnt++;
-		while (s[i] != c && s[i])
-			i++;
-	}
-	return (cnt);
+    cnt = 0;
+    i = 0;
+    while (s[i])
+    {
+        j = 0;
+        while (c[j])
+        {
+            if (s[i] == c[j] && s[i])
+                break;
+            j++;
+        }
+        if (c[j] == '\0')
+		{
+            cnt++;
+			while (s[i] && !ft_strchr(c, s[i]))
+				i++;
+		}
+		i++;
+    }
+    return cnt;
 }
 
 static char	**ft_free(char **str, int i)
@@ -30,7 +39,7 @@ static char	**ft_free(char **str, int i)
 	return (NULL);
 }
 
-static char	**ft_alloc(char *s, char c, int c_word, char **str)
+static char	**ft_alloc(char *s, char *c, int c_word, char **str)
 {
 	int	i;
 	int	start;
@@ -41,10 +50,10 @@ static char	**ft_alloc(char *s, char c, int c_word, char **str)
 	end = 0;
 	while (i < c_word)
 	{
-		while (s[start] == c && s[start])
+		while (ft_strchr(c, s[start]) && s[start])
 			start++;
 		end = start;
-		while (s[end] != c && s[end])
+		while (!ft_strchr(c, s[end]) && s[end])
 			end++;
 		str[i] = ft_substr(s, start, end - start);
 		if (!str[i])
@@ -56,7 +65,7 @@ static char	**ft_alloc(char *s, char c, int c_word, char **str)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char *c)
 {
 	char	**str;
 	int		len_w;

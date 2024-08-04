@@ -9,13 +9,14 @@ void join_nodes(t_lexer **head)
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->prev != NULL && tmp->prev->type != DOLLAR && ft_strcmp(tmp->data, " ") != 0 && ft_strcmp(tmp->prev->data, " ") != 0)
+		if (tmp->prev != NULL && ft_strcmp(tmp->data, " ") != 0 && ft_strcmp(tmp->data, "\t") != 0 &&
+			ft_strcmp(tmp->prev->data, " ") != 0 && ft_strcmp(tmp->prev->data, "\t") != 0 )
 		{
 			tmp = tmp->prev;
 			s_data = tmp->data;
 			tmp->data = ft_strjoin(tmp->data, tmp->next->data);
 			tmp->len = ft_strlen(tmp->data);
-			tmp->type = WORD;
+			// tmp->type = WORD;
 			save = tmp->next;
 			if (tmp->next->next != NULL)
 			{

@@ -37,11 +37,13 @@ char *get_value_env(t_env *env, char *av)
 	}
 	return NULL;
 }
+
 void set_variable_value(t_lexer **node, t_env *env, int i)
 {
 	char	*var_name;
 	char	*value;
 	char	*tmp;
+	t_lexer *save;
 	int		j;
 
 	j = i;
@@ -53,7 +55,38 @@ void set_variable_value(t_lexer **node, t_env *env, int i)
 	var_name = ft_substr((*node)->data, i + 1, j - i - 1);
 	value = get_value_env(env, var_name);
 	if (value == NULL)
+	{
+		if ((*node)->prev != NULL && (*node)->type == DOLLAR)
+		{
+			save = *node;
+			(*node) = (*node)->prev;
+			if ((*node)->next->next != NULL)
+			{
+				(*node)->next = (*node)->next->next;
+			}
+			else
+			{
+				(*node)->next = NULL;
+			}
+			free(save->data);
+			free(save);
+		}
+		else
+		{
+			tmp = (*node)->data;
+			(*node)->data = ft_substr((*node)->data,0 , i);
+			j = i + ft_strlen(var_name);
+			if (ft_strlen(tmp) != j)
+			{
+				value = ft_substr(tmp, j + 1, ft_strlen(tmp) - j);
+				(*node)->data = ft_strjoin((*node)->data, value);
+				free(value);
+			}
+			free(tmp);
+		}
+		free(var_name);
 		return ;
+	}
 	tmp = (*node)->data;
 	(*node)->data = edit_data(value, (*node)->data, i, j);;
 	(*node)->len = ft_strlen((*node)->data);
@@ -80,7 +113,9 @@ void fill_variables(t_lexer **head, t_env *env)
 					if (tmp->data[i + 1] == '$')
 						i++;
 					else
+					{
 						set_variable_value(&tmp, env, i);
+					}
 				}	
 				i++;
 			}

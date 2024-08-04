@@ -28,7 +28,13 @@ example
 
 */
 
+// khasni nzid ila 3tani cmd wst varibale bach nsplitih
 
 
+// fixed ///
+$VAR "$VAR" '$VAR'
+expand varibles
 
-////////////// khasni ndir ila 3tani varibale machi f quotes may3tih walo ims7o 
+var="ls -a" , $var
+split varibale
+

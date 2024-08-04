@@ -6,14 +6,24 @@ void remove_spaces(t_lexer **head)
 	t_lexer *save;
 
 	tmp = *head;
+	// while ((*head))
+	// {
+	// 	printf("data = %s|type = %d\n", (*head)->data, (*head)->type);
+	// 	(*head) = (*head)->next;
+	// }
 	while (tmp)
 	{
 		if (tmp->type == SPACE)
 		{
 			save = tmp;
 			tmp = tmp->prev;
-			tmp->next = tmp->next->next;
-			tmp->next->prev = tmp;
+			if (tmp->next->next != NULL)
+			{
+				tmp->next = tmp->next->next;
+				tmp->next->prev = tmp;
+			}
+			else
+				tmp->next = NULL;
 			free(save->data);
 			free(save);
 		}

@@ -54,7 +54,7 @@ int check_special_char(char *str)
 		(str[i] == '<' && str[i + 1] == '<'))
 		return (2);
 	else if (str[i] == '<' || str[i] == '>' || 
-		str[i] == '|' || str[i] == ' ')
+		str[i] == '|' || str[i] == ' ' || str[i] == '\t')
 		return (1);
 	else if (str[i] == '\'' || str[i] == '\"')
 		return (3);

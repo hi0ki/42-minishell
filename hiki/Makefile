@@ -1,4 +1,4 @@
-SRC = 	main.c test.c \
+SRC = 	main.c\
 		parsing/parsing.c parsing/fill_variables.c parsing/join_data.c parsing/create_lst.c parsing/parsing_utils.c parsing/parsing_type.c\
 		lexer/utils_lexer.c lexer/lexer.c lexer/token_type.c \
 		builtin/cd.c builtin/init_env.c builtin/echo.c builtin/env.c builtin/export.c \
@@ -12,7 +12,7 @@ LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 
 NAME = minishell
 CC = cc
-FLAGS = -I./includes -I./libft -lreadline  #-Wall -Wextra -Werror 
+FLAGS = -I./includes -I./libft -lreadline  -Wall -Wextra -Werror 
 
 all: $(NAME)
 

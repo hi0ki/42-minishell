@@ -84,7 +84,7 @@ void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
 void 	free_list(t_list **lst);
 char    *ft_strjoin(char *s1, char *s2);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char *s, char *c);
 
 /*					lexer & set_tyep &utils_lexer			*/
 t_lexer *start_lexer(t_lexer *head, char *line);
