@@ -6,6 +6,8 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 	int 	helper;
 	t_lexer *node;
 
+    str = NULL;
+    helper = 0;
 	if (type == 0)
 		str = ft_str_alloc(line + i, index);
 	else if (type == 1)
@@ -31,7 +33,7 @@ static t_lexer *handle_word(t_lexer *head, char *line, int *i)
 {
     int index;
 
-    index = get_index(line + *i, " \"'><|");
+    index = get_index(line + *i, " \t\"'><|");
     if (index != 0)
     {
         lexer_add_back(&head, get_node(line, *i, index, 0));
@@ -64,6 +66,8 @@ static t_lexer *handle_special_char(t_lexer *head, char *line, int *i)
     nbr = check_special_char(line + *i);
     lexer_add_back(&head, get_node(line, *i, 0, 2));
     *i += nbr;
+    if (line[*i - nbr] != ' ')
+        return (head);
     while(line[*i] == ' ')
         (*i)++;
     return head;
@@ -75,15 +79,13 @@ t_lexer *start_lexer(t_lexer *head, char *line)
     int i;
 
     i = 0;
-    if (ft_strlen(line) == 0)
-        return NULL;
     head = NULL;
     tmp = line;
-    line = ft_strtrim(line, " ");
+    line = ft_strtrim(line, " \t");
     free(tmp);
     while (line[i])
     {
-        if (get_index(line + i, " \"'><|") != 0)
+        if (get_index(line + i, " \t\"'><|") != 0)
             head = handle_word(head, line, &i);
 		else if (check_special_char(line + i) == 3)
         {

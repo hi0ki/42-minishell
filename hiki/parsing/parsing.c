@@ -1,51 +1,51 @@
 #include "minishell.h"
 
-/*
-
-example
-	var="ls -a"
-	inpute : $var fhad case kahsni nspliti b space and quotes
-	inpute2 : ls $var hna khasni nspliti ha b space hna fach anhandli ambiguous redirect
-
-*/
-
-void set_variable_value(t_lexer **node, t_env *env)
-{
-	char *str;
-	int j;
-
-	j = (*node)->var_quotes;
-	while ((*node)->data[j] && (*node)->data[j] != ' ')
-		j++;
-	str = ft_substr((*node)->data, (*node)->var_quotes, j - (*node)->var_quotes);
-	printf(">>>>>>>>>>>>>>>>> %s\n", str);
-}
-void check_var_quotes(t_lexer **head, t_env *env)
+void split_env_var(t_lexer **head)
 {
 	t_lexer *tmp;
+	char	 *save;
+	t_lexer *node;
+	int		i;
+	char **arr;
 
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->type == SQUOTE || tmp->type == DQUOTE)
+		if (tmp->type == DOLLAR)
 		{
-			int i = 0;
-			while (tmp->data[i])
+			arr = ft_split(tmp->data, " \t");
+			save = tmp->data;
+			i = 0;
+			while (arr[i])
 			{
-				if (tmp->data[i] == '$')
+				if (i == 0)
+					tmp->data = ft_strdup(arr[0]);
+				else
 				{
-					tmp->var_quotes = i;
-					set_variable_value(&tmp, env);
-					break;
+					node = lexer_lstnew(ft_strdup(arr[i]));
+					node->next = tmp->next;
+					node->type = WORD;
+					if (tmp->next)
+						tmp->next->prev = node;
+					node->prev = tmp;
+					tmp->next = node;
+					tmp = tmp->next;
 				}
+				tmp->len = ft_strlen(arr[i]);
+				tmp->type = WORD;
+				free(arr[i]);
 				i++;
 			}
+			free(arr);
+			free(save);
 		}
 		tmp = tmp->next;
 	}
 }
-
 void start_parsing(t_lexer **head, t_env *env)
 {
-	check_var_quotes(head, env);
+	fill_variables(head, env);
+	join_nodes(head);
+	split_env_var(head);
+	parsing_type(head);
 }

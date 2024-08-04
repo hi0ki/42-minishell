@@ -27,3 +27,22 @@ void free_lst_env(t_env **env)
 		*env = tmp;
 	}
 }
+void free_list(t_list **lst)
+{
+    t_list *temp;
+
+    while (*lst != NULL)
+	{
+        temp = *lst;
+        *lst = (*lst)->next;
+        int i = 0;
+        while (temp->arr[i] != NULL)
+		{
+            free(temp->arr[i]);
+            i++;
+        }
+        free(temp->arr);
+        free(temp->path_cmd);
+        free(temp);
+    }
+}
