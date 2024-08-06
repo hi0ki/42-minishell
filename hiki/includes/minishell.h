@@ -44,6 +44,13 @@
 #define BUILTIN_UNSET 18      // Built-in command: unset
 #define SPACE 19              // For space character ' '
 
+
+typedef struct s_files{
+	char *file_name;
+	int type;
+	int fd;
+}t_files;
+
 typedef struct s_lexer{
 	char			*data;
 	int				type;
@@ -64,6 +71,11 @@ typedef struct s_list{
 	char *path_cmd;
 	char **arr;
 	char **env;
+	t_files *files;
+	char *last_infile;
+	char *last_outfile;
+	int in;
+	int out;
 	struct s_list	*next;
 } t_list;
 
@@ -123,9 +135,9 @@ int		ft_env(t_env *env);
 void	env_init(t_env **env, char **envr);
 void	ft_envaddback(t_env **head, t_env *new);
 t_env	*ft_envnew(char *s);
-
+void link_builtin(t_list *lst, t_env *env);
 /*						execution							*/
-int ft_exe(t_list *lst);
+int ft_exe(t_list *lst, t_env *env);
 
 #endif
 

@@ -30,17 +30,6 @@
 // 	return ((char *)s + i);
 // }
 
-// void	ft_putstr_fd(char *s, int fd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		write(fd, &s[i], 1);
-// 		i++;
-// 	}
-// }
 // void	ft_putstrn_fd(char *s, int fd)
 // {
 // 	int	i;
@@ -56,7 +45,7 @@
 // 	write(fd, "\n", 1);
 // }
 
-static int err_msg(char *path)
+static int err_msg(char *path, char *arr)
 {
 	DIR *f;
 	int fd;
@@ -65,8 +54,8 @@ static int err_msg(char *path)
 	fd = open(path, O_WRONLY);
 	f = opendir(path);
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(path, 2);
-	if (!ft_strchr(path, '/'))
+	ft_putstr_fd(arr, 2);
+	if (path == NULL)
 		ft_putstrn_fd(": command not found", 2);
 	else if (fd == -1 && f == NULL)
 		ft_putstrn_fd(": No such file or directory", 2);
@@ -85,22 +74,31 @@ static int err_msg(char *path)
 	return (r);
 }
 
-int ft_exe(t_list *lst)
+int ft_exe(t_list *lst, t_env *env)
 {
 	int r;
 	int pid;
 
 	r = 0;
-	pid = fork();
-	if (pid == 0)
+	while (lst)
 	{
-		if (ft_strchr(lst->path_cmd, '/') != NULL)
-			execve(lst->path_cmd, lst->arr, lst->env);
-		r = err_msg(lst->path_cmd);
-		exit(r);
+		link_builtin(lst, env);
+		// pid = fork();
+		// if (pid == 0)
+		// {
+		// 	if (lst->path_cmd != NULL)
+		// 		execve(lst->path_cmd, lst->arr, lst->env);
+		// 	r = err_msg(lst->path_cmd, lst->arr[0]);
+		// 	// perror("minishell");
+		// 	printf("mehdi\n");
+		// 	exit(r);
+		// }
+		// else
+		// {
+		// 	waitpid(pid, &r, 0);
+		// }
+		lst = lst->next;
 	}
-	else
-		waitpid(pid, &r, 0);
-	r = (r == 32512 || r == 32256) ? r / 256 : !!r;
+	r = WEXITSTATUS(r);
 	return (r);
 }

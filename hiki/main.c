@@ -69,7 +69,7 @@ int main(int ac, char **av, char **envr)
 		{
 			start_parsing(&lexer, env);
 			create_lst(&lst, &lexer, &env, envr);
-			ft_exe(lst);
+			ft_exe(lst, env);
 			// print_list(lexer);
 			// print_array(lst);
 			// shell(&lst, envr);
