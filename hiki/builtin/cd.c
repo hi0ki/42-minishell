@@ -6,12 +6,24 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:16:22 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/07/27 10:13:06 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:26:51 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void		print_error(char **args)
+{
+	ft_putstr_fd("cd: ", 2);
+	if (args[2])
+		ft_putstr_fd("string not in pwd: ", 2);
+	else
+	{
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd(": ", 2);
+	}
+	ft_putstrn_fd(args[1], 2);
+}
 
 int	add_env(char *bfr, char *aftr, t_env *env)
 {
@@ -107,8 +119,8 @@ int    ft_cd(char **av, t_env *env)
 	{
 		add_oldpwd(env);
 		r = chdir(av[1]);
-		// if (r != 0)
-		// 	print_error(av);
+		if (r != 0)
+			print_error(av);
 		return (r);
 	}
 }

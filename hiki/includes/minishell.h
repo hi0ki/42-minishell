@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:58:09 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:26:05 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <dirent.h>
+#include <errno.h>
 #include <fcntl.h>
 
 #define CMD	1
