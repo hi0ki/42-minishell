@@ -6,11 +6,11 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:01:46 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/07/28 12:58:07 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:17:50 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
+#include "minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

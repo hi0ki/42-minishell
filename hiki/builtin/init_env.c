@@ -8,7 +8,7 @@ void	print_error(char **av)
 	else
 	{
 		//try that function the retreve the message error exactly
-		ft_putstr_fd("no such 22222 file or directory: ", 2);
+		ft_putstr_fd("no such file or directory: ", 2);
 		// ft_putstr_fd(": ", 2);
 	}
 	ft_putstrn_fd(av[1], 2);

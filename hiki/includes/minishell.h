@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/04 19:48:34 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:11:50 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,10 @@ char *get_value_env(t_env *env, char *av);
 /*						builtin && utils builtin							*/
 int    	ft_cd(char **av, t_env *env);
 void	ft_echo(int ac, char **av);
+void    ft_exit(char **av);
+int 	ft_pwd(void);
 int		ft_export(char **av, t_env *env);
+int 	ft_unset(char **av, t_env **env);
 void    print_all_env(t_env *env);
 int		ft_env(t_env *env);
 void	env_init(t_env **env, char **envr);

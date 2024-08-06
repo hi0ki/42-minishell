@@ -6,95 +6,11 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 09:46:11 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/07/28 09:01:43 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:19:52 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include <string.h>
-
-// typedef struct s_env{
-// 	char			*bfr_eql;
-// 	char			*after_eql;
-// 	int				env;
-// 	struct s_env	*next;
-// }	t_env;
-
-// int	ft_strlen(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 		i++;
-// 	return (i);
-// }
-
-// char	*ft_substr(char *s, int start, int len)
-// {
-// 	int	i;
-// 	char	*str;
-
-// 	if (!s)
-// 		return (NULL);
-// 	if (ft_strlen(s) <= start)
-// 		len = 0;
-// 	else if (ft_strlen(s) <= (start + len))
-// 		len = (ft_strlen(s) - start);
-// 	str = malloc(len * (sizeof(char)) + 1);
-// 	if (!str)
-// 		return (NULL);
-// 	i = 0;
-// 	while (i < len)
-// 	{
-// 		str[i] = s[i + start];
-// 		i++;
-// 	}
-// 	str[i] = '\0';
-// 	return (str);
-// }
-
-// t_env	*ft_envnew(char *s)
-// {
-// 	t_env	*n1;
-// 	int		i;
-
-// 	i = 0;
-// 	if (!s)
-// 		return (NULL);
-// 	n1 = malloc(sizeof(t_env));
-// 	if (!n1)
-// 		return (NULL);
-// 	n1->env = 0;
-// 	while (s[i] && s[i] != '=')
-// 		i++;
-// 	n1->bfr_eql = ft_substr(s, 0, i);
-// 	if (s[i] && s[i] == '=')
-// 		n1->env = 1;
-// 	n1->after_eql = ft_substr(s, i + 1, ft_strlen(s));
-// 	n1->next = NULL;
-// 	return (n1);
-// }
-
-// void	ft_envaddback(t_env **head, t_env *new)
-// {
-// 	t_env	*tmp;
-
-// 	tmp = *head;
-// 	if (!(*head))
-// 	{
-// 		// printf("rah dkhlt \n");
-// 		*head = new;
-// 		return ;
-// 	}
-
-// 	while (tmp->next)
-// 		tmp = tmp->next;
-// 	tmp->next = new;
-// }
-
 
 void	ft_free(void *ptr)
 {
