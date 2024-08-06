@@ -70,7 +70,7 @@ typedef struct s_env{
 typedef struct s_list{
 	char *path_cmd;
 	char **arr;
-	char **env;
+	char **env; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
 	t_files *files;
 	char *last_infile;
 	char *last_outfile;

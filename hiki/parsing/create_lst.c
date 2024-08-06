@@ -90,6 +90,8 @@ void fill_path(t_list **lst, t_env *env, char **envr)
 	free(str);
 }
 
+// int size_oper
+
 void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 {
 	int size;
