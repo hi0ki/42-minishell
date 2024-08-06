@@ -68,19 +68,19 @@ typedef struct s_env{
 }	t_env;
 
 typedef struct s_list{
-	char *path_cmd;
-	char **arr;
-	char **env; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
-	t_files *files;
-	char *last_infile;
-	char *last_outfile;
-	int in;
-	int out;
+	char			*path_cmd;
+	char			**arr;
+	char			**env; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
+	int				num_of_files;
+	t_files			*files;
+	char			*last_infile;
+	char			*last_outfile;
+	int				in;
+	int				out;
 	struct s_list	*next;
 } t_list;
 
 
-void shell(t_list **lst, char **env);
 /*						 libft							*/
 t_list	*ft_lstnew(void);
 void	ft_lstadd_back(t_list **lst, t_list *new);

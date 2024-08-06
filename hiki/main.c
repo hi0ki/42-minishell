@@ -2,7 +2,7 @@
 
 void ll()
 {
-	system("leaks -q minishell");
+	// system("leaks -q minishell");
 }
 
 void print_list(t_lexer *head)
@@ -45,6 +45,13 @@ void print_array(t_list *lst)
 			i++;
 		}
 		printf("\n");
+		t_files *file = temp->files;
+		for (i = 0; i < temp->num_of_files; i++)
+		{
+			printf("File name: %s\n", file[i].file_name);
+			printf("File type: %d\n", file[i].type);
+			printf("File type: %d\n", file[i].fd);
+		}
         temp = temp->next;
     }
 }
@@ -69,14 +76,15 @@ int main(int ac, char **av, char **envr)
 		{
 			start_parsing(&lexer, env);
 			create_lst(&lst, &lexer, &env, envr);
-			// ft_exe(lst, env);
+			ft_exe(lst, env);
 			// print_list(lexer);
-			// print_array(lst);
-			// shell(&lst, envr);
+			print_array(lst);
+
+
+			// free_lst_lexer(&lexer);
+			// free_list(&lst);
 		}
 	}
 	free_lst_env(&env);
-	// free_lst_lexer(&lexer);
-	// free_list(&lst);
 	// // system("leaks -q minishell")
 }
