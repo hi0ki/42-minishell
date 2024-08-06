@@ -32,7 +32,9 @@ void remove_spaces(t_lexer **head)
 }
 void give_type(t_lexer **node)
 {
-	if ((*node)->prev == NULL || ft_strcmp((*node)->prev->data, "|") == 0)
+	if ((*node)->type >= 5 && (*node)->type <= 8)
+		return ;
+	else if ((*node)->prev == NULL || ft_strcmp((*node)->prev->data, "|") == 0)
 		(*node)->type = CMD;
 	else if (ft_strcmp((*node)->data, "|") == 0)
 		(*node)->type = PIPE;
