@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 11:48:40 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:19:31 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:47:06 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int ft_pwd(void)
 	
 	if (getcwd(cwd, PATH_MAX))
 	{
-		ft_puttsrn_fd(cwd, 1);
+		ft_putstrn_fd(cwd, 1);
 		return (0);
 	}
 	else

@@ -6,11 +6,35 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:20:00 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:20:10 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:56:54 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	exec_after_built(t_list *lst, t_env *env)
+{
+	int r;
+	int pid;
+
+	r = 0;
+	pid = fork();
+	if (pid == 0)
+	{
+		if (lst->path_cmd != NULL)
+			execve(lst->path_cmd, lst->arr, lst->env);
+		r = err_msg(lst->path_cmd, lst->arr[0]);
+		// perror("minishell");
+		printf("mehdi\n");
+		exit(r);
+	}
+	else
+	{
+		waitpid(pid, &r, 0);
+	}
+	// khss lvalue doz l r bach tkhrj
+	return (r);
+}
 
 void link_builtin(t_list *lst, t_env *env)
 {
