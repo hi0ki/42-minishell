@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/04 19:48:29 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:57:35 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 // 	write(fd, "\n", 1);
 // }
 
-static int err_msg(char *path, char *arr)
+int err_msg(char *path, char *arr)
 {
 	DIR *f;
 	int fd;
@@ -79,9 +79,11 @@ int ft_exe(t_list *lst, t_env *env)
 	int r;
 	int pid;
 
+	//khess tzid dik r ldakhel dial lfonction exec_after_built bach nrecuperiw lvalue dial return hna..
 	r = 0;
 	while (lst)
 	{
+		// khss lproto ykon haka link_builting(lst, env, &r) 
 		link_builtin(lst, env);
 		// pid = fork();
 		// if (pid == 0)
