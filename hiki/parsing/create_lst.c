@@ -138,14 +138,15 @@ void fill_files(t_list **lst, t_lexer **lexer)
 		if (lextmp->type >= 5 && lextmp->type <= 8)
 		{
 			tmp->files[i].type = lextmp->type;
-			printf("name = %s\n", lextmp->next->data);
 			tmp->files[i].fd = open(lextmp->next->data, O_CREAT | O_RDWR, 0777);
 			if (tmp->files[i].fd == -1)
 			{
 				printf("error\n");
 				exit(9);
 			}
+			printf("name \n");
 			tmp->files[i].file_name = ft_strdup(lextmp->next->data);
+			if (lextmp->prev != NULL)
 			lextmp = lextmp->prev;
 			lextmp->next = lextmp->next->next->next;
 			lextmp->next->prev = lextmp;
@@ -166,7 +167,7 @@ void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 		size--;
 	}
 	num_of_files(lst, head);
-	fill_files(lst, head);
+	// fill_files(lst, head);
 	fill_arr(lst, head, size);
 	fill_path(lst, *env, envr);
 }

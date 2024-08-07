@@ -48,12 +48,19 @@ void set_variable_value(t_lexer **node, t_env *env, int i)
 
 	j = i;
 	j++;
-	while ((*node)->data[j] && (ft_isalpha((*node)->data[j]) == 1 || (*node)->data[j] == '_'))
+	while ((*node)->data[j] && (ft_isalpha((*node)->data[j]) == 1 || (*node)->data[j] == '_' || (*node)->data[j] == '?'))
 		j++;
 	if (j - i - 1 == 0)
 		return ;
 	var_name = ft_substr((*node)->data, i + 1, j - i - 1);
-	value = get_value_env(env, var_name);
+	if (ft_strcmp(var_name, "?") == 0 )
+	{
+		value = ft_itoa(g_status);
+	}
+	else
+	{
+		value = get_value_env(env, var_name);
+	}
 	if (value == NULL)
 	{
 		if ((*node)->prev != NULL && (*node)->type == DOLLAR)
@@ -90,7 +97,6 @@ void set_variable_value(t_lexer **node, t_env *env, int i)
 	tmp = (*node)->data;
 	(*node)->data = edit_data(value, (*node)->data, i, j);;
 	(*node)->len = ft_strlen((*node)->data);
-	(*node)->var_quotes = -1;
 	free(var_name);
 	free(value);
 	free(tmp);
@@ -109,8 +115,7 @@ void fill_variables(t_lexer **head, t_env *env)
 			{
 				if (tmp->data[i] == '$')
 				{
-					tmp->var_quotes = i;
-					if (tmp->data[i + 1] == '$')
+					if (tmp->data[i + 1] == '$' || tmp->data[i + 1] == '\0')
 						i++;
 					else
 					{
