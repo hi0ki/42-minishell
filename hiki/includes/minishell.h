@@ -126,6 +126,8 @@ void parsing_type(t_lexer **head);
 /*						parisng utils				*/
 int count_cmd(t_lexer *head);
 int size_node(t_lexer *head);
+/*					check utils						*/
+int check_oper(t_lexer *node);
 
 /*						env 						*/
 char *get_value_env(t_env *env, char *av);

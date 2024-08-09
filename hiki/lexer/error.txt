@@ -9,3 +9,10 @@ if pipe in end of cmd line or start
 
 --------------"fixed"-----------
 if no end of quotes > ls "medhi
+
+operators syntax error fixed 
+	exmaple : >>          
+			  >
+			  <<
+			  <<
+			  ls >>

@@ -17,17 +17,17 @@ int error_handler(t_lexer *lexer)
 		}
 		else if (tmp->type == PIPE && (tmp->prev == NULL || tmp->next == NULL))
 		{
-			ft_putstrn_fd("minishell: syntax error", 2);
+			ft_putstrn_fd("minishell: syntax error pipe", 2);
 			g_status = 258;
 			return (-1);
 		}
-		else if ((tmp->type == REDIRECT_INPUT || tmp->type  == HEREDOC) )
+		else if (check_oper(tmp) == 0 && (tmp->next == NULL || (tmp->next->type == SPACE && 
+			tmp->next->next == NULL)))
 		{
 			ft_putstrn_fd("minishell: syntax error files", 2);
 			g_status = 258;
 			return (-1);
 		}
-		printf("type->%d\n", tmp->type);
 		tmp = tmp->next;
 	}
 	return	(0);
