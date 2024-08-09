@@ -29,9 +29,9 @@
 #define ARG 2
 #define PIPE 3                // For the pipe symbol '|'
 #define WORD 4                // For general words, command names, arguments, etc.
-#define REDIRECT_INPUT 5      // For input redirection '<'
-#define REDIRECT_OUTPUT 6     // For output redirection '>'
-#define REDIRECT_APPEND 7     // For append output redirection '>>'
+#define REDIRECT_OUTPUT 5     // For output redirection '>'
+#define REDIRECT_APPEND 6     // For append output redirection '>>'
+#define REDIRECT_INPUT 7      // For input redirection '<'
 #define HEREDOC 8             // For here-document '<<'
 #define SQUOTE 9        // For single quotes '''
 #define DQUOTE 10        // For double quotes '"'

@@ -70,6 +70,7 @@ int main(int ac, char **av, char **envr)
 	{
 		add_history(line);
 		lexer = start_lexer(lexer, line);
+					// print_list(lexer);
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
 			start_parsing(&lexer, env);
