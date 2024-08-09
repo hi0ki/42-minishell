@@ -138,7 +138,6 @@ void fill_files(t_list **lst, t_lexer **lexer)
 		if (lextmp->type >= 5 && lextmp->type <= 8)
 		{
 			tmp->files[i].type = lextmp->type;
-			printf("name = %s\n", lextmp->next->data);
 			tmp->files[i].fd = open(lextmp->next->data, O_CREAT | O_RDWR, 0777);
 			if (tmp->files[i].fd == -1)
 			{

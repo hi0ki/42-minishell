@@ -78,7 +78,7 @@ int main(int ac, char **av, char **envr)
 			create_lst(&lst, &lexer, &env, envr);
 			ft_exe(lst, env);
 			// print_list(lexer);
-			print_array(lst);
+			// print_array(lst);
 
 
 			// free_lst_lexer(&lexer);

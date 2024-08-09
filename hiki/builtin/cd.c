@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:16:22 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 19:26:51 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/09 09:40:04 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 static void		print_error(char **args)
 {
-	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	if (args[2])
 		ft_putstr_fd("string not in pwd: ", 2);
 	else
 	{
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd(": ", 2);
+		ft_putstrn_fd(strerror(errno), 2);
+		
+		
+		// ft_putstr_fd(": ", 2);
 	}
-	ft_putstrn_fd(args[1], 2);
+	// ft_putstrn_fd(args[1], 2);
 }
 
 int	add_env(char *bfr, char *aftr, t_env *env)
@@ -63,12 +65,12 @@ int	add_oldpwd(t_env *env)
 	return (0);
 }
 
-char	*get_path(t_env *env, char *key, int n)
+char	*get_path(t_env *env, char *key)
 {
 	// char	*nwd;
 	while (env)
 	{
-		if (!ft_strncmp(env->bfr_eql, key, n))
+		if (!ft_strcmp(env->bfr_eql, key))
 			return (ft_strdup(env->after_eql));
 		env = env->next;
 	}
@@ -83,7 +85,7 @@ int	go_path(int opt, t_env *env)
 	path = NULL;
 	if (opt == 0)
 	{
-		path = get_path(env, "HOME", 4);
+		path = get_path(env, "HOME");
 		if (!path)
 		{
 			ft_putstr_fd("cd : HOME not set", 2);
@@ -93,7 +95,8 @@ int	go_path(int opt, t_env *env)
 	}
 	else if (opt == 1)
 	{
-		path = get_path(env, "OLDPWD", 6);
+		printf("dsa\n");
+		path = get_path(env, "OLDPWD");
 		if (!path)
 		{
 			ft_putstr_fd("cd : OLDPWD not set", 2);
