@@ -78,6 +78,10 @@ int main(int ac, char **av, char **envr)
 			ft_exe(lst, env);
 			// print_list(lexer);
 			// print_array(lst);
+<<<<<<< HEAD
+
+=======
+>>>>>>> b0d781094bf97d696885fec2c7532cf089f8391b
 
 			// free_lst_lexer(&lexer);
 			// free_list(&lst);
