@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 12:13:41 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:19:26 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:30:06 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	ft_export(char **av, t_env *env)
 		if (error == -1)
 		{
 			printf("minishell: export: '%s': not a valid identifier\n", av[i]);
-			return (-1);
+			return (1);
 		}
 		if (env_already_exist(env, av[i]) == 0)
 			return (0);

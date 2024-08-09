@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:01:46 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 19:57:06 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:25:36 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ int	is_number(char *s)
 	return (1);
 }
 
-void    ft_exit(char **av)
+int    ft_exit(char **av)
 {
-	// ft_putstrn_fd("exit", 2);
+	ft_putstrn_fd("exit", 2);
 	if (av[1] && !is_number(av[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -122,7 +122,10 @@ void    ft_exit(char **av)
 		exit(255);
 	}
 	else if (av[1] && av[2])
+	{
 		ft_putstrn_fd("minishell: exit: too many arguments", 2);
+		return (1);
+	}
 	else
 	{
 		if (!av[1])

@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 09:51:16 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:17:30 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:16:14 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_putstr(char *s)
 	}
 }
 
-void	ft_echo(int ac, char **av)
+int	ft_echo(int ac, char **av)
 {
 	int	i = 1;
 	int j = 1;
@@ -56,4 +56,5 @@ void	ft_echo(int ac, char **av)
 	}
 	if (option == 0)
 		write (1, "\n", 1);
+	return (0);
 }

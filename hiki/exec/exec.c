@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:57:35 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:16:16 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int ft_exe(t_list *lst, t_env *env)
 	while (lst)
 	{
 		// khss lproto ykon haka link_builting(lst, env, &r) 
-		link_builtin(lst, env);
+		if (link_builtin(lst, env) == -1)
+			return (-1);
 		// pid = fork();
 		// if (pid == 0)
 		// {
@@ -101,6 +102,6 @@ int ft_exe(t_list *lst, t_env *env)
 		// }
 		lst = lst->next;
 	}
-	r = WEXITSTATUS(r);
-	return (r);
+	// r = WEXITSTATUS(r);
+	return (0);
 }
