@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:16:22 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/09 09:40:04 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:01:04 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	go_path(int opt, t_env *env)
 	}
 	else if (opt == 1)
 	{
-		printf("dsa\n");
 		path = get_path(env, "OLDPWD");
 		if (!path)
 		{
