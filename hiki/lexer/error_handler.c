@@ -27,7 +27,7 @@ int error_handler(t_lexer *lexer)
 			g_status = 258;
 			return (-1);
 		}
-		printf("type->%d\n", tmp->type);
+		// printf("type->%d\n", tmp->type);
 		tmp = tmp->next;
 	}
 	return	(0);

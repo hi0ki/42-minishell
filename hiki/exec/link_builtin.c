@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:20:00 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:56:54 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:24:29 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,25 @@ int	exec_after_built(t_list *lst, t_env *env)
 	return (r);
 }
 
-void link_builtin(t_list *lst, t_env *env)
+int link_builtin(t_list *lst, t_env *env)
 {
+	int r;
 	if (ft_strcmp(lst->arr[0], "cd") == 0)
-		ft_cd(lst->arr, env);
+		r = ft_cd(lst->arr, env);
 	else if (ft_strcmp(lst->arr[0], "echo") == 0)
-		ft_echo(2, lst->arr);
+		r = ft_echo(2, lst->arr);
 	else if (ft_strcmp(lst->arr[0], "env") == 0)
-		ft_env(env);
+		r = ft_env(env);
 	else if (ft_strcmp(lst->arr[0], "exit") == 0)
-		ft_exit(lst->arr);
+		r = ft_exit(lst->arr);
 	else if (ft_strcmp(lst->arr[0], "export") == 0)
-		ft_export(lst->arr, env);
+		r = ft_export(lst->arr, env);
 	else if (ft_strcmp(lst->arr[0], "pwd") == 0)
-		ft_pwd();
+		r = ft_pwd();
 	else if (ft_strcmp(lst->arr[0], "unset") == 0)
-		ft_unset(lst->arr, &env);
+		r = ft_unset(lst->arr, &env);
 	else
-		exec_after_built(lst, env);
+		r = exec_after_built(lst, env);
+	g_status = r;
+	return(r);
 }
