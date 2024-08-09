@@ -20,6 +20,8 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 		node = lexer_lstnew(str);
 		node->type = helper;
 		node->len = ft_strlen(node->data);
+        if (line[index + i] != '\"' || line[index + i] != '\"')
+            node->error_quotes = -1;
 		return node;
 	}
 	else if (type == 2)
@@ -47,13 +49,6 @@ static t_lexer *handle_quote( t_lexer *head, char *line, int *i)
     int nbr;
 
     nbr = ft_handle_quotes(line + *i);
-    if (nbr == -1)
-    {
-        free_lst_lexer(&head);
-        free(line);
-        printf("\033[31mError\n\033[0m");
-        return NULL;
-    }
     lexer_add_back(&head, get_node(line, *i, nbr, 1));
     *i += nbr + 1;
     return head;
@@ -90,8 +85,6 @@ t_lexer *start_lexer(t_lexer *head, char *line)
 		else if (check_special_char(line + i) == 3)
         {
             head = handle_quote(head, line, &i);
-            if (head == NULL)
-                return NULL;
         }
         else if (check_special_char(line + i) > 0)
             head = handle_special_char(head, line, &i);

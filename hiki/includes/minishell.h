@@ -45,6 +45,7 @@
 #define BUILTIN_UNSET 18      // Built-in command: unset
 #define SPACE 19              // For space character ' '
 
+int g_status;
 
 typedef struct s_files{
 	char *file_name;
@@ -55,7 +56,7 @@ typedef struct s_files{
 typedef struct s_lexer{
 	char			*data;
 	int				type;
-	int				var_quotes;
+	int				error_quotes;
 	int				len;
 	struct s_lexer	*next;
     struct s_lexer	*prev;
@@ -101,7 +102,10 @@ void	free_lst_env(t_env **env);
 void 	free_list(t_list **lst);
 char    *ft_strjoin(char *s1, char *s2);
 char	**ft_split(char *s, char *c);
+char	*ft_itoa(int n);
 
+/*						Error handler						*/
+int error_handler(t_lexer *lexer);
 /*					lexer & set_tyep &utils_lexer			*/
 t_lexer *start_lexer(t_lexer *head, char *line);
 t_lexer	*lexer_lstnew(char *data);
