@@ -154,17 +154,3 @@ int ft_exe(t_list *lst, t_env *env)
 ;
 
 #endif
-
-
-/*
-
-t_file
-name[] 
-type in ou heredoc append
-
-cmd[] -> word word 
-file 
-
-
-
-*/

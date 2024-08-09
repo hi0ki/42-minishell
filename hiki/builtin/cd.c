@@ -14,7 +14,7 @@
 
 static	int		print_error(char **args)
 {
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("minishell: cd:", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstrn_fd(strerror(errno), 2);

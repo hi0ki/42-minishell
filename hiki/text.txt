@@ -38,3 +38,11 @@ expand varibles
 var="ls -a" , $var
 split varibale
 
+//////////////builltin///////
+			echo 100%
+			exit 85%
+			export 50%
+			pwd 75%
+			unset 50%
+
+

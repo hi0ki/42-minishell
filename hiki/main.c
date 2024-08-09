@@ -57,7 +57,7 @@ void print_array(t_list *lst)
 
 int main(int ac, char **av, char **envr)
 {
-	atexit(ll);
+	// atexit(ll);
 	t_lexer	*lexer;
 	t_list	*lst;
 	t_env 	*env;
@@ -93,4 +93,5 @@ int main(int ac, char **av, char **envr)
 	}
 	free_lst_env(&env);
 	// // system("leaks -q minishell")
+	return (g_status);
 }

@@ -51,6 +51,7 @@ int err_msg(char *path, char *arr)
 	int fd;
 	int r;
 
+	r = 0;
 	fd = open(path, O_WRONLY);
 	f = opendir(path);
 	ft_putstr_fd("minishell: ", 2);
@@ -63,8 +64,7 @@ int err_msg(char *path, char *arr)
 		ft_putstrn_fd(": is a directory", 2);
 	else if (fd != -1 && f == NULL)
 		ft_putstrn_fd("permission denied", 2);
-	//'''''''''''''''''''''''''
-	if (ft_strchr(path, '/') == NULL || (fd == -1 && f == NULL))
+	if (path == NULL || (fd == -1 && f == NULL))
 		r = 127;
 	else
 		r = 126;
