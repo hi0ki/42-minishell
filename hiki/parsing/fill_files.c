@@ -26,7 +26,6 @@ int fill_files(t_list **lst, t_lexer **lexer)
 	i = 0;
 	while (lextmp && tmp)
 	{
-		printf ("type = %d | data = %s\n", lextmp->type, lextmp->data);
 		if (lextmp->type == PIPE)
 		{
 			tmp->last_infile = last_in;

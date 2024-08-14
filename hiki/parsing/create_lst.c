@@ -8,7 +8,6 @@ void fill_arr(t_list **lst, t_lexer **head, int size)
 
 	if (!*lst)
 		return ;
-				printf("%p\n", *head);
 	lstmp = *lst;
 	tmp = *head;
 	while (tmp)

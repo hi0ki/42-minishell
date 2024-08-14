@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/09 10:16:16 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:06:06 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,28 +78,45 @@ int ft_exe(t_list *lst, t_env *env)
 {
 	int r;
 	int pid;
-
+	int	fd[2];
 	//khess tzid dik r ldakhel dial lfonction exec_after_built bach nrecuperiw lvalue dial return hna..
 	r = 0;
+	int sz = 3;
+	int i = 00;
+	int prv = -1;
 	while (lst)
 	{
-		// khss lproto ykon haka link_builting(lst, env, &r) 
-		if (link_builtin(lst, env) == -1)
-			return (-1);
-		// pid = fork();
-		// if (pid == 0)
-		// {
-		// 	if (lst->path_cmd != NULL)
-		// 		execve(lst->path_cmd, lst->arr, lst->env);
-		// 	r = err_msg(lst->path_cmd, lst->arr[0]);
-		// 	// perror("minishell");
-		// 	printf("mehdi\n");
-		// 	exit(r);
-		// }
-		// else
-		// {
-		// 	waitpid(pid, &r, 0);
-		// }
+		// khss lproto ykon haka link_builting(lst, env, &r)
+		pipe(fd);
+		// if (link_builtin(lst, env) == -1)
+		// 	return (-1);
+		pid = fork();
+		if (pid == 0)
+		{
+			// if (i == 0)
+			// 	dup2(fd[1], STDOUT_FILENO);
+			// else if (i == sz - 1)
+			// 	dup2(prv , STDIN_FILENO);
+			// else 
+			// {
+			// 	dup2(fd[1], STDOUT_FILENO);
+			// 	dup2(prv , STDIN_FILENO);
+			// }
+			// close(fd[1]);
+			// close(fd[0]);
+			// close (prv);
+			if (lst->path_cmd != NULL)
+				execve(lst->path_cmd, lst->arr, lst->env);
+			r = err_msg(lst->path_cmd, lst->arr[0]);
+			// perror("minishell");
+			printf("mehdi\n");
+			exit(r);
+		}
+		else
+		{
+			// prv = fd[0];
+			waitpid(pid, &r, 0);
+		}
 		lst = lst->next;
 	}
 	// r = WEXITSTATUS(r);
