@@ -16,8 +16,6 @@
 #include <string.h>
 #include <unistd.h>
 
-int	ms_status;
-
 // void	ft_putstr_fd(char *s, int fd)
 // {
 // 	int	i;
@@ -129,11 +127,11 @@ int    ft_exit(char **av)
 	else
 	{
 		if (!av[1])
-			exit(ms_status);
+			exit(g_status);
 		else
 		{
-			ms_status = ft_atoi(av[1]);
-			exit(ms_status % 256);
+			g_status = ft_atoi(av[1]);
+			exit(g_status % 256);
 		}
 	}
 

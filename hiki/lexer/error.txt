@@ -16,3 +16,8 @@ operators syntax error fixed
 			  <<
 			  <<
 			  ls >>
+			  ls > >> file
+			  ls > | ls
+			  ls > file |
+			  ls |
+			  | ls

@@ -6,6 +6,9 @@ void fill_arr(t_list **lst, t_lexer **head, int size)
 	t_list  *lstmp;
 	int i;
 
+	if (!*lst)
+		return ;
+				printf("%p\n", *head);
 	lstmp = *lst;
 	tmp = *head;
 	while (tmp)
@@ -117,44 +120,6 @@ void	num_of_files(t_list **lst, t_lexer **lexer)
 		tmp->num_of_files = i;
 }
 
-void fill_files(t_list **lst, t_lexer **lexer)
-{
-	t_list *tmp;
-	t_lexer *lextmp;
-	int i;
-
-	tmp = *lst;
-	lextmp = *lexer;
-	tmp->files = malloc (tmp->num_of_files * sizeof(t_files));
-	i = 0;
-	while (lextmp && tmp)
-	{
-		if (lextmp->type == PIPE)
-		{
-			tmp = tmp->next;
-			i = 0;
-			tmp->files = malloc (tmp->num_of_files * sizeof(t_files));
-		}
-		if (lextmp->type >= 5 && lextmp->type <= 8)
-		{
-			tmp->files[i].type = lextmp->type;
-			tmp->files[i].fd = open(lextmp->next->data, O_CREAT | O_RDWR, 0777);
-			if (tmp->files[i].fd == -1)
-			{
-				printf("error\n");
-				exit(9);
-			}
-			printf("name \n");
-			tmp->files[i].file_name = ft_strdup(lextmp->next->data);
-			if (lextmp->prev != NULL)
-			lextmp = lextmp->prev;
-			lextmp->next = lextmp->next->next->next;
-			lextmp->next->prev = lextmp;
-			i++;
-		}
-		lextmp = lextmp->next;
-	}
-}
 void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 {
 	int size;
@@ -167,7 +132,7 @@ void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 		size--;
 	}
 	num_of_files(lst, head);
-	// fill_files(lst, head);
+	fill_files(lst, head);
 	fill_arr(lst, head, size);
 	fill_path(lst, *env, envr);
 }

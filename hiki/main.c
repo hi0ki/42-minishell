@@ -45,12 +45,17 @@ void print_array(t_list *lst)
 		}
 		printf("\n");
 		t_files *file = temp->files;
+		printf("howa %d\n", temp->num_of_files);
 		for (i = 0; i < temp->num_of_files; i++)
 		{
 			printf("File name: %s\n", file[i].file_name);
 			printf("File type: %d\n", file[i].type);
 			printf("File type: %d\n", file[i].fd);
 		}
+		printf("file last in %s\n", temp->last_infile);
+		printf("file last out %s\n", temp->last_outfile);
+		printf("last out %d\n", temp->out);
+		printf("last in %d\n", temp->in);
         temp = temp->next;
     }
 }
@@ -74,17 +79,16 @@ int main(int ac, char **av, char **envr)
 		{
 			start_parsing(&lexer, env);
 			create_lst(&lst, &lexer, &env, envr);
-			if (ft_exe(lst, env) == -1)
-			{
-				free_lst_lexer(&lexer);
-				free_list(&lst);
-			}
-				// print_list(lexer);
-			// print_list(lexer);
+			// if (ft_exe(lst, env) == -1)
+			// {
+			// 	free_lst_lexer(&lexer);
+			// 	free_list(&lst);
+			// }
 			// print_array(lst);
-
-			// free_lst_lexer(&lexer);
+			// print_list(lexer);
 			// free_list(&lst);
+			// free_lst_lexer(&lexer);
+
 		}
 		else if (lexer != NULL)
 		{

@@ -128,7 +128,8 @@ int count_cmd(t_lexer *head);
 int size_node(t_lexer *head);
 /*					check utils						*/
 int check_oper(t_lexer *node);
-
+/*					fill files						*/
+int fill_files(t_list **lst, t_lexer **lexer);
 /*						env 						*/
 char *get_value_env(t_env *env, char *av);
 
