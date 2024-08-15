@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/09 12:24:44 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/15 12:50:45 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void 	free_list(t_list **lst);
 char    *ft_strjoin(char *s1, char *s2);
 char	**ft_split(char *s, char *c);
 char	*ft_itoa(int n);
+int	ft_lstsize(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
 
 /*						Error handler						*/
 int error_handler(t_lexer *lexer);

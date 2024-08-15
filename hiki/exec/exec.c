@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/14 16:06:06 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:25:55 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,52 +73,83 @@ int err_msg(char *path, char *arr)
 	close(fd);
 	return (r);
 }
-
+int whit_processsu(int *pid, int i)
+{
+	int r;
+	int j = 0;
+	printf ("i = %d\n",i);
+	while (j <i)
+	{
+		waitpid(pid[j], &r, 0);
+		j++;
+	}
+	printf("******1111\n");
+	return (r);
+}
 int ft_exe(t_list *lst, t_env *env)
 {
 	int r;
-	int pid;
+	int *pid;
+	t_list *last;
 	int	fd[2];
+	int fd0;
+	int fd1;
+	fd0=dup(0);
+	fd1=dup(1);
 	//khess tzid dik r ldakhel dial lfonction exec_after_built bach nrecuperiw lvalue dial return hna..
 	r = 0;
-	int sz = 3;
-	int i = 00;
-	int prv = -1;
+	pid = malloc(ft_lstsize(lst) * sizeof(int));
+	int i = 0;
+	last = ft_lstlast(lst);
+	if (ft_lstsize(lst) == 1)
+	{
+		if (link_builtin(lst, env) == 1)
+			return (-1);
+	}
 	while (lst)
 	{
 		// khss lproto ykon haka link_builting(lst, env, &r)
-		pipe(fd);
-		// if (link_builtin(lst, env) == -1)
-		// 	return (-1);
-		pid = fork();
-		if (pid == 0)
+		pid[i] = fork();
+		if (pid == 0 && lst != last)
 		{
-			// if (i == 0)
-			// 	dup2(fd[1], STDOUT_FILENO);
-			// else if (i == sz - 1)
-			// 	dup2(prv , STDIN_FILENO);
-			// else 
-			// {
-			// 	dup2(fd[1], STDOUT_FILENO);
-			// 	dup2(prv , STDIN_FILENO);
-			// }
-			// close(fd[1]);
-			// close(fd[0]);
-			// close (prv);
+			if (pipe(fd) == -1)
+				return (-1);
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[0]);
+			if (lst->path_cmd != NULL)
+			{
+				write(2,"erroe\n",6);
+				execve(lst->path_cmd, lst->arr, lst->env);
+			}	
+			r = err_msg(lst->path_cmd, lst->arr[0]);
+			perror("minishell");
+			// printf("mehdi\n");
+			exit(r);
+		}
+		else if (pid[i] == 0 && lst == last)
+		{
 			if (lst->path_cmd != NULL)
 				execve(lst->path_cmd, lst->arr, lst->env);
 			r = err_msg(lst->path_cmd, lst->arr[0]);
 			// perror("minishell");
-			printf("mehdi\n");
-			exit(r);
+			// printf("mehdi\n");
+			exit(127);
 		}
-		else
-		{
-			// prv = fd[0];
-			waitpid(pid, &r, 0);
-		}
+		// else if (pid[i] > 0 && lst != last)
+		// {
+		// 	dup2(fd[0], 0);
+		// 	// close(fd[1]);
+		// }
+
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[1]);
+		i++;
 		lst = lst->next;
 	}
-	// r = WEXITSTATUS(r);
+	r = whit_processsu(pid, i);
+		// printf ("*******\n");
+	dup2(fd0, 0);
+	dup2(fd1,1);
+	r = WEXITSTATUS(r);
 	return (0);
 }

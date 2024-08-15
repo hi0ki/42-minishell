@@ -13,7 +13,7 @@ void join_nodes(t_lexer **head)
 			&& tmp->prev->type != REDIRECT_APPEND && tmp->prev->type != REDIRECT_OUTPUT && tmp->prev->type != REDIRECT_INPUT && tmp->prev->type != HEREDOC )
 		{
 			if (tmp->prev != NULL && ft_strcmp(tmp->data, " ") != 0 && ft_strcmp(tmp->data, "\t") != 0 &&
-				ft_strcmp(tmp->prev->data, " ") != 0 && ft_strcmp(tmp->prev->data, "\t") != 0 )
+				ft_strcmp(tmp->prev->data, " ") != 0 && ft_strcmp(tmp->prev->data, "\t") != 0  && tmp->prev->type != PIPE)
 			{
 				tmp = tmp->prev;
 				s_data = tmp->data;
