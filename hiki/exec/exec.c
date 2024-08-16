@@ -172,7 +172,7 @@ int ft_exe(t_list *lst, t_env *env) {
     }
     dup2(fd0, 0); // Rétablir l'entrée standard
     dup2(fd1, 1); // Rétablir la sortie standard
-    
+
     free(pid); // Libérer la mémoire allouée
     return r; // Retourner le code de sortie
 }
