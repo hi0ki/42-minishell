@@ -17,8 +17,8 @@ static void handler_input(t_lexer **lexer, t_list **lst, int i)
 {
 	(*lexer) = (*lexer)->next;
 	(*lst)->files[i].file_name = ft_strdup((*lexer)->data);
-	if ((*lexer)->prev->type == REDIRECT_INPUT)
-		njrb access bach ndir each kayn file ola la
+	// if ((*lexer)->prev->type == REDIRECT_INPUT)
+		// njrb access bach ndir each kayn file ola la
 	if ((*lexer)->prev->type == HEREDOC)
 		(*lst)->files[i].fd = open(generate_heredoc_name(), O_CREAT | O_RDWR , 0644);
 	(*lst)->in = (*lst)->files[i].fd;
