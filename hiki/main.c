@@ -33,36 +33,42 @@ void print_list(t_lexer *head)
 void print_array(t_list *lst)
 {
     t_list *temp = lst;
+    int i;
 
     while (temp != NULL)
-	{
-		int i = 0;
-		printf("path = %s\n", temp->path_cmd);
-		while (temp->arr[i] != NULL)
-		{
-			printf("|%s |", temp->arr[i]);
-			i++;
-		}
-		printf("\n");
-		t_files *file = temp->files;
-		printf("howa %d\n", temp->num_of_files);
+    {
+        printf("\n--- New Item ---\n");
+        printf("Path: %s\n", temp->path_cmd);
+        
+        printf("Array: ");
+        for (i = 0; temp->arr[i] != NULL; i++)
+        {
+            printf("|%s", temp->arr[i]);
+        }
+        printf("\n");
+
+        printf("Number of Files: %d\n", temp->num_of_files);
 		for (i = 0; i < temp->num_of_files; i++)
-		{
-			printf("File name: %s\n", file[i].file_name);
-			printf("File type: %d\n", file[i].type);
-			printf("File type: %d\n", file[i].fd);
-		}
-		printf("file last in %s\n", temp->last_infile);
-		printf("file last out %s\n", temp->last_outfile);
-		printf("last out %d\n", temp->out);
-		printf("last in %d\n", temp->in);
+        {
+            printf("\n--- File %d ---\n", i+1);
+            printf("File Name: %s\n", temp->files[i].file_name);
+            printf("File Type: %d\n", temp->files[i].type);
+            printf("File Descriptor: %d\n", temp->files[i].fd);
+        }
+
+        printf("\n--- INFO ---\n");
+        // printf("Last Input File: %s\n", temp->last_infile);
+        // printf("Last Output File: %s\n", temp->last_outfile);
+        printf("Last Output Descriptor: %d\n", temp->out);
+        printf("Last Input Descriptor: %d\n", temp->in);
+
         temp = temp->next;
     }
 }
 
 int main(int ac, char **av, char **envr)
 {
-	// atexit(ll);
+	atexit(ll);
 	t_lexer	*lexer;
 	t_list	*lst;
 	t_env 	*env;
@@ -85,7 +91,7 @@ int main(int ac, char **av, char **envr)
 				free_list(&lst);
 			}
 			// print_array(lst);
-			// print_list(lexer);
+			print_list(lexer);
 			// free_list(&lst);
 			// free_lst_lexer(&lexer);
 
