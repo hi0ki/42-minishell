@@ -52,8 +52,6 @@ void print_array(t_list *lst)
 			printf("File type: %d\n", file[i].type);
 			printf("File type: %d\n", file[i].fd);
 		}
-		printf("file last in %s\n", temp->last_infile);
-		printf("file last out %s\n", temp->last_outfile);
 		printf("last out %d\n", temp->out);
 		printf("last in %d\n", temp->in);
         temp = temp->next;

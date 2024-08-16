@@ -146,7 +146,7 @@ int ft_exe(t_list *lst, t_env *env) {
                     execve(lst->path_cmd, lst->arr, lst->env);
                 }
                 r = err_msg(lst->path_cmd, lst->arr[0]);
-                perror("minishell");
+                // perror("minishell");
                 exit(r);
             }
 			else

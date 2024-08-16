@@ -75,8 +75,6 @@ typedef struct s_list{
 	char			**env; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
 	int				num_of_files;
 	t_files			*files;
-	char			*last_infile;
-	char			*last_outfile;
 	int				in;
 	int				out;
 	struct s_list	*next;
@@ -128,10 +126,15 @@ void parsing_type(t_lexer **head);
 /*						parisng utils				*/
 int count_cmd(t_lexer *head);
 int size_node(t_lexer *head);
+void	num_of_files(t_list **lst, t_lexer **lexer);
 /*					check utils						*/
 int check_oper(t_lexer *node);
+int check_variable(t_lexer *node);
 /*					fill files						*/
-int fill_files(t_list **lst, t_lexer **lexer);
+void fill_variables(t_lexer **head, t_env *env);
+int fill_files(t_list **lst, t_lexer **lexer, t_env **env);
+void fill_arr(t_list **lst, t_lexer **head, int size);
+void fill_path(t_list **lst, t_env *env, char **envr);
 /*						env 						*/
 char *get_value_env(t_env *env, char *av);
 
