@@ -9,40 +9,69 @@ char *generate_heredoc_name(void)
 	i++;
 	num = ft_itoa(i);
 	name = ft_strjoin("/tmp/heredoc_", num);
-
+	free(num);
 	return (name);
 }
 
-static void handler_input(t_lexer **lexer, t_list **lst, int i)
-{
-	(*lexer) = (*lexer)->next;
-	(*lst)->files[i].file_name = ft_strdup((*lexer)->data);
-	// if ((*lexer)->prev->type == REDIRECT_INPUT)
-		// njrb access bach ndir each kayn file ola la
-	if ((*lexer)->prev->type == HEREDOC)
-		(*lst)->files[i].fd = open(generate_heredoc_name(), O_CREAT | O_RDWR , 0644);
-	(*lst)->in = (*lst)->files[i].fd;
-}
-
-static void handler_output(t_lexer **lexer, t_list **lst, int i)
-{
-	(*lexer) = (*lexer)->next;
-	(*lst)->files[i].file_name = ft_strdup((*lexer)->data);
-
-	if ((*lexer)->prev->type == REDIRECT_APPEND)
-		(*lst)->files[i].fd = open((*lexer)->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else
-		(*lst)->files[i].fd = open((*lexer)->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	(*lst)->out = (*lst)->files[i].fd;
-}
-
-// void heredoce_start(t_list **node, t_env **env)
+// static void handler_input(t_lexer **lexer, t_list **lst, int i)
 // {
-// 	char *str;
-// 	int fd;
-
-// 	while (str != NULL && ft_strcmp(str, (*node)->files))
+// 	(*lexer) = (*lexer)->next;
+// 	if ((*lexer)->prev->type == REDIRECT_INPUT)
+// 	{
+// 		if (access((*lexer)->data, F_OK) != -1)
+// 			(*lst)->files[i].fd = open(generate_heredoc_name(), O_CREAT | O_RDWR , 0644);
+// 		else
+// 		{
+// 			(*lst)->files[i].fd = -1;
+// 			(*lst)->files[i].file_name = NULL;
+// 			return ;
+// 		}
+// 	}
+// 	if ((*lexer)->prev->type == HEREDOC)
+// 		(*lst)->files[i].fd = open(generate_heredoc_name(), O_CREAT | O_RDWR , 0644);
+// 	(*lst)->files[i].file_name = ft_strdup((*lexer)->data);
+// 	(*lst)->in = (*lst)->files[i].fd;
 // }
+
+// static void handler_output(t_lexer **lexer, t_list **lst, int i)
+// {
+// 	(*lexer) = (*lexer)->next;
+// 	(*lst)->files[i].file_name = ft_strdup((*lexer)->data);
+
+// 	if ((*lexer)->prev->type == REDIRECT_APPEND)
+// 		(*lst)->files[i].fd = open((*lexer)->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
+// 	else
+// 		(*lst)->files[i].fd = open((*lexer)->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+// 	(*lst)->out = (*lst)->files[i].fd;
+// }
+
+void heredoce_start(t_files *file, t_env **env)
+{
+	char *str;
+	int fd;
+	char *name;
+
+	name = generate_heredoc_name();
+	file->fd = open(name , O_CREAT | O_RDWR, 0644);
+	if (file->fd == -1)
+	{
+		perror(file->file_name);
+		exit(1); // nzid return bach may endich l process
+	}
+	printf("name = %s\n", name);
+	write(1, "> ", 2);
+	str = get_next_line(0);
+	while (str != NULL && ft_strcmp(str, file->file_name) != 0)
+	{
+		write(file->fd, str, ft_strlen(str));
+		free(str);
+		write(1, "> ", 2);
+		str = get_next_line(1);
+	}
+	free(str);
+	free(name);
+	printf("khrg\n");
+}
 
 int fill_files(t_list **lst, t_lexer **lexer, t_env **env)
 {
@@ -62,18 +91,16 @@ int fill_files(t_list **lst, t_lexer **lexer, t_env **env)
 			i = 0;
 			tmp->files = malloc (tmp->num_of_files * sizeof(t_files));
 		}
-		if (lextmp->type == REDIRECT_OUTPUT || lextmp->type == REDIRECT_APPEND)
+		if (lextmp->type >= 5 && lextmp->type <= 8)
 		{
 			tmp->files[i].type = lextmp->type;
-			handler_output(&lextmp, &tmp, i);
-			i++;
-		}
-		else if (lextmp->type == HEREDOC || lextmp->type == REDIRECT_INPUT)
-		{
-			tmp->files[i].type = lextmp->type;
-			handler_input(&lextmp, &tmp, i);
 			if (lextmp->type == HEREDOC)
-				
+			{
+				tmp->files[i].file_name = ft_strjoin(lextmp->next->data, "\n");
+				heredoce_start(&tmp->files[i], env);
+			}
+			else
+				tmp->files[i].file_name = ft_strdup(lextmp->next->data);
 			i++;
 		}
 		lextmp = lextmp->next;

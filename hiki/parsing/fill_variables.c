@@ -54,13 +54,9 @@ void set_variable_value(t_lexer **node, t_env *env, int i)
 		return ;
 	var_name = ft_substr((*node)->data, i + 1, j - i - 1);
 	if (ft_strcmp(var_name, "?") == 0 )
-	{
 		value = ft_itoa(g_status);
-	}
 	else
-	{
 		value = get_value_env(env, var_name);
-	}
 	if (value == NULL)
 	{
 		if ((*node)->prev != NULL && (*node)->type == DOLLAR)
@@ -108,7 +104,7 @@ void fill_variables(t_lexer **head, t_env *env)
 	tmp = *head;
 	while (tmp)
 	{  
-		if (tmp->type != SQUOTE && check_variable(tmp) == 0)
+		if (tmp->type != SQUOTE && (check_variable(tmp) == 0 || tmp->prev == NULL))
 		{
 			int i = 0;
 			while (tmp->data[i])

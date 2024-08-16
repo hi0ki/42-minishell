@@ -16,7 +16,7 @@ void check_path(t_list **node, char **array)
 	char *path;
 
 	i = 0;
-	while(array[i])
+	while(array[i] && ft_strlen((*node)->arr[0]) != 0)
 	{
 		if (access((*node)->arr[0], F_OK) == 0)
 		{
