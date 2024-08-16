@@ -131,11 +131,7 @@ void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 		size--;
 	}
 	num_of_files(lst, head);
-<<<<<<< HEAD
 	fill_files(lst, head);
-=======
-	// fill_files(lst, head, env);
->>>>>>> 3f066d8683611898dca24aed5f00dd018ce7f997
 	fill_arr(lst, head, size);
 	fill_path(lst, *env, envr);
 }
