@@ -75,14 +75,14 @@ typedef struct s_list{
 	char			**env; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
 	int				num_of_files;
 	t_files			*files;
-	char			*last_infile;
-	char			*last_outfile;
 	int				in;
 	int				out;
 	struct s_list	*next;
 } t_list;
 
 
+/*						GNL								*/
+char	*get_next_line(int fd);
 /*						 libft							*/
 t_list	*ft_lstnew(void);
 void	ft_lstadd_back(t_list **lst, t_list *new);
@@ -97,14 +97,15 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putstrn_fd(char *s, int fd);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2,int n);
-void	free_lst_lexer(t_lexer **head);
-void	free_lst_env(t_env **env);
-void 	free_list(t_list **lst);
 char    *ft_strjoin(char *s1, char *s2);
 char	**ft_split(char *s, char *c);
 char	*ft_itoa(int n);
 int	ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
+void	free_lst_lexer(t_lexer **head);
+void	free_lst_env(t_env **env);
+void 	free_list(t_list **lst);
+void 	free_files(t_files *file, int num_of_files);
 
 /*						Error handler						*/
 int error_handler(t_lexer *lexer);
@@ -128,10 +129,15 @@ void parsing_type(t_lexer **head);
 /*						parisng utils				*/
 int count_cmd(t_lexer *head);
 int size_node(t_lexer *head);
+void	num_of_files(t_list **lst, t_lexer **lexer);
 /*					check utils						*/
 int check_oper(t_lexer *node);
+int check_variable(t_lexer *node);
 /*					fill files						*/
-int fill_files(t_list **lst, t_lexer **lexer);
+void fill_variables(t_lexer **head, t_env *env);
+int fill_files(t_list **lst, t_lexer **lexer, t_env **env);
+void fill_arr(t_list **lst, t_lexer **head, int size);
+void fill_path(t_list **lst, t_env *env, char **envr);
 /*						env 						*/
 char *get_value_env(t_env *env, char *av);
 
