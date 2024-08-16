@@ -93,6 +93,7 @@ int ft_exe(t_list *lst, t_env *env) {
     int fd[2];
     int fd0;
     int fd1;
+    int j = 0;
     fd0 = dup(0);
     fd1 = dup(1);
     
@@ -108,8 +109,9 @@ int ft_exe(t_list *lst, t_env *env) {
     last = ft_lstlast(lst);
     
     if (size == 1) {
-        if (link_builtin(lst, env) == 1) {
-            free(pid); // Libérer la mémoire en cas d'erreur.
+        if (link_builtin(lst, env) == 1)
+        {
+            free(pid);
             return (-1);
         }
     }
@@ -137,8 +139,8 @@ int ft_exe(t_list *lst, t_env *env) {
                 if (lst != last)
 				{
                     dup2(fd[1], STDOUT_FILENO);
-                    close(fd[0]); // Fermer l'entrée du pipe
-                    close(fd[1]); // Fermer l'écriture du pipe après avoir dupé
+                    close(fd[0]);
+                    close(fd[1]);
                 }
 
                 if (lst->path_cmd != NULL) \
@@ -146,33 +148,31 @@ int ft_exe(t_list *lst, t_env *env) {
                     execve(lst->path_cmd, lst->arr, lst->env);
                 }
                 r = err_msg(lst->path_cmd, lst->arr[0]);
-                perror("minishell");
+                // perror("minishell");
                 exit(r);
             }
 			else
-			{ // Processus parent
+			{
                 if (lst != last)
 				{
-                    dup2(fd[0], 0); // Redirige l'entrée standard
+                    dup2(fd[0], 0);
                 }
-                close(fd[1]); // Fermer l'écriture sur le pipe
-                close(fd[0]); // Fermer la lecture sur le pipe
+                close(fd[1]);
+                close(fd[0]);
             }
 
             i++;
         }
         lst = lst->next;
     }
-
-    for (int j = 0; j < i; j++)
+    while (j < i)
 	{
-        int status;
-        waitpid(pid[j], &status, 0); // Attendre chaque processus fils
-        r = WEXITSTATUS(status); // Récupérer le code de retour
+        waitpid(pid[j++], &r, 0);
+        r = WEXITSTATUS(r);
     }
-    dup2(fd0, 0); // Rétablir l'entrée standard
-    dup2(fd1, 1); // Rétablir la sortie standard
+    dup2(fd0, 0);
+    dup2(fd1, 1);
 
-    free(pid); // Libérer la mémoire allouée
-    return r; // Retourner le code de sortie
+    free(pid);
+    return (r);
 }
