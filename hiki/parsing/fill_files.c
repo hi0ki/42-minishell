@@ -24,6 +24,7 @@ int fill_files(t_list **lst, t_lexer **lexer)
 	last_out = NULL;
 	tmp->files = malloc (tmp->num_of_files * sizeof(t_files));
 	i = 0;
+	
 	while (lextmp && tmp)
 	{
 		if (lextmp->type == PIPE)
