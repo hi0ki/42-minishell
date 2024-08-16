@@ -1,4 +1,32 @@
 #include "minishell.h"
+<<<<<<< HEAD
+=======
+
+char *generate_heredoc_name(void)
+{
+	static int i;
+	char *num;
+	char *name;
+
+	i++;
+	num = ft_itoa(i);
+	name = ft_strjoin("/tmp/heredoc_", num);
+
+	return (name);
+}
+
+static void handler_input(t_lexer **lexer, t_list **lst, int i)
+{
+	(*lexer) = (*lexer)->next;
+	(*lst)->files[i].file_name = ft_strdup((*lexer)->data);
+	// if ((*lexer)->prev->type == REDIRECT_INPUT)
+		// njrb access bach ndir each kayn file ola la
+	if ((*lexer)->prev->type == HEREDOC)
+		(*lst)->files[i].fd = open(generate_heredoc_name(), O_CREAT | O_RDWR , 0644);
+	(*lst)->in = (*lst)->files[i].fd;
+}
+
+>>>>>>> 3f066d8683611898dca24aed5f00dd018ce7f997
 static void handler_output(t_lexer **lexer, t_list **lst, int i)
 {
 	(*lexer) = (*lexer)->next;
