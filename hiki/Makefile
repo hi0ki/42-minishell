@@ -11,7 +11,8 @@ LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strdup.c libft_utils/ft_str_alloc.c \
 		libft_utils/ft_strtrim.c libft_utils/ft_substr.c libft_utils/ft_strjoin.c \
 		libft_utils/ft_strchr.c libft_utils/ft_put.c libft_utils/ft_isalpha.c \
-		libft_utils/ft_strcmp.c libft_utils/ft_free_list.c libft_utils/ft_split.c\
+		libft_utils/ft_strcmp.c libft_utils/ft_free_list.c libft_utils/ft_split.c \
+		libft_utils/ft_lstsize.c libft_utils/ft_lstlast.c \
 
 
 NAME = minishell
