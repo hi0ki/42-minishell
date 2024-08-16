@@ -44,5 +44,7 @@ void free_list(t_list **lst)
         free(temp->arr);
         free(temp->path_cmd);
         free(temp);
+		free(temp->last_infile);
+		free(temp->last_outfile);
     }
 }

@@ -78,7 +78,5 @@ int ft_handle_quotes(char *line)
 	{
 		return (1);
 	}
-	// else if (line[i] != c)
-	// 	return (-1);
 	return (i);
 }
