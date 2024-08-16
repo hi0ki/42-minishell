@@ -108,7 +108,7 @@ void fill_variables(t_lexer **head, t_env *env)
 	tmp = *head;
 	while (tmp)
 	{  
-		if (tmp->type != SQUOTE && check_variable(tmp) == 0)
+		if (tmp->type != SQUOTE)
 		{
 			int i = 0;
 			while (tmp->data[i])

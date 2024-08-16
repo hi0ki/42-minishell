@@ -13,7 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../../get_next_line/get_next_line.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -83,8 +82,7 @@ typedef struct s_list{
 	struct s_list	*next;
 } t_list;
 
-/*						GNL			*/
-char	*get_next_line(int fd);
+
 /*						 libft							*/
 t_list	*ft_lstnew(void);
 void	ft_lstadd_back(t_list **lst, t_list *new);
@@ -110,7 +108,6 @@ t_list	*ft_lstlast(t_list *lst);
 
 /*						Error handler						*/
 int error_handler(t_lexer *lexer);
-
 /*					lexer & set_tyep &utils_lexer			*/
 t_lexer *start_lexer(t_lexer *head, char *line);
 t_lexer	*lexer_lstnew(char *data);
@@ -128,22 +125,13 @@ void fill_variables(t_lexer **head, t_env *env);
 void join_nodes(t_lexer **head);
 void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr);
 void parsing_type(t_lexer **head);
-
 /*						parisng utils				*/
 int count_cmd(t_lexer *head);
 int size_node(t_lexer *head);
-int check_variable(t_lexer *node);
-
 /*					check utils						*/
 int check_oper(t_lexer *node);
-void	num_of_files(t_list **lst, t_lexer **lexer);
-char *get_value_env(t_env *env, char *av);
-
-/*					fill list						*/
-int fill_files(t_list **lst, t_lexer **lexer, t_env **env);
-void fill_arr(t_list **lst, t_lexer **head, int size);
-void fill_path(t_list **lst, t_env *env, char **envr);
-
+/*					fill files						*/
+int fill_files(t_list **lst, t_lexer **lexer);
 /*						env 						*/
 char *get_value_env(t_env *env, char *av);
 
