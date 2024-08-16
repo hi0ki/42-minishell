@@ -86,70 +86,93 @@ int whit_processsu(int *pid, int i)
 	printf("******1111\n");
 	return (r);
 }
-int ft_exe(t_list *lst, t_env *env)
-{
-	int r;
-	int *pid;
-	t_list *last;
-	int	fd[2];
-	int fd0;
-	int fd1;
-	fd0=dup(0);
-	fd1=dup(1);
-	//khess tzid dik r ldakhel dial lfonction exec_after_built bach nrecuperiw lvalue dial return hna..
-	r = 0;
-	pid = malloc(ft_lstsize(lst) * sizeof(int));
-	int i = 0;
-	last = ft_lstlast(lst);
-	if (ft_lstsize(lst) == 1)
-	{
-		if (link_builtin(lst, env) == 1)
-			return (-1);
-	}
-	while (lst)
-	{
-		// khss lproto ykon haka link_builting(lst, env, &r)
-		pid[i] = fork();
-		if (pid == 0 && lst != last)
-		{
-			if (pipe(fd) == -1)
-				return (-1);
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[0]);
-			if (lst->path_cmd != NULL)
-			{
-				write(2,"erroe\n",6);
-				execve(lst->path_cmd, lst->arr, lst->env);
-			}	
-			r = err_msg(lst->path_cmd, lst->arr[0]);
-			perror("minishell");
-			// printf("mehdi\n");
-			exit(r);
-		}
-		else if (pid[i] == 0 && lst == last)
-		{
-			if (lst->path_cmd != NULL)
-				execve(lst->path_cmd, lst->arr, lst->env);
-			r = err_msg(lst->path_cmd, lst->arr[0]);
-			// perror("minishell");
-			// printf("mehdi\n");
-			exit(127);
-		}
-		// else if (pid[i] > 0 && lst != last)
-		// {
-		// 	dup2(fd[0], 0);
-		// 	// close(fd[1]);
-		// }
+int ft_exe(t_list *lst, t_env *env) {
+    int r;
+    int *pid;
+    t_list *last;
+    int fd[2];
+    int fd0;
+    int fd1;
+    fd0 = dup(0);
+    fd1 = dup(1);
+    
+    r = 0;
+    int size = ft_lstsize(lst);
+    pid = malloc(size * sizeof(int));
+    if (!pid) {
+        perror("malloc error");
+        return (-1);
+    }
 
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[1]);
-		i++;
-		lst = lst->next;
-	}
-	r = whit_processsu(pid, i);
-		// printf ("*******\n");
-	dup2(fd0, 0);
-	dup2(fd1,1);
-	r = WEXITSTATUS(r);
-	return (0);
+    int i = 0;
+    last = ft_lstlast(lst);
+    
+    if (size == 1) {
+        if (link_builtin(lst, env) == 1) {
+            free(pid); // Libérer la mémoire en cas d'erreur.
+            return (-1);
+        }
+    }
+
+    while (lst)
+	{
+        if (i < size)
+		{
+            if (pipe(fd) == -1)
+			{
+                perror("pipe error");
+                free(pid); // Libérer la mémoire en cas d'erreur.
+                return (-1);
+            }
+            pid[i] = fork();
+            if (pid[i] < 0)
+			{
+                perror("fork error");
+                free(pid); // Libérer la mémoire en cas d'erreur.
+                return (-1);
+            }
+
+            if (pid[i] == 0)
+			{ // Processus enfant
+                if (lst != last)
+				{
+                    dup2(fd[1], STDOUT_FILENO);
+                    close(fd[0]); // Fermer l'entrée du pipe
+                    close(fd[1]); // Fermer l'écriture du pipe après avoir dupé
+                }
+
+                if (lst->path_cmd != NULL) \
+				{
+                    execve(lst->path_cmd, lst->arr, lst->env);
+                }
+                r = err_msg(lst->path_cmd, lst->arr[0]);
+                perror("minishell");
+                exit(r);
+            }
+			else
+			{ // Processus parent
+                if (lst != last)
+				{
+                    dup2(fd[0], 0); // Redirige l'entrée standard
+                }
+                close(fd[1]); // Fermer l'écriture sur le pipe
+                close(fd[0]); // Fermer la lecture sur le pipe
+            }
+
+            i++;
+        }
+        lst = lst->next;
+    }
+
+    for (int j = 0; j < i; j++)
+	{
+        int status;
+        waitpid(pid[j], &status, 0); // Attendre chaque processus fils
+        r = WEXITSTATUS(status); // Récupérer le code de retour
+    }
+    dup2(fd0, 0); // Rétablir l'entrée standard
+    dup2(fd1, 1); // Rétablir la sortie standard
+    
+    free(pid); // Libérer la mémoire allouée
+    return r; // Retourner le code de sortie
 }
