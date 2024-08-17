@@ -63,7 +63,7 @@ int err_msg(char *path, char *arr)
 	else if (fd == -1 && f != NULL)
 		ft_putstrn_fd(": is a directory", 2);
 	else if (fd != -1 && f == NULL)
-		ft_putstrn_fd("permission denied", 2);
+		ft_putstrn_fd(" permission denied", 2);
 	if (path == NULL || (fd == -1 && f == NULL))
 		r = 127;
 	else
