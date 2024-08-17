@@ -79,13 +79,14 @@ int main(int ac, char **av, char **envr)
 		{
 			start_parsing(&lexer, env);
 			create_lst(&lst, &lexer, &env, envr);
-			if (ft_exe(lst, env) == -1)
-			{
-				free_lst_lexer(&lexer);
-				free_list(&lst);
-			}
+			// if (ft_exe(lst, env) == -1)
+			// {
+			// 	free_lst_lexer(&lexer);
+			// 	free_list(&lst);
+			// }
 			// print_list(lexer);
 			// print_array(lst);
+			ft_exe(lst, env);
 			free_list(&lst);
 			free_lst_lexer(&lexer);
 		}
