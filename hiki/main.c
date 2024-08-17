@@ -78,24 +78,11 @@ int main(int ac, char **av, char **envr)
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
 			start_parsing(&lexer, env);
-<<<<<<< HEAD
-			create_lst(&lst, &lexer, &env, envr);
-			// if (ft_exe(lst, env) == -1)
-			// {
-			// 	free_lst_lexer(&lexer);
-			// 	free_list(&lst);
-			// }
-			// print_list(lexer);
-			// print_array(lst);
-			ft_exe(lst, env);
-			free_list(&lst);
-			free_lst_lexer(&lexer);
-=======
 			if (lexer != NULL)
 			{
 				// print_list(lexer);
 				create_lst(&lst, &lexer, &env, envr);
-				printf("wslt\n");
+				// printf("wslt\n");
 				if (ft_exe(lst, env) == -1)
 				{
 					free_lst_lexer(&lexer);
@@ -108,7 +95,6 @@ int main(int ac, char **av, char **envr)
 				}
 				// print_array(lst);
 			}
->>>>>>> c570c9d7b3e2446d9bef141a1ee98a0ddf7d5154
 		}
 		else if (lexer != NULL)
 		{
