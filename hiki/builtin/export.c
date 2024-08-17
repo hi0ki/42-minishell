@@ -87,7 +87,7 @@ int	env_already_exist(t_env *env, char *av)
 		i++;
 	while (env)
 	{
-		if (ft_strncmp(av, env->bfr_eql, i) == 0)
+		if (ft_strcmp(av, env->bfr_eql) == 0)
 		{
 			if (av[i] == '\0')
 				return (0);

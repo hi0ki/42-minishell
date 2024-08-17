@@ -42,9 +42,31 @@ void split_env_var(t_lexer **head)
 		tmp = tmp->next;
 	}
 }
+void check_variables(t_lexer **head)
+{
+	t_lexer *tmp;
+
+	tmp = (*head)->next;
+	if ((*head)->next == NULL && (*head)->type == DOLLAR && ft_strlen((*head)->data) == 0)
+	{
+		free((*head)->data);
+		free(*head);
+		(*head) = NULL;
+	}
+	else if ((*head)->next != NULL && (*head)->type == DOLLAR && ft_strlen((*head)->data) == 0)
+	{
+		free((*head)->data);
+		free(*head);
+		(*head) = tmp;
+		(*head)->prev = NULL;
+	}
+}
 void start_parsing(t_lexer **head, t_env *env)
 {
 	fill_variables(head, env);
+	check_variables(head);
+	if (*head == NULL)
+		return ;
 	join_nodes(head);
 	split_env_var(head);
 	parsing_type(head);

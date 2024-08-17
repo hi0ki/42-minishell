@@ -27,6 +27,8 @@ char *get_value_env(t_env *env, char *av)
 	int		i;
 
 	i = 0;
+	if (!av)
+		return (NULL);
 	while (env)
 	{
 		if (ft_strcmp(av, env->bfr_eql) == 0)
@@ -48,31 +50,45 @@ void set_variable_value(t_lexer **node, t_env *env, int i)
 
 	j = i;
 	j++;
-	while ((*node)->data[j] && (ft_isalpha((*node)->data[j]) == 1 || (*node)->data[j] == '_' || (*node)->data[j] == '?'))
+	var_name = NULL;
+	while ((*node)->data[j] && !ft_isdigit((*node)->data[i + 1]) && (*node)->data[j] != '$' && (*node)->data[j] != '?' &&
+		(ft_isalnum((*node)->data[j]) == 1 || (*node)->data[j] == '_'))
 		j++;
-	if (j - i - 1 == 0)
-		return ;
-	var_name = ft_substr((*node)->data, i + 1, j - i - 1);
-	if (ft_strcmp(var_name, "?") == 0 )
+	if ((*node)->data[j] == '?')
+		j++;
+	if (j - i > 1)
+		var_name = ft_substr((*node)->data, i + 1, j - i - 1);
+	if (j - i > 1 && ft_strcmp(var_name, "?") == 0 )
 		value = ft_itoa(g_status);
 	else
 		value = get_value_env(env, var_name);
 	if (value == NULL)
 	{
-		if ((*node)->prev != NULL && (*node)->type == DOLLAR)
+		if (((*node)->prev != NULL && (*node)->type == DOLLAR) || (j - i == 1 && (*node)->type == DOLLAR))
 		{
-			save = *node;
-			(*node) = (*node)->prev;
-			if ((*node)->next->next != NULL)
+			if (j != ft_strlen((*node)->data))
 			{
-				(*node)->next = (*node)->next->next;
+				tmp = (*node)->data;
+				(*node)->data = ft_substr((*node)->data, j + 1, ft_strlen((*node)->data + j));
+				free(tmp);
+				free(var_name);
+				return ;
 			}
 			else
 			{
-				(*node)->next = NULL;
+				save = *node;
+				(*node) = (*node)->prev;
+				if ((*node)->next->next != NULL)
+				{
+					(*node)->next = (*node)->next->next;
+				}
+				else
+				{
+					(*node)->next = NULL;
+				}
+				free(save->data);
+				free(save);
 			}
-			free(save->data);
-			free(save);
 		}
 		else
 		{
@@ -82,6 +98,8 @@ void set_variable_value(t_lexer **node, t_env *env, int i)
 			if (ft_strlen(tmp) != j)
 			{
 				value = ft_substr(tmp, j + 1, ft_strlen(tmp) - j);
+				free(tmp);
+				tmp = (*node)->data;
 				(*node)->data = ft_strjoin((*node)->data, value);
 				free(value);
 			}
@@ -116,9 +134,11 @@ void fill_variables(t_lexer **head, t_env *env)
 					else
 					{
 						set_variable_value(&tmp, env, i);
+						i = 0;
 					}
-				}	
-				i++;
+				}
+				else
+					i++;
 			}
 		}
 		tmp = tmp->next;

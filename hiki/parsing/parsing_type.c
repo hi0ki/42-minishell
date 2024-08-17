@@ -6,11 +6,6 @@ void remove_spaces(t_lexer **head)
 	t_lexer *save;
 
 	tmp = *head;
-	// while ((*head))
-	// {
-	// 	printf("data = %s|type = %d\n", (*head)->data, (*head)->type);
-	// 	(*head) = (*head)->next;
-	// }
 	while (tmp)
 	{
 		if (tmp->type == SPACE)
@@ -30,6 +25,19 @@ void remove_spaces(t_lexer **head)
 		tmp = tmp->next;
 	}
 }
+void remove_front_space(t_lexer **head)
+{
+	t_lexer *tmp;
+
+	if ((*head)->type == SPACE)
+	{
+		tmp = *head;
+		*head = (*head)->next;
+		(*head)->prev = NULL;
+		free(tmp->data);
+		free(tmp);
+	}
+}
 void give_type(t_lexer **node)
 {
 	if ((*node)->type >= 5 && (*node)->type <= 8)
@@ -46,6 +54,7 @@ void parsing_type(t_lexer **head)
 {
 	t_lexer *tmp;
 
+	remove_front_space(head);
 	remove_spaces(head);
 	tmp = *head;
 	while (tmp)

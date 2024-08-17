@@ -8,6 +8,7 @@ void free_lst_lexer(t_lexer **head)
 	while (*head)
 	{
 		tmp = (*head)->next;
+		// printf("howa\n");
 		free((*head)->data);
 		free((*head));
 		*head = tmp;

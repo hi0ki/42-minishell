@@ -20,7 +20,7 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 		node = lexer_lstnew(str);
 		node->type = helper;
 		node->len = ft_strlen(node->data);
-        if (line[index + i] != '\"' || line[index + i] != '\"')
+        if (line[index + i] != '\'' && line[index + i] != '\"')
             node->error_quotes = -1;
 		return node;
 	}

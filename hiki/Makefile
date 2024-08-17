@@ -12,11 +12,11 @@ LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strtrim.c libft_utils/ft_substr.c libft_utils/ft_strjoin.c \
 		libft_utils/ft_strchr.c libft_utils/ft_put.c libft_utils/ft_isalpha.c \
 		libft_utils/ft_strcmp.c libft_utils/ft_free_list.c libft_utils/ft_split.c \
-		libft_utils/ft_lstsize.c libft_utils/ft_lstlast.c \
+		libft_utils/ft_lstsize.c libft_utils/ft_lstlast.c libft_utils/ft_calloc.c\
 
 NAME = minishell
 CC = cc
-FLAGS = -I./includes -I./libft -lreadline  #-Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -I./includes -I./libft -lreadline  #-fsanitize=address -g #-Wall -Wextra -Werror 
 
 all: $(NAME)
 

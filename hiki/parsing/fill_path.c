@@ -16,13 +16,13 @@ void check_path(t_list **node, char **array)
 	char *path;
 
 	i = 0;
+	if (!(*node)->arr[0])
+	{
+		(*node)->path_cmd = NULL;
+		return ;
+	}
 	while(array[i] && ft_strlen((*node)->arr[0]) != 0)
 	{
-		if (access((*node)->arr[0], F_OK) == 0)
-		{
-			(*node)->path_cmd = ft_strdup((*node)->arr[0]);
-			return ;
-		}
 		path = join_path(array[i], (*node)->arr[0]);
 		if (access(path, F_OK) == 0)
 		{
@@ -32,6 +32,11 @@ void check_path(t_list **node, char **array)
 		}
 		free(path);
 		i++;
+	}
+	if (access((*node)->arr[0], F_OK) == 0)
+	{
+		(*node)->path_cmd = ft_strdup((*node)->arr[0]);
+		return ;
 	}
 	(*node)->path_cmd = NULL;
 }
