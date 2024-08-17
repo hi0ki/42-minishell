@@ -91,7 +91,8 @@ void	ft_bzero(char *str, int n);
 char	*ft_strdup(char *s1);
 char    *ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);
-int		ft_isalpha(int c);
+int	ft_isalnum(int c);
+int	ft_isdigit(int c);
 char	*ft_substr(char *s, int start, int len);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putstrn_fd(char *s, int fd);
@@ -106,6 +107,7 @@ void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
 void 	free_list(t_list **lst);
 void 	free_files(t_files *file, int num_of_files);
+void	*ft_calloc(size_t count, size_t size);
 
 /*						Error handler						*/
 int error_handler(t_lexer *lexer);

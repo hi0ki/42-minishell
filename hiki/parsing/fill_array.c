@@ -10,22 +10,25 @@ void fill_arr(t_list **lst, t_lexer **head, int size)
 		return ;
 	lstmp = *lst;
 	tmp = *head;
-	while (tmp)
+	while (tmp && lstmp)
 	{
 		if (tmp->type != PIPE)
 		{
 			size = count_cmd(tmp);
 			lstmp->arr = malloc((size + 1) * sizeof(char *));
 			i = 0;
-			while (i < size)
+			if (size != 0)
 			{
-				if (tmp->type >= 5 && tmp->type <= 8)
-					tmp = tmp->next->next;
-				else
+				while (i < size)
 				{
-					lstmp->arr[i] = ft_strdup(tmp->data);
-					tmp = tmp->next;
-					i++;
+					if (tmp->type >= 5 && tmp->type <= 8)
+						tmp = tmp->next->next;
+					else
+					{
+						lstmp->arr[i] = ft_strdup(tmp->data);
+						tmp = tmp->next;
+						i++;
+					}
 				}
 			}
 			lstmp->arr[i] = NULL;

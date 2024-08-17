@@ -83,13 +83,6 @@ int	ft_atoi(const char *str)
 	return (somme * sign);
 }
 
-int	ft_isdigit(int n)
-{
-	if (n >= '0' && n <= '9')
-		return (1);
-	else 
-		return (0);
-}
 
 int	is_number(char *s)
 {
