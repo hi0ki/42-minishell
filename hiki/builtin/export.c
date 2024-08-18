@@ -25,8 +25,9 @@ void    print_all_env(t_env *env)
 		ft_putstr_fd(env->bfr_eql, 1);
 		if (env->env == 1)
 		{
-			write(1, "=", 1);
-			ft_putstrn_fd(env->after_eql, 1);        
+			write(1, "=\"", 2);
+			ft_putstr_fd(env->after_eql, 1);
+			write(1, "\"\n", 2);     
 		}
 		else
 			write (1, "\n", 1);
@@ -110,10 +111,55 @@ int	env_already_exist(t_env *env, char *av)
 	return (-1);
 }
 
+// int	manag_dlr_len(char *str)
+// {
+// 	int	i = 0;
+// 	int	j = 0;
+
+// 	if (!str)
+// 		return (0);
+// 	while(str[i])
+// 	{
+// 		// printf("%c\n", str[i]);
+// 		if(str[i] == '$')
+// 			j++;
+// 		i++;
+// 		j++;
+// 		// printf("%d\n", i);
+// 		// printf("%d\n", j);
+// 		// printf("----\n");
+// 	}
+// 	return (j);
+// }
+
+// char *manag_dlr(char *str)
+// {
+// 	char	*s;
+// 	int		i = 0;
+// 	int		j = 0;
+
+// 	if (!str)
+// 		return (NULL);
+// 	s = malloc(manag_dlr_len(str));
+// 	if (!s)
+// 		return (NULL);
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '$')
+// 			s[j++] = '\\';
+// 		s[j] = str[i];
+// 		j++;
+// 		i++;
+// 	}
+// 	s[j] = '\0';
+// 	return (s);
+// }
+
 int	ft_export(char **av, t_env *env)
 {
 	int error;
 	int i;
+	// char *str_dlr;
 
 	i = 1;
 	if (!av || !av[i])
@@ -124,6 +170,7 @@ int	ft_export(char **av, t_env *env)
 	while (av[i])
 	{
 		error = is_valid_arg(av[i]);
+		// str_dlr = manag_dlr(av[i]);
 		if (error == -1)
 		{
 			printf("minishell: export: '%s': not a valid identifier\n", av[i]);

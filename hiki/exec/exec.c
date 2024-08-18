@@ -102,26 +102,32 @@ int ft_exe(t_list *lst, t_env *env)
 
             if (pid[i] == 0)
 			{
+                g_status = 0;
                 if (lst != last)
 				{
                     dup2(fd[1], STDOUT_FILENO);
                     close(fd[0]);
                     close(fd[1]);
                 }
-                // if (link_builtin(lst, env) == 1)
-                // {
-                //     free(pid);
-                //     return (g_status);
-                // }
-                if (lst->path_cmd == NULL && !lst->arr[0])
-                    return (0);
-                if (lst->path_cmd != NULL) \
-				{
-                    execve(lst->path_cmd, lst->arr, lst->env);
+                if (link_builtin(lst, env) == 1)
+                {
+                    free(pid);
+                    // break;
+                    exit (g_status);
                 }
-                g_status = err_msg(lst->path_cmd, lst->arr[0]);
-                
-                exit(g_status);
+                else
+                {
+                    if (lst->path_cmd == NULL && !lst->arr[0])
+                        return (0);
+                    if (lst->path_cmd != NULL) \
+                    {
+                        execve(lst->path_cmd, lst->arr, lst->env);
+                    }
+                    g_status = err_msg(lst->path_cmd, lst->arr[0]);
+                    
+                    exit(g_status);
+
+                }
             }
 			else
 			{
