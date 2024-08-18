@@ -81,14 +81,18 @@ int	is_valid_arg(char *s)
 int	env_already_exist(t_env *env, char *av)
 {
 	int		i;
+	char *str;
 
 	i = 0;
 	while (av[i] && av[i] != '=')
 		i++;
+	str = ft_substr(av, 0, i);
 	while (env)
 	{
-		if (ft_strcmp(av, env->bfr_eql) == 0)
+		// printf("%s|%s \n", str, env->bfr_eql);
+		if (ft_strcmp(str, env->bfr_eql) == 0)
 		{
+			free(str);
 			if (av[i] == '\0')
 				return (0);
 			if (av[i] == '=')
@@ -102,6 +106,7 @@ int	env_already_exist(t_env *env, char *av)
 		}
 		env = env->next;
 	}
+	free(str);
 	return (-1);
 }
 

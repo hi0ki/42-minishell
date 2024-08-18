@@ -82,7 +82,7 @@ int main(int ac, char **av, char **envr)
 			{
 				// print_list(lexer);
 				create_lst(&lst, &lexer, &env, envr);
-				printf("wslt\n");
+				// printf("wslt\n");
 				if (ft_exe(lst, env) == -1)
 				{
 					free_lst_lexer(&lexer);
