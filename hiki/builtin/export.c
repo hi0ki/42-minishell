@@ -25,8 +25,9 @@ void    print_all_env(t_env *env)
 		ft_putstr_fd(env->bfr_eql, 1);
 		if (env->env == 1)
 		{
-			write(1, "=", 1);
-			ft_putstrn_fd(env->after_eql, 1);        
+			write(1, "=\"", 2);
+			ft_putstr_fd(env->after_eql, 1);
+			write(1, "\"\n", 2);     
 		}
 		else
 			write (1, "\n", 1);
