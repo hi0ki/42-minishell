@@ -61,7 +61,10 @@ void free_files(t_files *file, int num_of_files)
 			{
 				free(file[i].file_name);
 				if (file[i].type == HEREDOC)
+				{
+					free(file[i].heredoce_name);
 					close(file[i].fd);
+				}
 				file[i].file_name = NULL;
 			}
 			i++;
