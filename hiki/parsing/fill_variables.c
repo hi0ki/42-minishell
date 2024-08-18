@@ -33,7 +33,10 @@ char *get_value_env(t_env *env, char *av)
 	{
 		if (ft_strcmp(av, env->bfr_eql) == 0)
 		{
-			return (ft_strdup(env->after_eql));
+			if (env->after_eql)
+				return (ft_strdup(env->after_eql));
+			else
+				return (NULL);
 		}
 		env = env->next;
 	}
@@ -82,7 +85,9 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 		value = ft_itoa(g_status);
 	}
 	else
+	{
 		value = get_value_env(env, var_name);
+	}
 	if (value == NULL)
 	{
 		if (j - i == 1)
