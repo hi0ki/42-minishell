@@ -31,6 +31,8 @@ t_env	*ft_envnew(char *s)
 	if (s[i] && s[i] == '=')
 		n1->env = 1;
 	n1->after_eql = ft_substr(s, i + 1, ft_strlen(s));
+	n1->after_eql = ft_strjoin2("\"", n1->after_eql);
+	n1->after_eql = ft_strjoin3(n1->after_eql, "\"");
 	n1->next = NULL;
 	return (n1);
 }
