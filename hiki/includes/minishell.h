@@ -49,6 +49,7 @@ int g_status;
 
 typedef struct s_files{
 	char *file_name;
+	char *heredoce_name;
 	int type;
 	int fd;
 }t_files;

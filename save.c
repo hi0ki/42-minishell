@@ -1,47 +1,4 @@
-#include "minishell.h"
-
-char *edit_data(char *value, char *old_value, int i, int j)
-{
-	char *str;
-	int		len;
-	int index;
-
-	index = 0;
-	len = ft_strlen(old_value) - (j - i) + ft_strlen(value);
-	str = malloc((len + 1) * sizeof(char));
-	while(index < i)
-	{
-		str[index] = old_value[index];
-		index++;
-	}
-	i = 0;
-	while (index < len && value[i])
-		str[index++] = value[i++];
-	while (index < len && old_value[j])
-		str[index++] = old_value[j++];
-	str[index] = '\0';
-	return str;
-}
-char *get_value_env(t_env *env, char *av)
-{
-	int		i;
-
-	i = 0;
-	if (!av)
-		return (NULL);
-	while (env)
-	{
-		if (ft_strcmp(av, env->bfr_eql) == 0)
-		{
-			return (ft_strdup(env->after_eql));
-		}
-		env = env->next;
-	}
-	return NULL;
-}
-
-
-int set_variable_value(t_lexer **node, t_env *env, int i)
+void set_variable_value(t_lexer **node, t_env *env, int i)
 {
 	char	*var_name;
 	char	*value;
@@ -57,12 +14,15 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 		j++;
 	if ((*node)->data[j] == '?')
 		j++;
+	printf("j %d\n",j);
 	if (j - i > 1)
 	{
 		var_name = ft_substr((*node)->data, i + 1, j - i - 1);
+		printf("khda smiya %s\n", var_name);
 	}
 	if (j - i > 1 && ft_strcmp(var_name, "?") == 0 )
 	{
+		printf("khda num\n");
 		value = ft_itoa(g_status);
 	}
 	else
@@ -71,12 +31,12 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 	{
 		if ((j - i == ft_strlen((*node)->data) && (*node)->prev != NULL && (*node)->type == DOLLAR) || (j - i == 1 && (*node)->type == DOLLAR))
 		{
+			printf("lwla %d\n",j - i);
 			if (j != ft_strlen((*node)->data) )
 			{
 				tmp = (*node)->data;
 				(*node)->data = ft_substr((*node)->data, j + 1, ft_strlen((*node)->data + j));
 				free(tmp);
-				i = j + 1;
 			}
 			else
 			{
@@ -92,17 +52,18 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 				}
 				free(save->data);
 				free(save);
-				i = ft_strlen((*node)->data);
+				printf(">>>>>>%s<<<<<<\n", (*node)->data);
 			}
 		}
 		else
 		{
+			printf("tanya\n");
 			tmp = (*node)->data;
 			(*node)->data = ft_substr((*node)->data,0 , i);
 			j = i + ft_strlen(var_name);
-			i = ft_strlen((*node)->data);
 			if (ft_strlen(tmp) != j)
 			{
+				printf("talta\n");
 				value = ft_substr(tmp, j + 1, ft_strlen(tmp) - j);
 				free(tmp);
 				tmp = (*node)->data;
@@ -112,44 +73,15 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 			free(tmp);
 		}
 		free(var_name);
-		return (i);
+		printf(">>>%s<<<\n", (*node)->data);
+		return ;
 	}
 	tmp = (*node)->data;
 	(*node)->data = edit_data(value, (*node)->data, i, j);;
 	(*node)->len = ft_strlen((*node)->data);
-	i = i + ft_strlen(value);
+	printf("3adi\n");
+	printf("|>>>%s<<<|\n", (*node)->data);
 	free(var_name);
 	free(value);
 	free(tmp);
-	return (i);
-}
-void fill_variables(t_lexer **head, t_env *env)
-{
-	t_lexer *tmp;
-
-	tmp = *head;
-	while (tmp)
-	{  
-		if (tmp->type != SQUOTE && (check_variable(tmp) == 0 || tmp->prev == NULL))
-		{
-			int i = 0;
-			while (tmp && tmp->data[i])
-			{
-				if (tmp->data[i] == '$' && tmp->data[i + 1] != '\0')
-				{
-					if (tmp->data[i + 1] == '$')
-					{
-						i+=2;
-					}
-					else
-					{
-						i = set_variable_value(&tmp, env, i);
-					}
-				}
-				else
-					i++;
-			}
-		}
-		tmp = tmp->next;
-	}
 }

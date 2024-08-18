@@ -52,25 +52,25 @@ void heredoce_start(t_files *file, t_env **env)
 	char *name;
 
 	name = generate_heredoc_name();
-	file->fd = open(name , O_CREAT | O_RDWR, 0644);
+	fd = open(name , O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (file->fd == -1)
 	{
 		perror(file->file_name);
 		exit(1); // nzid return bach may endich l process
 	}
-	printf("name = %s\n", name);
 	write(1, "> ", 2);
 	str = get_next_line(0);
 	while (str != NULL && ft_strcmp(str, file->file_name) != 0)
 	{
-		write(file->fd, str, ft_strlen(str));
+		write(fd, str, ft_strlen(str));
 		free(str);
 		write(1, "> ", 2);
 		str = get_next_line(1);
 	}
+	close(fd);
+	file->heredoce_name= ft_strdup(name);
 	free(str);
 	free(name);
-	printf("khrg\n");
 }
 
 int fill_files(t_list **lst, t_lexer **lexer, t_env **env)
@@ -107,7 +107,3 @@ int fill_files(t_list **lst, t_lexer **lexer, t_env **env)
 	}
 	return (0);
 }
-			//khasni ntchecki wach heredoc bach n3rf fin n7to ola wach file kayn ola la;
-			// < file kahsni nchof wach file kayn ila kan ndir fiha dakchi li kahs idar
-			// << EOF ndir file f tmp o njm3 fih output b getnextline  o dik EOF hhiya bach atsala lktba
-			// >> && > dima katgad lihom file
