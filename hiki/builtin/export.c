@@ -163,18 +163,15 @@ int	ft_export(char **av, t_env *env)
 
 	i = 1;
 	if (!av || !av[i])
-	{
-		print_all_env(env);
-		return (0);
-	}
+		return (print_all_env(env), 0);
 	while (av[i])
 	{
 		error = is_valid_arg(av[i]);
-		// str_dlr = manag_dlr(av[i]);
 		if (error == -1)
 		{
 			printf("minishell: export: '%s': not a valid identifier\n", av[i]);
-			return (1);
+			i++;
+			continue ;
 		}
 		if (env_already_exist(env, av[i]) == 0)
 			return (0);
