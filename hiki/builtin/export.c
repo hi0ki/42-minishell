@@ -170,6 +170,7 @@ int	ft_export(char **av, t_env *env)
 		if (error == -1)
 		{
 			printf("minishell: export: '%s': not a valid identifier\n", av[i]);
+			g_status = 1;
 			i++;
 			continue ;
 		}
@@ -178,7 +179,7 @@ int	ft_export(char **av, t_env *env)
 		ft_envaddback(&env, ft_envnew(av[i]));
 		i++;
 	}
-	return (0);
+	return (g_status);
 }
 
 // int main (int ac, char **av, char **envr)
