@@ -65,6 +65,8 @@ int check_variable(t_lexer *node)
 	{
 		if (node->prev->prev != NULL && node->prev->prev->type != HEREDOC)
 			return (0);
+		else if (node->prev->prev == NULL)
+			return (0);
 		return (1);
 	}
 	return (1);

@@ -26,8 +26,8 @@ void print_list(t_lexer *head)
 			printf("Previous Node: NULL\n");
 		printf("--------------------------------\n");
 		head = head->next;
-		free(tmp->data);
-		free(tmp);
+		// free(tmp->data);
+		// free(tmp);
 	}   
 }
 void print_array(t_list *lst)
@@ -62,7 +62,7 @@ void print_array(t_list *lst)
 
 int main(int ac, char **av, char **envr)
 {
-	atexit(ll);
+	// atexit(ll);
 	t_lexer	*lexer;
 	t_list	*lst;
 	t_env 	*env;
@@ -80,9 +80,7 @@ int main(int ac, char **av, char **envr)
 			start_parsing(&lexer, env);
 			if (lexer != NULL)
 			{
-				// print_list(lexer);
 				create_lst(&lst, &lexer, &env, envr);
-				// printf("wslt\n");
 				if (ft_exe(lst, env) == -1)
 				{
 					free_lst_lexer(&lexer);
@@ -93,7 +91,6 @@ int main(int ac, char **av, char **envr)
 					free_lst_lexer(&lexer);
 					free_list(&lst);
 				}
-				// print_array(lst);
 			}
 		}
 		else if (lexer != NULL)

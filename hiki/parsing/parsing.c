@@ -42,7 +42,7 @@ void split_env_var(t_lexer **head)
 		tmp = tmp->next;
 	}
 }
-void check_variables(t_lexer **head)
+void remove_variables(t_lexer **head)
 {
 	t_lexer *tmp;
 
@@ -64,7 +64,7 @@ void check_variables(t_lexer **head)
 void start_parsing(t_lexer **head, t_env *env)
 {
 	fill_variables(head, env);
-	check_variables(head);
+	remove_variables(head);
 	if (*head == NULL)
 		return ;
 	join_nodes(head);

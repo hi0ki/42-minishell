@@ -39,7 +39,23 @@ char *get_value_env(t_env *env, char *av)
 	}
 	return NULL;
 }
+static void delete_var(t_lexer **node)
+{
+	t_lexer *save;
 
+	save = *node;
+	(*node) = (*node)->prev;
+	if ((*node)->next->next != NULL)
+	{
+		(*node)->next = (*node)->next->next;
+	}
+	else
+	{
+		(*node)->next = NULL;
+	}
+	free(save->data);
+	free(save);
+}
 
 int set_variable_value(t_lexer **node, t_env *env, int i)
 {
@@ -69,31 +85,35 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 		value = get_value_env(env, var_name);
 	if (value == NULL)
 	{
-		if ((j - i == ft_strlen((*node)->data) && (*node)->prev != NULL && (*node)->type == DOLLAR) || (j - i == 1 && (*node)->type == DOLLAR))
+		if (j - i == 1)
 		{
-			if (j != ft_strlen((*node)->data) )
+			if (j - i == 1)
 			{
 				tmp = (*node)->data;
-				(*node)->data = ft_substr((*node)->data, j + 1, ft_strlen((*node)->data + j));
+				(*node)->data = ft_substr((*node)->data, 0 , i);
+				if (ft_strlen(tmp) != i)
+				{
+					value = ft_substr(tmp, j + 1, ft_strlen(tmp) - j);
+					free(tmp);
+					tmp = (*node)->data;
+					(*node)->data = ft_strjoin((*node)->data, value);
+					free(value);
+				}
 				free(tmp);
-				i = j + 1;
 			}
-			else
-			{
-				save = *node;
-				(*node) = (*node)->prev;
-				if ((*node)->next->next != NULL)
-				{
-					(*node)->next = (*node)->next->next;
-				}
-				else
-				{
-					(*node)->next = NULL;
-				}
-				free(save->data);
-				free(save);
-				i = ft_strlen((*node)->data);
-			}
+			// else if (j != ft_strlen((*node)->data))
+			// {
+			// 	printf("tanya\n");
+			// 	tmp = (*node)->data;
+			// 	(*node)->data = ft_substr((*node)->data, j + 1, ft_strlen((*node)->data + j));
+			// 	free(tmp);
+			// 	i = j + 1;
+			// }
+			// else
+			// {
+			// 	delete_var(node);
+			// 	i = ft_strlen((*node)->data);
+			// }
 		}
 		else
 		{
@@ -112,6 +132,8 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 			free(tmp);
 		}
 		free(var_name);
+		if (ft_strlen((*node)->data) == 0 && (*node)->prev != NULL)
+			delete_var(node);
 		return (i);
 	}
 	tmp = (*node)->data;

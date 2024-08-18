@@ -47,6 +47,10 @@
 
 int g_status;
 
+
+
+
+
 typedef struct s_files{
 	char *file_name;
 	char *heredoce_name;
@@ -83,6 +87,7 @@ typedef struct s_list{
 
 
 /*						GNL								*/
+void print_list(t_lexer *head);
 char	*get_next_line(int fd);
 /*						 libft							*/
 t_list	*ft_lstnew(void);
@@ -136,6 +141,7 @@ void	num_of_files(t_list **lst, t_lexer **lexer);
 /*					check utils						*/
 int check_oper(t_lexer *node);
 int check_variable(t_lexer *node);
+void remove_variables(t_lexer **head);
 /*					fill files						*/
 void fill_variables(t_lexer **head, t_env *env);
 int fill_files(t_list **lst, t_lexer **lexer, t_env **env);

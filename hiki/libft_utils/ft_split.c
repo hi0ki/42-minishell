@@ -23,7 +23,8 @@ static int	c_word(char const *s, char *c)
 			while (s[i] && !ft_strchr(c, s[i]))
 				i++;
 		}
-		i++;
+		else
+			i++;
     }
     return cnt;
 }
