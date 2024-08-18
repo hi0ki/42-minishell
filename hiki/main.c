@@ -77,7 +77,6 @@ int main(int ac, char **av, char **envr)
 		lexer = start_lexer(lexer, line);
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
-			print_list(lexer);
 			start_parsing(&lexer, env);
 			if (lexer != NULL)
 			{
