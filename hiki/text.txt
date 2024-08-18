@@ -39,10 +39,12 @@ var="ls -a" , $var
 split varibale
 
 //////////////builltin///////
+			cd 100%
 			echo 100%
-			exit 85%
-			export 50%
-			pwd 75%
-			unset 50%
+			env 100%
+			exit	100%
+			export 100%
+			pwd 100%
+			unset 100%
 
 

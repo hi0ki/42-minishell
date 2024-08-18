@@ -33,8 +33,10 @@ char *get_value_env(t_env *env, char *av)
 	{
 		if (ft_strcmp(av, env->bfr_eql) == 0)
 		{
-			if (env->after_eql)
+			if (env->after_eql && env->after_eql[0])
+			{
 				return (ft_strdup(env->after_eql));
+			}
 			else
 				return (NULL);
 		}
@@ -180,3 +182,7 @@ void fill_variables(t_lexer **head, t_env *env)
 		tmp = tmp->next;
 	}
 }
+//export a="x"$
+// echo $a$
+// export a=$
+// echo $a$
