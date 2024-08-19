@@ -55,59 +55,70 @@ int whit_processsu(int *pid, int i)
 void print_s_files(t_list *list) {
     int i = 0;
 
-    while (i < list->num_of_files)
+    while (list)
     {
-        if (list != NULL && list->files != NULL) {
-            printf("File Name: %s\n", list->files[i].file_name);
-            printf("Heredoce Name: %s\n", list->files[i].heredoce_name);
-            printf("Type: %d\n", list->files[i].type);
-            printf("File Descriptor: %d\n", list->files[i].fd);
-            printf("Error File: %d\n", list->files[i].error_file);
-            printf("\n----------------------\n");
-        } else {
-            printf("No files in list.\n");
+        i = 0;
+        while (i < list->num_of_files)
+        {
+            // if (list != NULL && list->files != NULL) {
+            //     printf("File Name: %s\n", list->files[i].file_name);
+            //     printf("Heredoce Name: %s\n", list->files[i].heredoce_name);
+            //     printf("Type: %d\n", list->files[i].type);
+            //     printf("File Descriptor: %d\n", list->files[i].fd);
+            //     printf("Error File: %d\n", list->files[i].error_file);
+            //     printf("\n----------------------\n");
+            // } else {
+            //     printf("No files in list.\n");
+            // }
+            i++;
         }
-        i++;
+        printf("Last in = %d\n", list->in);
+        printf("Last out = %d\n", list->out);
+    list = list->next;
     }
-    printf("Last in = %d\n", list->in);
-    printf("Last out = %d\n", list->out);
 }
 
 int open_files(t_list **node)
 {
     int i;
+    t_list *tmp;
 
-    i = 0;
-    while (i < (*node)->num_of_files)
+    tmp = *node;
+    while (tmp)
     {
-        if ((*node)->files[i].error_file == -1)
+        i = 0;
+        while (i < tmp->num_of_files)
         {
-            printf("minishell : %s: ambiguous redirect\n", (*node)->files[i].file_name);
-            return (-1);
-        }
-        if ((*node)->files[i].type == REDIRECT_INPUT)
-        {
-            if (access((*node)->files[i].file_name, F_OK) == 0 && (*node)->files[i].file_name[0] != '$')
+            if (tmp->files[i].error_file == -1)
             {
-                (*node)->files[i].fd = open((*node)->files[i].file_name, O_RDWR | O_TRUNC, 0644);
-            }
-            else
-            {
-                printf("minishell : %s: No such file or directory\n", (*node)->files[i].file_name);
+                printf("minishell : %s: ambiguous redirect\n", tmp->files[i].file_name);
                 return (-1);
             }
+            if (tmp->files[i].type == REDIRECT_INPUT)
+            {
+                if (access(tmp->files[i].file_name, F_OK) == 0 && tmp->files[i].file_name[0] != '$')
+                {
+                    tmp->files[i].fd = open(tmp->files[i].file_name, O_RDWR | O_TRUNC, 0644);
+                }
+                else
+                {
+                    printf("minishell : %s: No such file or directory\n", tmp->files[i].file_name);
+                    return (-1);
+                }
+            }
+            else if (tmp->files[i].type == REDIRECT_APPEND)
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
+            else if (tmp->files[i].type == REDIRECT_OUTPUT)
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+            else
+                tmp->files[i].fd = open(tmp->files[i].heredoce_name, O_CREAT | O_RDWR | O_APPEND, 0644);
+            if (tmp->files[i].type >= 5 && tmp->files[i].type <= 6)
+                tmp->out = tmp->files[i].fd;
+            else if (tmp->files[i].type >= 7 && tmp->files[i].type <= 8)
+                tmp->in = tmp->files[i].fd;
+            i++;
         }
-        else if ((*node)->files[i].type == REDIRECT_APPEND)
-            (*node)->files[i].fd = open((*node)->files[i].file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
-        else if ((*node)->files[i].type == REDIRECT_OUTPUT)
-            (*node)->files[i].fd = open((*node)->files[i].file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-        else
-            (*node)->files[i].fd = open((*node)->files[i].heredoce_name, O_CREAT | O_RDWR | O_APPEND, 0644);
-        if ((*node)->files[i].type >= 5 && (*node)->files[i].type <= 6)
-            (*node)->out = (*node)->files[i].fd;
-        else if ((*node)->files[i].type >= 7 && (*node)->files[i].type <= 8)
-            (*node)->in = (*node)->files[i].fd;
-        i++;
+        tmp = tmp->next;
     }
     return (0);
 }

@@ -31,7 +31,6 @@ void split_env_var(t_lexer **head)
 					tmp->next = node;
 					tmp = tmp->next;
 				}
-				tmp->len = ft_strlen(arr[i]);
 				tmp->type = WORD;
 				free(arr[i]);
 				i++;

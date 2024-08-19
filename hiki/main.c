@@ -16,7 +16,6 @@ void print_list(t_lexer *head)
 		printf("Current Node:\n");
 		printf("Data: '%s'\n", tmp->data);
 		printf("Type: %d\n", tmp->type);
-		printf("len: %d\n", tmp->len);
 		if (tmp->prev != NULL)
 		{
 			printf("Previous Node:\n");
@@ -26,8 +25,8 @@ void print_list(t_lexer *head)
 			printf("Previous Node: NULL\n");
 		printf("--------------------------------\n");
 		head = head->next;
-		// free(tmp->data);
-		// free(tmp);
+		free(tmp->data);
+		free(tmp);
 	}   
 }
 void print_array(t_list *lst)
@@ -88,8 +87,8 @@ int main(int ac, char **av, char **envr)
 	line = readline("\033[0;32mminishell[$]:\033[0m ");
 	while (line != NULL)
 	{
-		add_history(line);
 		lexer = start_lexer(lexer, line);
+		add_history(line);
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
 			start_parsing(&lexer, env);
