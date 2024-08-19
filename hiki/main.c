@@ -71,7 +71,8 @@ int main(int ac, char **av, char **envr)
 	(void)ac;
 	(void)av;
 	env_init(&env, envr);
-	while ((line = readline("\033[0;32mminishell[$]:\033[0m ")) != NULL)
+	line = readline("\033[0;32mminishell[$]:\033[0m ");
+	while (line != NULL)
 	{
 		add_history(line);
 		lexer = start_lexer(lexer, line);
@@ -83,21 +84,27 @@ int main(int ac, char **av, char **envr)
 				create_lst(&lst, &lexer, &env, envr);
 				if (ft_exe(lst, env) == -1)
 				{
-					free_lst_lexer(&lexer);
-					free_list(&lst);
+					printf("exe khsrat hahaha\n");
+					// free_lst_lexer(&lexer);
+					// free_list(&lst);
 				}
 				else
 				{
 					free_lst_lexer(&lexer);
+					lexer = NULL;
 					free_list(&lst);
+					lst = NULL;
 				}
 			}
 		}
 		else if (lexer != NULL)
 		{
 			free_lst_lexer(&lexer);
+			lexer = NULL;
 		}
+		line = readline("\033[0;32mminishell[$]:\033[0m ");
 	}
+	printf("wstl\n");
 	free_lst_env(&env);
 	// system("leaks -q minishell");
 	return (g_status);

@@ -45,7 +45,7 @@ void free_list(t_list **lst)
         free(temp->arr);
         free(temp->path_cmd);
         free(temp);
-		free_files(temp->files, temp->num_of_files);
+		// free_files(temp->files, temp->num_of_files);
     }
 }
 void free_files(t_files *file, int num_of_files)

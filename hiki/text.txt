@@ -48,3 +48,8 @@ split varibale
 			unset 100%
 
 
+
+
+echo a > $space$ |||||| segv
+
+

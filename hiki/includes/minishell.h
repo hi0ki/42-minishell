@@ -56,6 +56,7 @@ typedef struct s_files{
 	char *heredoce_name;
 	int type;
 	int fd;
+	int				error_file;
 }t_files;
 
 typedef struct s_lexer{

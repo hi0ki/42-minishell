@@ -55,6 +55,7 @@ void heredoce_start(t_files *file, t_env **env)
 	fd = open(name , O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (file->fd == -1)
 	{
+		printf("exit f heredoc\n");
 		perror(file->file_name);
 		exit(1); // nzid return bach may endich l process
 	}
@@ -100,7 +101,11 @@ int fill_files(t_list **lst, t_lexer **lexer, t_env **env)
 				heredoce_start(&tmp->files[i], env);
 			}
 			else
+			{
+				if (lextmp->next->data[0] == '$' && ft_strlen(lextmp->next->data))
+					tmp->files[i].error_file = -1;
 				tmp->files[i].file_name = ft_strdup(lextmp->next->data);
+			}
 			i++;
 		}
 		lextmp = lextmp->next;

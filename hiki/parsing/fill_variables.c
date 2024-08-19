@@ -92,6 +92,11 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 	}
 	if (value == NULL)
 	{
+		if (value == NULL && (*node)->type == DOLLAR && 
+			(((*node)->prev && !check_oper((*node)->prev)) || ((*node)->prev->prev && !check_oper((*node)->prev->prev))))
+		{
+			return (i + 1);
+		}
 		if (j - i == 1)
 		{
 			if (j - i == 1)
