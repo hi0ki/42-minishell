@@ -21,7 +21,7 @@ int error_handler(t_lexer *lexer)
 			g_status = 258;
 			return (-1);
 		}
-		else if (check_oper(tmp) == 0 && (tmp->next == NULL || check_oper(tmp->next) == 0 || (tmp->next->type == SPACE && 
+		else if (check_oper(tmp) == 0 && (tmp->next == NULL || check_oper(tmp->next) == 0 || (tmp->next->type == SPC && 
 			(tmp->next->next == NULL || tmp->next->next->type == PIPE || check_oper(tmp->next->next) == 0))))
 		{
 			ft_putstrn_fd("minishell: syntax error files", 2);

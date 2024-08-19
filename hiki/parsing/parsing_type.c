@@ -8,7 +8,7 @@ void remove_spaces(t_lexer **head)
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->type == SPACE)
+		if (tmp->type == SPC)
 		{
 			save = tmp;
 			tmp = tmp->prev;
@@ -29,7 +29,7 @@ void remove_front_space(t_lexer **head)
 {
 	t_lexer *tmp;
 
-	if ((*head)->type == SPACE)
+	if ((*head)->type == SPC)
 	{
 		tmp = *head;
 		*head = (*head)->next;
