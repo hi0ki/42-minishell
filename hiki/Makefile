@@ -14,14 +14,21 @@ LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strcmp.c libft_utils/ft_free_list.c libft_utils/ft_split.c \
 		libft_utils/ft_lstsize.c libft_utils/ft_lstlast.c libft_utils/ft_calloc.c\
 
+RD_LINE = -I/goinfre/mel-hime/homebrew/opt/readline/include
+RD_LINE2 = -L/goinfre/mel-hime/homebrew/opt/readline/lib
+
 NAME = minishell
 CC = cc
+HEADER = minishell.h
 FLAGS = -I./includes -I./libft -lreadline  #-fsanitize=address -g #-Wall -Wextra -Werror 
 
 all: $(NAME)
 
 $(NAME): $(SRC) $(LIBFT)
-	$(CC) $(FLAGS) $(SRC) $(LIBFT) -o $(NAME)
+	$(CC) $(FLAGS) $(RD_LINE2) $(SRC) $(LIBFT) -o $(NAME)
+
+%.o : %.c $(HEADER)
+	$(CC) $(FLAGS) $(RD_LINE) -c $< -o $@
 
 clean:
 	rm -rf $(NAME)

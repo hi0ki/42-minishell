@@ -19,11 +19,14 @@
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <signal.h>
+#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
+#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
+// #include <readline/readline.h>
+// #include <readline/history.h>
 
 #define CMD	1
 #define ARG 2
@@ -43,7 +46,7 @@
 #define BUILTIN_EXPORT 16     // Built-in command: export
 #define BUILTIN_PWD 17        // Built-in command: pwd
 #define BUILTIN_UNSET 18      // Built-in command: unset
-#define SPACE 19              // For space character ' '
+#define SPC 19              // For space character ' '
 
 int g_status;
 
@@ -171,7 +174,9 @@ int link_builtin(t_list *lst, t_env *env);
 */
 int err_msg(char *path, char *arr);				
 		
-int ft_exe(t_list *lst, t_env *env)
-;
+int ft_exe(t_list *lst, t_env *env);
+
+//           signals
+void	sig_handle(int sig);
 
 #endif

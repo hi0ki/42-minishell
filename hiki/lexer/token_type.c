@@ -35,9 +35,9 @@ static int _strcmp(char *s1, char *s2)
 void set_type(t_lexer **node)
 {
 	if (!_strcmp(" ", (*node)->data))
-		(*node)->type = SPACE;
+		(*node)->type = SPC;
 	else if (!_strcmp("\t", (*node)->data))
-		(*node)->type = SPACE;
+		(*node)->type = SPC;
 	else if (!_strcmp("|", (*node)->data))
 		(*node)->type = PIPE;
 	else if (!_strcmp("<", (*node)->data))

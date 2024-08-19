@@ -159,6 +159,7 @@ int ft_exe(t_list *lst, t_env *env)
                 free(pid);
                 return (-1);
             }
+            signal(SIGINT, SIG_IGN);
             pid[i] = fork();
             if (pid[i] < 0)
 			{
@@ -169,6 +170,8 @@ int ft_exe(t_list *lst, t_env *env)
 
             if (pid[i] == 0)
 			{
+                signal(SIGINT, SIG_DFL);
+                signal(SIGQUIT, SIG_DFL);
                 g_status = 0;
                 if (lst != last)
 				{
@@ -215,6 +218,7 @@ int ft_exe(t_list *lst, t_env *env)
 	{
         waitpid(pid[j++], &g_status, 0);
         g_status = WEXITSTATUS(g_status);
+        signal(SIGINT, sig_handle);
     }
     dup2(fd0, 0); // Rétablir l'entrée standard
     dup2(fd1, 1); // Rétablir la sortie standard
