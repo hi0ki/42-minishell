@@ -18,7 +18,6 @@ void join_nodes(t_lexer **head)
 				tmp = tmp->prev;
 				s_data = tmp->data;
 				tmp->data = ft_strjoin(tmp->data, tmp->next->data);
-				tmp->len = ft_strlen(tmp->data);
 				// tmp->type = WORD;
 				save = tmp->next;
 				if (tmp->next->next != NULL)

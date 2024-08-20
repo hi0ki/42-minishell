@@ -50,18 +50,28 @@ void fill_path(t_list **lst, t_env *env, char **envr)
 	int i = 0;
 	tmp = *lst;
 	str = get_value_env(env, "PATH");
-	array = ft_split(str, ":");
+	if (str)
+		array = ft_split(str, ":");
 	while (tmp)
 	{
-		check_path(&tmp, array);
+		if (str)
+			check_path(&tmp, array);
+		else
+		{
+			tmp->path_cmd = NULL;
+			// tmp->arr = NULL;
+		}
 		tmp->env = envr;
 		tmp = tmp->next;
 	}
-	while (array[i])
+	if (str)
 	{
-		free(array[i]);
-		i++;
+		while (array[i])
+		{
+			free(array[i]);
+			i++;
+		}
+		free(array);
+		free(str);
 	}
-	free(array);
-	free(str);
 }

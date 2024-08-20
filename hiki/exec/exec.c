@@ -52,8 +52,79 @@ int whit_processsu(int *pid, int i)
 	printf("******1111\n");
 	return (g_status);
 }
+void print_s_files(t_list *list) {
+    int i = 0;
+
+    while (list)
+    {
+        i = 0;
+        while (i < list->num_of_files)
+        {
+            // if (list != NULL && list->files != NULL) {
+            //     printf("File Name: %s\n", list->files[i].file_name);
+            //     printf("Heredoce Name: %s\n", list->files[i].heredoce_name);
+            //     printf("Type: %d\n", list->files[i].type);
+            //     printf("File Descriptor: %d\n", list->files[i].fd);
+            //     printf("Error File: %d\n", list->files[i].error_file);
+            //     printf("\n----------------------\n");
+            // } else {
+            //     printf("No files in list.\n");
+            // }
+            i++;
+        }
+        printf("Last in = %d\n", list->in);
+        printf("Last out = %d\n", list->out);
+    list = list->next;
+    }
+}
+
+int open_files(t_list **node)
+{
+    int i;
+    t_list *tmp;
+
+    tmp = *node;
+    while (tmp)
+    {
+        i = 0;
+        while (i < tmp->num_of_files)
+        {
+            if (tmp->files[i].error_file == -1)
+            {
+                printf("minishell : %s: ambiguous redirect\n", tmp->files[i].file_name);
+                return (-1);
+            }
+            if (tmp->files[i].type == REDIRECT_INPUT)
+            {
+                if (access(tmp->files[i].file_name, F_OK) == 0 && tmp->files[i].file_name[0] != '$')
+                {
+                    tmp->files[i].fd = open(tmp->files[i].file_name, O_RDWR | O_TRUNC, 0644);
+                }
+                else
+                {
+                    printf("minishell : %s: No such file or directory\n", tmp->files[i].file_name);
+                    return (-1);
+                }
+            }
+            else if (tmp->files[i].type == REDIRECT_APPEND)
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
+            else if (tmp->files[i].type == REDIRECT_OUTPUT)
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+            else
+                tmp->files[i].fd = open(tmp->files[i].heredoce_name, O_CREAT | O_RDWR | O_APPEND, 0644);
+            if (tmp->files[i].type >= 5 && tmp->files[i].type <= 6)
+                tmp->out = tmp->files[i].fd;
+            else if (tmp->files[i].type >= 7 && tmp->files[i].type <= 8)
+                tmp->in = tmp->files[i].fd;
+            i++;
+        }
+        tmp = tmp->next;
+    }
+    return (0);
+}
+
 int ft_exe(t_list *lst, t_env *env)
- {
+{
     int *pid;
     int j = 0;
     t_list *last;
@@ -69,6 +140,13 @@ int ft_exe(t_list *lst, t_env *env)
         perror("malloc error");
         return (-1);
     }
+
+    if (open_files(&lst) == -1)
+    {
+        g_status = 1;
+        return (g_status);
+    }
+    // print_s_files(lst);
 
     int i = 0;
     last = ft_lstlast(lst);
@@ -123,7 +201,7 @@ int ft_exe(t_list *lst, t_env *env)
                 {
                     if (lst->path_cmd == NULL && !lst->arr[0])
                         return (0);
-                    if (lst->path_cmd != NULL) \
+                    if (lst->path_cmd != NULL)
                     {
                         execve(lst->path_cmd, lst->arr, lst->env);
                     }
@@ -152,7 +230,7 @@ int ft_exe(t_list *lst, t_env *env)
 	{
         waitpid(pid[j++], &g_status, 0);
         g_status = WEXITSTATUS(g_status);
-        signal(SIGINT, sig_handle);
+        // signal(SIGINT, sig_handle);
     }
     dup2(fd0, 0);
     dup2(fd1, 1);

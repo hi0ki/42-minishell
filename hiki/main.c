@@ -16,7 +16,6 @@ void print_list(t_lexer *head)
 		printf("Current Node:\n");
 		printf("Data: '%s'\n", tmp->data);
 		printf("Type: %d\n", tmp->type);
-		printf("len: %d\n", tmp->len);
 		if (tmp->prev != NULL)
 		{
 			printf("Previous Node:\n");
@@ -26,8 +25,8 @@ void print_list(t_lexer *head)
 			printf("Previous Node: NULL\n");
 		printf("--------------------------------\n");
 		head = head->next;
-		// free(tmp->data);
-		// free(tmp);
+		free(tmp->data);
+		free(tmp);
 	}   
 }
 void print_array(t_list *lst)
@@ -60,15 +59,15 @@ void print_array(t_list *lst)
     }
 }
 
-void sig_handle(int sig)
-{
-	(void) sig;
-	g_status = 1;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void sig_handle(int sig)
+// {
+// 	(void) sig;
+// 	g_status = 1;
+// 	printf("\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 
 int main(int ac, char **av, char **envr)
@@ -82,13 +81,14 @@ int main(int ac, char **av, char **envr)
 	(void)ac;
 	(void)av;
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_handle);
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, sig_handle);
 	env_init(&env, envr);
-	while ((line = readline("\033[0;32mminishell[$]:\033[0m ")) != NULL)
+	line = readline("\033[0;32mminishell[$]:\033[0m ");
+	while (line != NULL)
 	{
-		add_history(line);
 		lexer = start_lexer(lexer, line);
+		add_history(line);
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
 			start_parsing(&lexer, env);
@@ -97,21 +97,27 @@ int main(int ac, char **av, char **envr)
 				create_lst(&lst, &lexer, &env, envr);
 				if (ft_exe(lst, env) == -1)
 				{
-					free_lst_lexer(&lexer);
-					free_list(&lst);
+					printf("exe khsrat hahaha\n");
+					// free_lst_lexer(&lexer);
+					// free_list(&lst);
 				}
 				else
 				{
 					free_lst_lexer(&lexer);
+					lexer = NULL;
 					free_list(&lst);
+					lst = NULL;
 				}
 			}
 		}
 		else if (lexer != NULL)
 		{
 			free_lst_lexer(&lexer);
+			lexer = NULL;
 		}
+		line = readline("\033[0;32mminishell[$]:\033[0m ");
 	}
+	// printf("wstl\n");
 	free_lst_env(&env);
 	// system("leaks -q minishell");
 	return (g_status);

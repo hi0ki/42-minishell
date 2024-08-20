@@ -23,10 +23,10 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
-// #include <readline/readline.h>
-// #include <readline/history.h>
+// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
+// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #define CMD	1
 #define ARG 2
@@ -51,21 +51,19 @@
 int g_status;
 
 
-
-
-
 typedef struct s_files{
 	char *file_name;
 	char *heredoce_name;
 	int type;
 	int fd;
+	int				error_file;
 }t_files;
 
 typedef struct s_lexer{
 	char			*data;
 	int				type;
 	int				error_quotes;
-	int				len;
+	// int				len;
 	struct s_lexer	*next;
     struct s_lexer	*prev;
 } t_lexer;

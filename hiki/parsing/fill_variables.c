@@ -92,6 +92,11 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 	}
 	if (value == NULL)
 	{
+		if (value == NULL && (*node)->type == DOLLAR && j == ft_strlen((*node)->data) && 
+			((*node)->prev && (!check_oper((*node)->prev) || ((*node)->prev->prev && !check_oper((*node)->prev->prev)))))
+		{
+			return (i + 1);
+		}
 		if (j - i == 1)
 		{
 			if (j - i == 1)
@@ -108,19 +113,6 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 				}
 				free(tmp);
 			}
-			// else if (j != ft_strlen((*node)->data))
-			// {
-			// 	printf("tanya\n");
-			// 	tmp = (*node)->data;
-			// 	(*node)->data = ft_substr((*node)->data, j + 1, ft_strlen((*node)->data + j));
-			// 	free(tmp);
-			// 	i = j + 1;
-			// }
-			// else
-			// {
-			// 	delete_var(node);
-			// 	i = ft_strlen((*node)->data);
-			// }
 		}
 		else
 		{
@@ -145,7 +137,6 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 	}
 	tmp = (*node)->data;
 	(*node)->data = edit_data(value, (*node)->data, i, j);;
-	(*node)->len = ft_strlen((*node)->data);
 	i = i + ft_strlen(value);
 	free(var_name);
 	free(value);

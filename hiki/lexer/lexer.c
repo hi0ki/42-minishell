@@ -19,7 +19,6 @@ static	t_lexer	*get_node(char *line, int i, int index, int type)
 		str = ft_str_alloc(line + i + 1, index - 1); // hna drt + 1 bach nfot qoute >' or "< o n9st 1 bach manwslch liha nakhd string li binathom safi
 		node = lexer_lstnew(str);
 		node->type = helper;
-		node->len = ft_strlen(node->data);
         if (line[index + i] != '\'' && line[index + i] != '\"')
             node->error_quotes = -1;
 		return node;
