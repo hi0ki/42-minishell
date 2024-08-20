@@ -52,4 +52,15 @@ split varibale
 
 echo a > $space$ |||||| segv
 
+------------------------------------
+asd$
+/asd$
+cat foo$
 
+minishell                                  bash
+minishell: command not found               minishell: command not found
+minishell: command not found            |  minishell: No such file or directory
+cat: foo: No such file or directory        cat: foo: No such file or directory
+1                                          1
+
+-------------------------------------------------

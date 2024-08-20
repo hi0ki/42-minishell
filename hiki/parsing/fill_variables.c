@@ -97,7 +97,6 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 		{
 			return (i + 1);
 		}
-		printf("hna\n");
 		if (j - i == 1)
 		{
 			if (j - i == 1)
@@ -114,19 +113,6 @@ int set_variable_value(t_lexer **node, t_env *env, int i)
 				}
 				free(tmp);
 			}
-			// else if (j != ft_strlen((*node)->data))
-			// {
-			// 	printf("tanya\n");
-			// 	tmp = (*node)->data;
-			// 	(*node)->data = ft_substr((*node)->data, j + 1, ft_strlen((*node)->data + j));
-			// 	free(tmp);
-			// 	i = j + 1;
-			// }
-			// else
-			// {
-			// 	delete_var(node);
-			// 	i = ft_strlen((*node)->data);
-			// }
 		}
 		else
 		{

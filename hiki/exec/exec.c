@@ -229,7 +229,7 @@ int ft_exe(t_list *lst, t_env *env)
 	{
         waitpid(pid[j++], &g_status, 0);
         g_status = WEXITSTATUS(g_status);
-        signal(SIGINT, sig_handle);
+        // signal(SIGINT, sig_handle);
     }
     dup2(fd0, 0); // Rétablir l'entrée standard
     dup2(fd1, 1); // Rétablir la sortie standard

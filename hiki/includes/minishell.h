@@ -23,10 +23,10 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
-#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
-#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
-// #include <readline/readline.h>
-// #include <readline/history.h>
+// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
+// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #define CMD	1
 #define ARG 2

@@ -59,15 +59,15 @@ void print_array(t_list *lst)
     }
 }
 
-void sig_handle(int sig)
-{
-	(void) sig;
-	g_status = 1;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void sig_handle(int sig)
+// {
+// 	(void) sig;
+// 	g_status = 1;
+// 	printf("\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 
 int main(int ac, char **av, char **envr)
@@ -81,8 +81,8 @@ int main(int ac, char **av, char **envr)
 	(void)ac;
 	(void)av;
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_handle);
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, sig_handle);
 	env_init(&env, envr);
 	line = readline("\033[0;32mminishell[$]:\033[0m ");
 	while (line != NULL)
@@ -117,7 +117,7 @@ int main(int ac, char **av, char **envr)
 		}
 		line = readline("\033[0;32mminishell[$]:\033[0m ");
 	}
-	printf("wstl\n");
+	// printf("wstl\n");
 	free_lst_env(&env);
 	// system("leaks -q minishell");
 	return (g_status);

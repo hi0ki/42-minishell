@@ -22,12 +22,12 @@ HEADER = minishell.h
 FLAGS = -I./includes -I./libft -lreadline  #-fsanitize=address -g #-Wall -Wextra -Werror 
 
 all: $(NAME)
-
+# -L ~/goinfre/homebrew/opt/readline/lib/ 
 $(NAME): $(SRC) $(LIBFT)
-	$(CC) $(FLAGS)  $(SRC) $(LIBFT) -lreadline -L ~/goinfre/homebrew/opt/readline/lib/ -o $(NAME)
-
+	$(CC) $(FLAGS)  $(SRC) $(LIBFT) -lreadline -o $(NAME)
+# -I ~/goinfre/homebrew/opt/readline/include/
 %.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) -I ~/goinfre/homebrew/opt/readline/include/ -c $< -o $@
+	$(CC) $(CFLAGS)  -c $< -o $@
 
 clean:
 	rm -rf $(NAME)
