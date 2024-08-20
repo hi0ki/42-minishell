@@ -57,11 +57,11 @@ int ft_exe(t_list *lst, t_env *env)
     int *pid;
     int j = 0;
     t_list *last;
-    int fd[2];
-    int fd0;
-    int fd1;
-    fd0 = dup(0);
-    fd1 = dup(1);
+    // int fd[2];
+    // int fd0;
+    // int fd1;
+    // fd0 = dup(0);
+    // fd1 = dup(1);
     
     int size = ft_lstsize(lst);
     pid = malloc(size * sizeof(int));
@@ -86,12 +86,12 @@ int ft_exe(t_list *lst, t_env *env)
         
         if (i < size)
 		{
-            if (pipe(fd) == -1)
-			{
-                perror("pipe error");
-                free(pid);
-                return (-1);
-            }
+            // if (pipe(fd) == -1)
+			// {
+            //     perror("pipe error");
+            //     free(pid);
+            //     return (-1);
+            // }
             signal(SIGINT, SIG_IGN);
             pid[i] = fork();
             if (pid[i] < 0)
@@ -105,13 +105,14 @@ int ft_exe(t_list *lst, t_env *env)
 			{
                 signal(SIGINT, SIG_DFL);
                 signal(SIGQUIT, SIG_DFL);
+                handle_pipe();
                 g_status = 0;
-                if (lst != last)
-				{
-                    dup2(fd[1], STDOUT_FILENO);
-                    close(fd[0]);
-                    close(fd[1]);
-                }
+                // if (lst != last)
+				// {
+                //     dup2(fd[1], lst->out);
+                //     close(fd[0]);
+                //     close(fd[1]);
+                // }
                 if (link_builtin(lst, env) == 1)
                 {
                     free(pid);
@@ -134,12 +135,12 @@ int ft_exe(t_list *lst, t_env *env)
             }
 			else
 			{
-                if (lst != last)
-				{
-                    dup2(fd[0], 0);
-                }
-                close(fd[1]);
-                close(fd[0]);
+                // if (lst != last)
+				// {
+                //     dup2(fd[0], 0);
+                // }
+                // close(fd[1]);
+                // close(fd[0]);
             }
 
             i++;
@@ -153,8 +154,8 @@ int ft_exe(t_list *lst, t_env *env)
         g_status = WEXITSTATUS(g_status);
         signal(SIGINT, sig_handle);
     }
-    dup2(fd0, 0); // Rétablir l'entrée standard
-    dup2(fd1, 1); // Rétablir la sortie standard
+    dup2(fd0, 0);
+    dup2(fd1, 1);
 
     free(pid);
     return (g_status);
