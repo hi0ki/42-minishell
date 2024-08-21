@@ -59,15 +59,15 @@ void print_array(t_list *lst)
     }
 }
 
-// void sig_handle(int sig)
-// {
-// 	(void) sig;
-// 	g_status = 1;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
-// }
+void sig_handle(int sig)
+{
+	(void) sig;
+	g_status = 1;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 {
@@ -123,8 +123,8 @@ int main(int ac, char **av, char **envr)
 
 	(void)ac;
 	(void)av;
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, sig_handle);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sig_handle);
 	env_init(&env, envr);
 	start_readline(lexer, lst, env, envr);
 	// printf("%s\n", env->bfr_eql);

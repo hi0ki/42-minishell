@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 19:01:43 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:39:46 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,42 +154,21 @@ int ft_exe(t_list *lst, t_env *env)
     int *pid;
     int j = 0;
     t_list *last;
-    // int fd[2];
-    // int fd0;
-    // int fd1;
-    // fd0 = dup(0);
-    // fd1 = dup(1);
     
     int size = ft_lstsize(lst);
     pid = malloc(size * sizeof(int));
-    if (!pid) {
-        perror("malloc error");
-        return (-1);
-    }
+    if (!pid)
+        return (perror("malloc error"), -1);
     if (open_files(&lst) == -1)
-    {
-        g_status = 1;
-        return (g_status);
-    }
+        return (g_status = 1, g_status);
     else
         ft_close_fds(&lst);
-
-    // print_s_files(lst);
-
-    // if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
-    // {
-    //     return (g_status);
-    // }
-
     int i = 0;
     last = ft_lstlast(lst);
     
     if (size == 1) {
         if (link_builtin(lst, env) == 1)
-        {
-            free(pid);
-            return (g_status);
-        }
+            return (free(pid), g_status);
     }
 
     while (lst)
@@ -197,26 +176,12 @@ int ft_exe(t_list *lst, t_env *env)
         
         if (i < size)
 		{
-            // if (pipe(fd) == -1)
-			// {
-            //     perror("pipe error");
-            //     free(pid);
-            //     return (-1);
-            // }
-            // signal(SIGINT, SIG_IGN);
+            signal(SIGINT, SIG_IGN);
             if(lst->next)
-            {
                 pipe(lst->pipe_fd);
-                // lst->out = lst->pipe_fd[1];
-            }
             pid[i] = fork();
             if (pid[i] < 0)
-			{
-                perror("fork error");
-                free(pid);
-                return (-1);
-            }
-
+                return (perror("fork error"), free(pid), -1);
             if (pid[i] == 0)
 			{
                 signal(SIGINT, SIG_DFL);
@@ -226,48 +191,29 @@ int ft_exe(t_list *lst, t_env *env)
 				    dup2(lst->in, 0);
                 else if (lst->prev_in != 0)
                     dup2(lst->prev_in, 0);
-                // else if ()
-                    // dup2(lst->pipe_fd[0], 0);
                 if (lst->out != 1)
 				    dup2(lst->out, 1);
                 else if (lst->next)
                     dup2(lst->pipe_fd[1], 1);
                 if (link_builtin(lst, env) == 1)
-                {
-                    free(pid);
-                    // break;
-                    exit (g_status);
-                }
+                    return (free(pid), exit(g_status), 1);
                 else
                 {
                     if (lst->path_cmd == NULL && !lst->arr[0])
                         return (0);
                     if (lst->path_cmd != NULL)
-                    {
-                        // printf("haaa\n");
                         execve(lst->path_cmd, lst->arr, lst->envr);
-                    }
                     g_status = err_msg(lst->path_cmd, lst->arr[0]);
-                    
                     exit(g_status);
-
                 }
             }
 			else
 			{
-                // close (lst->pipe_fd[0]);
                 if (lst->prev_in != 0)
                     close (lst->prev_in);
                 if (lst->next)
                     close (lst->pipe_fd[1]);
-                // if (lst != last)
-				// {
-                //     dup2(fd[0], 0);
-                // }
-                // close(fd[1]);
-                // close(fd[0]);
             }
-
             i++;
         }
         if (lst->next)
@@ -278,17 +224,12 @@ int ft_exe(t_list *lst, t_env *env)
             close(lst->out);
         lst = lst->next;
     }
-
     while (j < i)
 	{
         waitpid(pid[j++], &g_status, 0);
         g_status = WEXITSTATUS(g_status);
-        // signal(SIGINT, sig_handle);
+        signal(SIGINT, sig_handle);
     }
-    // dup2(fd0, 0);
-    // dup2(fd1, 1);
-
-    free(pid);
-    return (g_status);
+    return (free(pid), g_status);
 }
 
