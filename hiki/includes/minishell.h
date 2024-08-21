@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 16:26:57 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:33:22 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <sys/stat.h>
 // #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
 // #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
 #include <readline/readline.h>
@@ -63,7 +64,6 @@ typedef struct s_lexer{
 	char			*data;
 	int				type;
 	int				error_quotes;
-	// int				len;
 	struct s_lexer	*next;
     struct s_lexer	*prev;
 } t_lexer;
@@ -79,6 +79,7 @@ typedef struct s_list{
 	char			*path_cmd;
 	char			**arr;
 	char			**envr; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
+	t_env			**env;
 	int				num_of_files;
 	t_files			*files;
 	int				pipe_fd[2];
@@ -90,7 +91,7 @@ typedef struct s_list{
 
 
 /*						GNL								*/
-void 	print_list(t_lexer *head);
+void	print_list(t_lexer *head);
 char	*get_next_line(int fd);
 /*						 libft							*/
 t_list	*ft_lstnew(void);
@@ -120,6 +121,7 @@ void	free_lst_env(t_env **env);
 void 	free_list(t_list **lst);
 void 	free_files(t_files *file, int num_of_files);
 void	*ft_calloc(size_t count, size_t size);
+int		ft_lenarray(char **array);
 
 /*						Error handler						*/
 int		error_handler(t_lexer *lexer);
@@ -135,26 +137,28 @@ int		ft_handle_quotes(char *line);
 void 	set_type(t_lexer **head);
 
 /*						parsing							*/
-void	 start_parsing(t_lexer **head, t_env *env);
-void 	fill_variables(t_lexer **head, t_env *env);
-void 	join_nodes(t_lexer **head);
-void 	create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr);
-void 	parsing_type(t_lexer **head);
+void	start_parsing(t_lexer **head, t_env *env);
+void	fill_variables(t_lexer **head, t_env *env);
+void	join_nodes(t_lexer **head);
+void	create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr);
+void	parsing_type(t_lexer **head);
 /*						parisng utils				*/
-int 	count_cmd(t_lexer *head);
-int 	size_node(t_lexer *head);
+int		count_cmd(t_lexer *head);
+int		size_node(t_lexer *head);
 void	num_of_files(t_list **lst, t_lexer **lexer);
 /*					check utils						*/
-int 	check_oper(t_lexer *node);
-int 	check_variable(t_lexer *node);
-void 	remove_variables(t_lexer **head);
+int		check_oper(t_lexer *node);
+int		check_variable(t_lexer *node);
+void	remove_variables(t_lexer **head);
 /*					fill files						*/
-void 	fill_variables(t_lexer **head, t_env *env);
-int 	fill_files(t_list **lst, t_lexer **lexer, t_env **env);
-void 	fill_arr(t_list **lst, t_lexer **head, int size);
-void 	fill_path(t_list **lst, t_env *env, char **envr);
+void	fill_variables(t_lexer **head, t_env *env);
+int		fill_files(t_list **lst, t_lexer **lexer, t_env **env);
+void	fill_arr(t_list **lst, t_lexer **head, int size);
+void fill_path(t_list **lst, t_env **env, char **envr);
+/*					heredoc							*/
+void heredoce_start(t_files *file, t_env **env);
 /*						env 						*/
-char	 *get_value_env(t_env *env, char *av);
+char	*get_value_env(t_env *env, char *av);
 
 
 /*						builtin && utils builtin							*/
@@ -163,7 +167,7 @@ int		ft_echo(int ac, char **av, int fd_out);
 int		ft_exit(char **av);
 int 	ft_pwd(int fd_out);
 int		ft_export(char **av, t_env *env, int fd_out);
-int ft_unset(char **av, t_env **env);
+int 	ft_unset(char **av, t_list **lst);
 void    print_all_env(t_env *env, int fd_out);
 int		ft_env(t_env *env, int fd_out);
 void	env_init(t_env **env, char **envr);
@@ -172,9 +176,9 @@ t_env	*ft_envnew(char *s);
 int		link_builtin(t_list *lst, t_env *env);
 /*						execution	
 */
-int 	err_msg(char *path, char *arr);				
+int		err_msg(char *path, char *arr);				
 		
-int ft_exe(t_list **list, t_env **env);
+int 	ft_exe(t_list *lst, t_env **env);
 
 //           signals
 void	sig_handle(int sig);

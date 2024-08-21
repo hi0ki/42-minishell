@@ -69,38 +69,18 @@ void print_array(t_list *lst)
 // 	rl_redisplay();
 // }
 
-
-int main(int ac, char **av, char **envr)
+void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 {
-	// atexit(ll);
-	t_lexer	*lexer;
-	t_list	*lst;
-	t_env 	*env;
-	char	*line;
+	char *line;
 
-	(void)ac;
-	(void)av;
-
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, sig_handle);
-	env_init(&env, envr);
-	
-	// test func envlist to **tab
-	// char **tab;
-	// int i = 0;
-	// tab = env_to_tab(env);
-	// while (i < ft_envsize(env))
-	// {
-	// 	printf("%s\n", tab[i]);
-	// 	i++;
-	// }
-	// exit (0);
-
-	line = readline("\033[0;32mminishell[$]:\033[0m ");
-	while (line != NULL)
+	while (1)
 	{
-		lexer = start_lexer(lexer, line);
+		line = readline("\033[0;32mminishell[$]:\033[0m ");
+		if (line == NULL)
+			break;
 		add_history(line);
+		lexer = start_lexer(lexer, line);
+		free(line);
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
 			start_parsing(&lexer, env);
@@ -130,10 +110,24 @@ int main(int ac, char **av, char **envr)
 			free_lst_lexer(&lexer);
 			lexer = NULL;
 		}
-		line = readline("\033[0;32mminishell[$]:\033[0m ");
+		printf("hna\n");
 	}
-	// printf("wstl\n");
 	free_lst_env(&env);
-	// system("leaks -q minishell");
+}
+
+int main(int ac, char **av, char **envr)
+{
+	atexit(ll);
+	t_lexer	*lexer;
+	t_list	*lst;
+	t_env 	*env;
+
+	(void)ac;
+	(void)av;
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, sig_handle);
+	env_init(&env, envr);
+	start_readline(lexer, lst, env, envr);
+	// printf("%s\n", env->bfr_eql);
 	return (g_status);
 }

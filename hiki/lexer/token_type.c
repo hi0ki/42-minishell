@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_type.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/20 23:59:32 by eel-ansa          #+#    #+#             */
+/*   Updated: 2024/08/20 23:59:35 by eel-ansa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -14,9 +26,9 @@ ila malgitch space njm3 dakchi li morah nichan
 
 */
 
-static int _strcmp(char *s1, char *s2)
+static int	_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (s2 == NULL)
@@ -32,7 +44,7 @@ static int _strcmp(char *s1, char *s2)
 	return (0);
 }
 
-void set_type(t_lexer **node)
+void	set_type(t_lexer **node)
 {
 	if (!_strcmp(" ", (*node)->data))
 		(*node)->type = SPC;

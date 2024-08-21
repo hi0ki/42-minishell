@@ -14,5 +14,5 @@ void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 	num_of_files(lst, head);
 	fill_files(lst, head, env);
 	fill_arr(lst, head, size);
-	fill_path(lst, *env, envr);
+	fill_path(lst, env, envr);
 }

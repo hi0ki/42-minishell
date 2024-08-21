@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 15:28:44 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:36:54 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int err_msg(char *path, char *arr)
 	f = opendir(path);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(arr, 2);
-	if (path == NULL)
-		ft_putstrn_fd(": command not found", 2);
-	else if (fd == -1 && f == NULL)
+    if (path == NULL && strchr(arr, '/') == NULL)
+        ft_putstrn_fd(": command not found", 2);
+	else if ((fd == -1 && f == NULL) || (strchr(arr, '/') != NULL))
 		ft_putstrn_fd(": No such file or directory", 2);
 	else if (fd == -1 && f != NULL)
 		ft_putstrn_fd(": is a directory", 2);
@@ -38,7 +38,6 @@ int err_msg(char *path, char *arr)
 	close(fd);
 	return (g_status);
 }
-
 
 int whit_processsu(int *pid, int i)
 {
@@ -94,6 +93,12 @@ int open_files(t_list **node)
                 printf("minishell : %s: ambiguous redirect\n", tmp->files[i].file_name);
                 return (-1);
             }
+            if (access(tmp->files[i].file_name, F_OK) == 0 && access(tmp->files[i].file_name, R_OK | W_OK) == -1)
+            {
+                printf("minishell : %s: Permission denied\n", tmp->files[i].file_name);
+                g_status = 1;
+                return (-1);
+            }
             if (tmp->files[i].type == REDIRECT_INPUT)
             {
                 if (access(tmp->files[i].file_name, F_OK) == 0 && tmp->files[i].file_name[0] != '$')
@@ -144,12 +149,11 @@ void ft_close_fds(t_list **lst)
 // void    handle_pipe(t_list lst)
 // {}
 
-int ft_exe(t_list **list, t_env **env)
+int ft_exe(t_list *lst, t_env *env)
 {
     int *pid;
     int j = 0;
     t_list *last;
-    t_list *lst = *list;
     // int fd[2];
     // int fd0;
     // int fd1;
@@ -173,11 +177,16 @@ int ft_exe(t_list **list, t_env **env)
 
     // print_s_files(lst);
 
+    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
+    {
+        return (g_status);
+    }
+
     int i = 0;
     last = ft_lstlast(lst);
     
     if (size == 1) {
-        if (link_builtin(lst, *env) == 1)
+        if (link_builtin(lst, env) == 1)
         {
             free(pid);
             return (g_status);
@@ -213,7 +222,6 @@ int ft_exe(t_list **list, t_env **env)
 			{
                 signal(SIGINT, SIG_DFL);
                 signal(SIGQUIT, SIG_DFL);
-
                 g_status = 0;
                 if (lst->in != 0)
 				    dup2(lst->in, 0);
@@ -225,7 +233,7 @@ int ft_exe(t_list **list, t_env **env)
 				    dup2(lst->out, 1);
                 else if (lst->next)
                     dup2(lst->pipe_fd[1], 1);
-                if (link_builtin(lst, *env) == 1)
+                if (link_builtin(lst, env) == 1)
                 {
                     free(pid);
                     // break;

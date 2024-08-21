@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 09:46:11 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 15:57:57 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:26:53 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,41 @@ void	ft_free(void *ptr)
 void	free_node(t_env *env)
 {
 	ft_free(env->bfr_eql);
+	env->bfr_eql = NULL;
 	ft_free(env->after_eql);
+	env->after_eql = NULL;
 	ft_free(env);
+	env = NULL;
 	return ;
 }
 
-int ft_unset(char **av, t_env **env)
+int ft_unset(char **av, t_list **lst)
 {
 	t_env   *tmp;
 	t_env   *todel;
 	int     i;
 
-	tmp = *env;
 	i = 1;
 	if (!av[1])
 		return (0);
-	if (!env || !(*env))
+	if (!(*lst)->env || !(*(*lst)->env))
 		return (0);
 	while (av[i])
 	{
 		printf("chaaa1111 %d\n", i);
-		if (strcmp(av[i], tmp->bfr_eql) == 0)
+		if (strcmp(av[i], (*(*lst)->env)->bfr_eql) == 0)
 		{
-			// printf("chaaa22222 %d\n", i);
-			*env = (*env)->next;
+			tmp = (*(*lst)->env);
+			(*(*lst)->env) = (*(*lst)->env)->next;
 			free_node(tmp);
-			// printf("chaaa3333 %d\n", i);
 			i = 0;
 		}
-		i++;
+			i++;
 	}
 	i = 1;
 	while (av[i])
 	{
-		tmp = (*env);
+		tmp = (*(*lst)->env);
 		while (tmp && tmp->next)
 		{
 			if (strcmp(av[i], tmp->next->bfr_eql) == 0)
