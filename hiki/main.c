@@ -80,8 +80,6 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 			break;
 		add_history(line);
 		lexer = start_lexer(lexer, line);
-		// print_list(lexer);
-		// free(line);
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
 			start_parsing(&lexer, env);
@@ -111,13 +109,14 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 			free_lst_lexer(&lexer);
 			lexer = NULL;
 		}
+		line = NULL;
 	}
 	free_lst_env(&env);
 }
 
 int main(int ac, char **av, char **envr)
 {
-	atexit(ll);
+	// atexit(ll);
 	t_lexer	*lexer;
 	t_list	*lst;
 	t_env 	*env;
