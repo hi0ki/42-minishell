@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 23:59:24 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/21 17:53:35 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:00:18 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_lexer	*start_lexer(t_lexer *head, char *line)
 	free(tmp);
 	while (line[i])
 	{
-		if (get_index(tmp + i, " \t\"'><|") != 0)
+		if (get_index(line + i, " \t\"'><|") != 0)
 			head = handle_word(head, line, &i);
 		else if (check_special_char(line + i) == 3)
 		{

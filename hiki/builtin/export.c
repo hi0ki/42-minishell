@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 12:13:41 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 11:36:08 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:22:50 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	env_already_exist(t_env *env, char *av)
 	return (-1);
 }
 
-int	ft_export(char **av, t_env *env, int fd_out)
+int	ft_export(char **av, t_env **env, int fd_out)
 {
 	int error;
 	int i;
@@ -117,7 +117,7 @@ int	ft_export(char **av, t_env *env, int fd_out)
 
 	i = 1;
 	if (!av || !av[i])
-		return (print_all_env(env, fd_out), 0);
+		return (print_all_env(*env, fd_out), 0);
 	while (av[i])
 	{
 		error = is_valid_arg(av[i]);
@@ -128,9 +128,9 @@ int	ft_export(char **av, t_env *env, int fd_out)
 			i++;
 			continue ;
 		}
-		if (env_already_exist(env, av[i]) == 0)
+		if (env_already_exist(*env, av[i]) == 0)
 			return (0);
-		ft_envaddback(&env, ft_envnew(av[i]));
+		ft_envaddback(env, ft_envnew(av[i]));
 		i++;
 	}
 	return (g_status);
