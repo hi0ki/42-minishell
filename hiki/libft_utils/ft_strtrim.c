@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ansa <eel-ansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 21:43:01 by eel-ansa          #+#    #+#             */
-/*   Updated: 2023/12/21 00:55:46 by eel-ansa         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:53:51 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ char	*ft_strtrim(char *s1, char *set)
 	str = ft_substr(s1, i, j - i + 1);
 	if (!str)
 		return (NULL);
-	free(s1);
+	// free(s1);
 	return (str);
 }

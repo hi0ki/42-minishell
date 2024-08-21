@@ -80,7 +80,8 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 			break;
 		add_history(line);
 		lexer = start_lexer(lexer, line);
-		free(line);
+		// print_list(lexer);
+		// free(line);
 		if (lexer != NULL && error_handler(lexer) != -1)
 		{
 			start_parsing(&lexer, env);
@@ -90,7 +91,7 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 				lst->pipe_fd[0] = 0;
 				lst->pipe_fd[1] = 1;
 				lst->prev_in = 0;
-				if (ft_exe(&lst, &env) == -1)
+				if (ft_exe(lst, env) == -1)
 				{
 					printf("exe khsrat hahaha\n");
 					// free_lst_lexer(&lexer);
@@ -110,7 +111,6 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 			free_lst_lexer(&lexer);
 			lexer = NULL;
 		}
-		printf("hna\n");
 	}
 	free_lst_env(&env);
 }

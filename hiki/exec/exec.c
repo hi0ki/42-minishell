@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 17:36:54 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:41:41 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,10 +177,10 @@ int ft_exe(t_list *lst, t_env *env)
 
     // print_s_files(lst);
 
-    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
-    {
-        return (g_status);
-    }
+    // if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
+    // {
+    //     return (g_status);
+    // }
 
     int i = 0;
     last = ft_lstlast(lst);

@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 17:33:22 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:39:17 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int		link_builtin(t_list *lst, t_env *env);
 */
 int		err_msg(char *path, char *arr);				
 		
-int 	ft_exe(t_list *lst, t_env **env);
+int 	ft_exe(t_list *lst, t_env *env);
 
 //           signals
 void	sig_handle(int sig);

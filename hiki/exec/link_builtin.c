@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:20:00 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 17:27:07 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:39:05 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int link_builtin(t_list *lst, t_env *env)
 	}
 	else if (ft_strcmp(lst->arr[0], "env") == 0)
 	{
-		g_status = ft_env(env);
+		g_status = ft_env(env, lst->out);
 		return 1;
 	}
 	else if (ft_strcmp(lst->arr[0], "exit") == 0)
@@ -58,7 +58,7 @@ int link_builtin(t_list *lst, t_env *env)
 	}
 	else if (ft_strcmp(lst->arr[0], "export") == 0)
 	{
-		g_status = ft_export(lst->arr, env);
+		g_status = ft_export(lst->arr, env, lst->out);
 		return (1);
 	}
 	else if (ft_strcmp(lst->arr[0], "pwd") == 0)

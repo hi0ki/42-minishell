@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 23:59:24 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/20 23:59:26 by eel-ansa         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:53:35 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ t_lexer	*start_lexer(t_lexer *head, char *line)
 
 	i = 0;
 	head = NULL;
-	tmp = ft_strtrim(line, " \t");;
+	tmp = line;
+	line = ft_strtrim(line, " \t");
+	free(tmp);
 	while (line[i])
 	{
-		if (get_index(line + i, " \t\"'><|") != 0)
+		if (get_index(tmp + i, " \t\"'><|") != 0)
 			head = handle_word(head, line, &i);
 		else if (check_special_char(line + i) == 3)
 		{
@@ -97,6 +99,6 @@ t_lexer	*start_lexer(t_lexer *head, char *line)
 		else if (check_special_char(line + i) > 0)
 			head = handle_special_char(head, line, &i);
 	}
-	free(tmp);
+	free(line);
 	return (head);
 }
