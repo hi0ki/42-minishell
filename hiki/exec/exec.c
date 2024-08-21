@@ -151,7 +151,11 @@ int ft_exe(t_list *lst, t_env *env)
         g_status = 1;
         return (g_status);
     }
-    // print_s_files(lst);
+
+    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
+    {
+        return (g_status);
+    }
 
     int i = 0;
     last = ft_lstlast(lst);
@@ -188,7 +192,7 @@ int ft_exe(t_list *lst, t_env *env)
 			{
                 signal(SIGINT, SIG_DFL);
                 signal(SIGQUIT, SIG_DFL);
-                handle_pipe();
+                // handle_pipe();
                 g_status = 0;
                 // if (lst != last)
 				// {
@@ -208,7 +212,7 @@ int ft_exe(t_list *lst, t_env *env)
                         return (0);
                     if (lst->path_cmd != NULL)
                     {
-                        execve(lst->path_cmd, lst->arr, lst->env);
+                        execve(lst->path_cmd, lst->arr, lst->envr);
                     }
                     g_status = err_msg(lst->path_cmd, lst->arr[0]);
                     
@@ -237,8 +241,8 @@ int ft_exe(t_list *lst, t_env *env)
         g_status = WEXITSTATUS(g_status);
         // signal(SIGINT, sig_handle);
     }
-    dup2(fd0, 0);
-    dup2(fd1, 1);
+    // dup2(fd0, 0);
+    // dup2(fd1, 1);
 
     free(pid);
     return (g_status);

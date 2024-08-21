@@ -42,7 +42,7 @@ void check_path(t_list **node, char **array)
     (*node)->path_cmd = NULL;
 }
 
-void fill_path(t_list **lst, t_env *env, char **envr)
+void fill_path(t_list **lst, t_env **env, char **envr)
 {
 	char **array;
 	char *str;
@@ -50,7 +50,7 @@ void fill_path(t_list **lst, t_env *env, char **envr)
 
 	int i = 0;
 	tmp = *lst;
-	str = get_value_env(env, "PATH");
+	str = get_value_env(*env, "PATH");
 	if (str)
 		array = ft_split(str, ":");
 	while (tmp)
@@ -62,7 +62,8 @@ void fill_path(t_list **lst, t_env *env, char **envr)
 			tmp->path_cmd = NULL;
 			// tmp->arr = NULL;
 		}
-		tmp->env = envr;
+		tmp->envr = envr;
+		tmp->env = env;
 		tmp = tmp->next;
 	}
 	if (str)

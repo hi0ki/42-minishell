@@ -85,9 +85,7 @@ t_lexer	*start_lexer(t_lexer *head, char *line)
 
 	i = 0;
 	head = NULL;
-	tmp = line;
-	line = ft_strtrim(line, " \t");
-	free(tmp);
+	tmp = ft_strtrim(line, " \t");;
 	while (line[i])
 	{
 		if (get_index(line + i, " \t\"'><|") != 0)
@@ -99,6 +97,6 @@ t_lexer	*start_lexer(t_lexer *head, char *line)
 		else if (check_special_char(line + i) > 0)
 			head = handle_special_char(head, line, &i);
 	}
-	free(line);
+	free(tmp);
 	return (head);
 }

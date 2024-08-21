@@ -22,7 +22,7 @@ int	exec_after_built(t_list *lst, t_env *env)
 	if (pid == 0)
 	{
 		if (lst->path_cmd != NULL)
-			execve(lst->path_cmd, lst->arr, lst->env);
+			execve(lst->path_cmd, lst->arr, lst->envr);
 		r = err_msg(lst->path_cmd, lst->arr[0]);
 		exit(r);
 	}
@@ -38,7 +38,7 @@ int link_builtin(t_list *lst, t_env *env)
 {
 	if (ft_strcmp(lst->arr[0], "cd") == 0)
 	{
-		g_status = ft_cd(lst->arr, env);
+		g_status = ft_cd(lst->arr, (*lst->env));
 		return (1);
 	}
 	else if (ft_strcmp(lst->arr[0], "echo") == 0)
@@ -48,7 +48,7 @@ int link_builtin(t_list *lst, t_env *env)
 	}
 	else if (ft_strcmp(lst->arr[0], "env") == 0)
 	{
-		g_status = ft_env(env);
+		g_status = ft_env((*lst->env));
 		return 1;
 	}
 	else if (ft_strcmp(lst->arr[0], "exit") == 0)
@@ -58,7 +58,7 @@ int link_builtin(t_list *lst, t_env *env)
 	}
 	else if (ft_strcmp(lst->arr[0], "export") == 0)
 	{
-		g_status = ft_export(lst->arr, env);
+		g_status = ft_export(lst->arr, (*lst->env));
 		return (1);
 	}
 	else if (ft_strcmp(lst->arr[0], "pwd") == 0)
@@ -68,7 +68,7 @@ int link_builtin(t_list *lst, t_env *env)
 	}
 	else if (ft_strcmp(lst->arr[0], "unset") == 0)
 	{
-		g_status = ft_unset(lst->arr, &env);
+		g_status = ft_unset(lst->arr, &lst);
 		return (1);
 	}
 	return (0);
