@@ -33,6 +33,5 @@ char	*ft_strtrim(char *s1, char *set)
 	str = ft_substr(s1, i, j - i + 1);
 	if (!str)
 		return (NULL);
-	// free(s1);
 	return (str);
 }

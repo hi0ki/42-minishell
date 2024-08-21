@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 23:59:24 by eel-ansa          #+#    #+#             */
 /*   Updated: 2024/08/21 19:00:18 by mel-hime         ###   ########.fr       */
@@ -86,7 +86,7 @@ t_lexer	*start_lexer(t_lexer *head, char *line)
 	i = 0;
 	head = NULL;
 	tmp = line;
-	line = ft_strtrim(line, " \t");
+	line = ft_strtrim(line, " \t");;
 	free(tmp);
 	while (line[i])
 	{

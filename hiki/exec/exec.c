@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 19:39:46 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:53:16 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int open_files(t_list **node)
             {
                 if (access(tmp->files[i].file_name, F_OK) == 0 && tmp->files[i].file_name[0] != '$')
                 {
-                    tmp->files[i].fd = open(tmp->files[i].file_name, O_RDONLY, 0644);
+                    tmp->files[i].fd = open(tmp->files[i].file_name, O_RDWR | O_TRUNC, 0644);
                 }
                 else
                 {
@@ -112,9 +112,9 @@ int open_files(t_list **node)
                 }
             }
             else if (tmp->files[i].type == REDIRECT_APPEND)
-                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
             else if (tmp->files[i].type == REDIRECT_OUTPUT)
-                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
             else
                 tmp->files[i].fd = open(tmp->files[i].heredoce_name, O_CREAT | O_RDWR | O_APPEND, 0644);
             if (tmp->files[i].type >= 5 && tmp->files[i].type <= 6)
@@ -127,27 +127,6 @@ int open_files(t_list **node)
     }
     return (0);
 }
-void ft_close_fds(t_list **lst)
-{
-    t_list *tmp;
-    int i;
-
-    i = 0;
-    tmp = *lst;
-    while (tmp)
-    {
-        i = 0;
-        while (i < tmp->num_of_files)
-        {
-            if (tmp->files[i].fd != tmp->in && tmp->files[i].fd != tmp->out)
-                close(tmp->files[i].fd);
-            i++;
-        }
-        tmp = tmp->next;
-    }
-}
-// void    handle_pipe(t_list lst)
-// {}
 
 int ft_exe(t_list *lst, t_env *env)
 {
@@ -184,8 +163,9 @@ int ft_exe(t_list *lst, t_env *env)
                 return (perror("fork error"), free(pid), -1);
             if (pid[i] == 0)
 			{
-                signal(SIGINT, SIG_DFL);
-                signal(SIGQUIT, SIG_DFL);
+                // signal(SIGINT, SIG_DFL);
+                // signal(SIGQUIT, SIG_DFL);
+                // handle_pipe();
                 g_status = 0;
                 if (lst->in != 0)
 				    dup2(lst->in, 0);
@@ -216,12 +196,6 @@ int ft_exe(t_list *lst, t_env *env)
             }
             i++;
         }
-        if (lst->next)
-            lst->next->prev_in = lst->pipe_fd[0];
-        if (lst->in != 0)
-            close(lst->in);
-        if (lst->out != 1)
-            close(lst->out);
         lst = lst->next;
     }
     while (j < i)
