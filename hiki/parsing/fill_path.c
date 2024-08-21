@@ -12,33 +12,34 @@ char *join_path(char *arr, char *cmd)
 
 void check_path(t_list **node, char **array)
 {
-	int i;
-	char *path;
+    int i;
+    char *path;
 
-	i = 0;
-	if (!(*node)->arr[0])
-	{
-		(*node)->path_cmd = NULL;
-		return ;
-	}
-	while(array[i] && ft_strlen((*node)->arr[0]) != 0)
-	{
-		path = join_path(array[i], (*node)->arr[0]);
-		if (access(path, F_OK) == 0)
-		{
-			(*node)->path_cmd = ft_strdup(path);
-			free(path);
-			return ;
-		}
-		free(path);
-		i++;
-	}
-	if (access((*node)->arr[0], F_OK) == 0)
-	{
+    i = 0;
+    if (!(*node)->arr[0])
+    {
+        (*node)->path_cmd = NULL;
+        return ;
+    }
+    while(array[i] && ft_strlen((*node)->arr[0]) != 0)
+    {
+        path = join_path(array[i], (*node)->arr[0]);
+        if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
+        {
+            (*node)->path_cmd = ft_strdup(path);
+            free(path);
+            return ;
+        }
+        free(path);
+        path = NULL;
+        i++;
+    }
+    if (path == NULL && access((*node)->arr[0], F_OK) == 0 && access((*node)->arr[0], X_OK) == 0)
+    {
 		(*node)->path_cmd = ft_strdup((*node)->arr[0]);
 		return ;
-	}
-	(*node)->path_cmd = NULL;
+    }
+    (*node)->path_cmd = NULL;
 }
 
 void fill_path(t_list **lst, t_env *env, char **envr)

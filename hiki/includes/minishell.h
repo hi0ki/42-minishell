@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <sys/stat.h>
 // #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
 // #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
 #include <readline/readline.h>
@@ -63,7 +64,6 @@ typedef struct s_lexer{
 	char			*data;
 	int				type;
 	int				error_quotes;
-	// int				len;
 	struct s_lexer	*next;
     struct s_lexer	*prev;
 } t_lexer;
@@ -88,7 +88,7 @@ typedef struct s_list{
 
 
 /*						GNL								*/
-void print_list(t_lexer *head);
+void	print_list(t_lexer *head);
 char	*get_next_line(int fd);
 /*						 libft							*/
 t_list	*ft_lstnew(void);
@@ -98,8 +98,8 @@ void	ft_bzero(char *str, int n);
 char	*ft_strdup(char *s1);
 char    *ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);
-int	ft_isalnum(int c);
-int	ft_isdigit(int c);
+int		ft_isalnum(int c);
+int		ft_isdigit(int c);
 char	*ft_substr(char *s, int start, int len);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putstrn_fd(char *s, int fd);
@@ -110,7 +110,7 @@ char    *ft_strjoin2(char *s1, char *s2);
 char    *ft_strjoin3(char *s1, char *s2);
 char	**ft_split(char *s, char *c);
 char	*ft_itoa(int n);
-int	ft_lstsize(t_list *lst);
+int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
@@ -119,7 +119,7 @@ void 	free_files(t_files *file, int num_of_files);
 void	*ft_calloc(size_t count, size_t size);
 
 /*						Error handler						*/
-int error_handler(t_lexer *lexer);
+int		error_handler(t_lexer *lexer);
 /*					lexer & set_tyep &utils_lexer			*/
 t_lexer *start_lexer(t_lexer *head, char *line);
 t_lexer	*lexer_lstnew(char *data);
@@ -132,26 +132,26 @@ int		ft_handle_quotes(char *line);
 void 	set_type(t_lexer **head);
 
 /*						parsing							*/
-void start_parsing(t_lexer **head, t_env *env);
-void fill_variables(t_lexer **head, t_env *env);
-void join_nodes(t_lexer **head);
-void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr);
-void parsing_type(t_lexer **head);
+void	start_parsing(t_lexer **head, t_env *env);
+void	fill_variables(t_lexer **head, t_env *env);
+void	join_nodes(t_lexer **head);
+void	create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr);
+void	parsing_type(t_lexer **head);
 /*						parisng utils				*/
-int count_cmd(t_lexer *head);
-int size_node(t_lexer *head);
+int		count_cmd(t_lexer *head);
+int		size_node(t_lexer *head);
 void	num_of_files(t_list **lst, t_lexer **lexer);
 /*					check utils						*/
-int check_oper(t_lexer *node);
-int check_variable(t_lexer *node);
-void remove_variables(t_lexer **head);
+int		check_oper(t_lexer *node);
+int		check_variable(t_lexer *node);
+void	remove_variables(t_lexer **head);
 /*					fill files						*/
-void fill_variables(t_lexer **head, t_env *env);
-int fill_files(t_list **lst, t_lexer **lexer, t_env **env);
-void fill_arr(t_list **lst, t_lexer **head, int size);
-void fill_path(t_list **lst, t_env *env, char **envr);
+void	fill_variables(t_lexer **head, t_env *env);
+int		fill_files(t_list **lst, t_lexer **lexer, t_env **env);
+void	fill_arr(t_list **lst, t_lexer **head, int size);
+void	fill_path(t_list **lst, t_env *env, char **envr);
 /*						env 						*/
-char *get_value_env(t_env *env, char *av);
+char	*get_value_env(t_env *env, char *av);
 
 
 /*						builtin && utils builtin							*/
@@ -166,12 +166,12 @@ int		ft_env(t_env *env);
 void	env_init(t_env **env, char **envr);
 void	ft_envaddback(t_env **head, t_env *new);
 t_env	*ft_envnew(char *s);
-int link_builtin(t_list *lst, t_env *env);
+int		link_builtin(t_list *lst, t_env *env);
 /*						execution	
 */
-int err_msg(char *path, char *arr);				
+int		err_msg(char *path, char *arr);				
 		
-int ft_exe(t_list *lst, t_env *env);
+int		ft_exe(t_list *lst, t_env *env);
 
 //           signals
 void	sig_handle(int sig);

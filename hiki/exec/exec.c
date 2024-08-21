@@ -21,9 +21,9 @@ int err_msg(char *path, char *arr)
 	f = opendir(path);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(arr, 2);
-	if (path == NULL)
-		ft_putstrn_fd(": command not found", 2);
-	else if (fd == -1 && f == NULL)
+    if (path == NULL && strchr(arr, '/') == NULL)
+        ft_putstrn_fd(": command not found", 2);
+	else if ((fd == -1 && f == NULL) || (strchr(arr, '/') != NULL))
 		ft_putstrn_fd(": No such file or directory", 2);
 	else if (fd == -1 && f != NULL)
 		ft_putstrn_fd(": is a directory", 2);
@@ -38,7 +38,6 @@ int err_msg(char *path, char *arr)
 	close(fd);
 	return (g_status);
 }
-
 
 int whit_processsu(int *pid, int i)
 {
@@ -92,6 +91,12 @@ int open_files(t_list **node)
             if (tmp->files[i].error_file == -1)
             {
                 printf("minishell : %s: ambiguous redirect\n", tmp->files[i].file_name);
+                return (-1);
+            }
+            if (access(tmp->files[i].file_name, F_OK) == 0 && access(tmp->files[i].file_name, R_OK | W_OK) == -1)
+            {
+                printf("minishell : %s: Permission denied\n", tmp->files[i].file_name);
+                g_status = 1;
                 return (-1);
             }
             if (tmp->files[i].type == REDIRECT_INPUT)
