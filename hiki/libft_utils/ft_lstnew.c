@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:25:54 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/20 22:57:47 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:56:58 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ t_list	*ft_lstnew(void)
 		return (NULL);
 	node->out = 1;
 	node->in = 0;
+	node->pipe_fd[0] = 0;
+	node->pipe_fd[1] = 1;
+	node->prev_in = 0;
 	node->next = NULL;
 	return (node);
 }

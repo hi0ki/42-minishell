@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/15 13:25:55 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:01:43 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int err_msg(char *path, char *arr)
 int whit_processsu(int *pid, int i)
 {
 	int j = 0;
-	printf ("i = %d\n",i);
+	// printf ("i = %d\n",i);
 	while (j <i)
 	{
 		waitpid(pid[j], &g_status, 0);
 		j++;
 	}
-	printf("******1111\n");
+	// printf("******1111\n");
 	return (g_status);
 }
 void print_s_files(t_list *list) {
@@ -145,7 +145,6 @@ int ft_exe(t_list *lst, t_env *env)
         perror("malloc error");
         return (-1);
     }
-
     if (open_files(&lst) == -1)
     {
         g_status = 1;
@@ -180,6 +179,12 @@ int ft_exe(t_list *lst, t_env *env)
             //     return (-1);
             // }
             signal(SIGINT, SIG_IGN);
+            // signal(SIGINT, SIG_IGN);
+            if(lst->next)
+            {
+                pipe(lst->pipe_fd);
+                // lst->out = lst->pipe_fd[1];
+            }
             pid[i] = fork();
             if (pid[i] < 0)
 			{
