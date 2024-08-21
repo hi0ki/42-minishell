@@ -88,7 +88,11 @@ typedef struct s_list{
 
 
 /*						GNL								*/
+<<<<<<< HEAD
 void	print_list(t_lexer *head);
+=======
+void 	print_list(t_lexer *head);
+>>>>>>> 79ef734e67bf0e76fadd9505ed1c476f9f73bc1e
 char	*get_next_line(int fd);
 /*						 libft							*/
 t_list	*ft_lstnew(void);
@@ -132,6 +136,7 @@ int		ft_handle_quotes(char *line);
 void 	set_type(t_lexer **head);
 
 /*						parsing							*/
+<<<<<<< HEAD
 void	start_parsing(t_lexer **head, t_env *env);
 void	fill_variables(t_lexer **head, t_env *env);
 void	join_nodes(t_lexer **head);
@@ -152,6 +157,28 @@ void	fill_arr(t_list **lst, t_lexer **head, int size);
 void	fill_path(t_list **lst, t_env *env, char **envr);
 /*						env 						*/
 char	*get_value_env(t_env *env, char *av);
+=======
+void	 start_parsing(t_lexer **head, t_env *env);
+void 	fill_variables(t_lexer **head, t_env *env);
+void 	join_nodes(t_lexer **head);
+void 	create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr);
+void 	parsing_type(t_lexer **head);
+/*						parisng utils				*/
+int 	count_cmd(t_lexer *head);
+int 	size_node(t_lexer *head);
+void	num_of_files(t_list **lst, t_lexer **lexer);
+/*					check utils						*/
+int 	check_oper(t_lexer *node);
+int 	check_variable(t_lexer *node);
+void 	remove_variables(t_lexer **head);
+/*					fill files						*/
+void 	fill_variables(t_lexer **head, t_env *env);
+int 	fill_files(t_list **lst, t_lexer **lexer, t_env **env);
+void 	fill_arr(t_list **lst, t_lexer **head, int size);
+void 	fill_path(t_list **lst, t_env *env, char **envr);
+/*						env 						*/
+char	 *get_value_env(t_env *env, char *av);
+>>>>>>> 79ef734e67bf0e76fadd9505ed1c476f9f73bc1e
 
 
 /*						builtin && utils builtin							*/
@@ -169,9 +196,15 @@ t_env	*ft_envnew(char *s);
 int		link_builtin(t_list *lst, t_env *env);
 /*						execution	
 */
+<<<<<<< HEAD
 int		err_msg(char *path, char *arr);				
 		
 int		ft_exe(t_list *lst, t_env *env);
+=======
+int 	err_msg(char *path, char *arr);				
+		
+int 	ft_exe(t_list *lst, t_env *env);
+>>>>>>> 79ef734e67bf0e76fadd9505ed1c476f9f73bc1e
 
 //           signals
 void	sig_handle(int sig);
