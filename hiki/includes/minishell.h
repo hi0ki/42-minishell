@@ -24,10 +24,10 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/stat.h>
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
-// #include <readline/readline.h>
-// #include <readline/history.h>
+// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
+// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #define CMD	1
 #define ARG 2
@@ -116,6 +116,7 @@ char	*ft_itoa(int n);
 int		ft_lstsize(t_list *lst);
 int		ft_envsize(t_env *env);
 t_list	*ft_lstlast(t_list *lst);
+void	ft_free_arr(char **array);
 void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
 void 	free_list(t_list **lst);

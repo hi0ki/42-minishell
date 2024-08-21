@@ -1,10 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fill_array.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/21 21:59:28 by eel-ansa          #+#    #+#             */
+/*   Updated: 2024/08/21 21:59:30 by eel-ansa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void fill_arr(t_list **lst, t_lexer **head, int size)
+static void	put_cmd_in_arr(t_list *lstmp, t_lexer *tmp, int size)
 {
-	t_lexer *tmp;
-	t_list  *lstmp;
-	int i;
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (tmp->type >= 5 && tmp->type <= 8)
+			tmp = tmp->next->next;
+		else
+		{
+			lstmp->arr[i] = ft_strdup(tmp->data);
+			tmp = tmp->next;
+			i++;
+		}
+	}
+	lstmp->arr[i] = NULL;
+}
+
+void	fill_arr(t_list **lst, t_lexer **head, int size)
+{
+	t_lexer	*tmp;
+	t_list	*lstmp;
 
 	if (!*lst)
 		return ;
@@ -16,22 +46,8 @@ void fill_arr(t_list **lst, t_lexer **head, int size)
 		{
 			size = count_cmd(tmp);
 			lstmp->arr = malloc((size + 1) * sizeof(char *));
-			i = 0;
 			if (size != 0)
-			{
-				while (i < size)
-				{
-					if (tmp->type >= 5 && tmp->type <= 8)
-						tmp = tmp->next->next;
-					else
-					{
-						lstmp->arr[i] = ft_strdup(tmp->data);
-						tmp = tmp->next;
-						i++;
-					}
-				}
-			}
-			lstmp->arr[i] = NULL;
+				put_cmd_in_arr(lstmp, tmp, size);
 			lstmp = lstmp->next;
 			while (tmp && tmp->type != PIPE)
 				tmp = tmp->next;

@@ -1,32 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/21 21:48:05 by eel-ansa          #+#    #+#             */
+/*   Updated: 2024/08/21 21:48:09 by eel-ansa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	c_word(char const *s, char *c)
 {
-    int	i;
-    int j;
-    int	cnt;
+	int	i;
+	int	j;
+	int	cnt;
 
-    cnt = 0;
-    i = 0;
-    while (s[i])
-    {
-        j = 0;
-        while (c[j])
-        {
-            if (s[i] == c[j] && s[i])
-                break;
-            j++;
-        }
-        if (c[j] == '\0')
+	cnt = 0;
+	i = 0;
+	while (s[i])
+	{
+		j = 0;
+		while (c[j])
 		{
-            cnt++;
+			if (s[i] == c[j] && s[i])
+				break ;
+			j++;
+		}
+		if (c[j] == '\0')
+		{
+			cnt++;
 			while (s[i] && !ft_strchr(c, s[i]))
 				i++;
 		}
 		else
 			i++;
-    }
-    return cnt;
+	}
+	return (cnt);
 }
 
 static char	**ft_free(char **str, int i)

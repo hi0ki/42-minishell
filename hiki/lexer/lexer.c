@@ -86,7 +86,7 @@ t_lexer	*start_lexer(t_lexer *head, char *line)
 	i = 0;
 	head = NULL;
 	tmp = line;
-	line = ft_strtrim(line, " \t");;
+	line = ft_strtrim(line, " \t");
 	free(tmp);
 	while (line[i])
 	{

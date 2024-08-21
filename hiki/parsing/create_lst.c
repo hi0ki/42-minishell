@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_lst.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/21 21:59:18 by eel-ansa          #+#    #+#             */
+/*   Updated: 2024/08/21 21:59:20 by eel-ansa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
+void	create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 {
-	int size;
-	
+	int	size;
+
 	*lst = NULL;
 	size = size_node(*head);
 	while (size > 0)
