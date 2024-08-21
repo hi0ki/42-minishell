@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:20:00 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 20:06:00 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:55:11 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	exec_after_built(t_list *lst, t_env *env)
 	return (r);
 }
 
-int link_builtin(t_list *lst, t_env *env)
+int link_builtin(t_list *lst)
 {
 	if (ft_strcmp(lst->arr[0], "cd") == 0)
 	{

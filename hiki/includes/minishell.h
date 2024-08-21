@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 19:44:40 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:55:05 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int		ft_env(t_env *env, int fd_out);
 void	env_init(t_env **env, char **envr);
 void	ft_envaddback(t_env **head, t_env *new);
 t_env	*ft_envnew(char *s);
-int		link_builtin(t_list *lst, t_env *env);
+int		link_builtin(t_list *lst);
 /*						execution	
 */
 int		err_msg(char *path, char *arr);				
