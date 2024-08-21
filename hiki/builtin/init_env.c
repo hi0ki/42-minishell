@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/21 11:20:49 by mel-hime          #+#    #+#             */
+/*   Updated: 2024/08/21 11:21:51 by mel-hime         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_error(char **av)
@@ -6,13 +18,10 @@ void	print_error(char **av)
 	if (av[2])
 		ft_putstr_fd("string not in pwd: ", 2);
 	else
-	{
-		//try that function the retreve the message error exactly
 		ft_putstr_fd("no such file or directory: ", 2);
-		// ft_putstr_fd(": ", 2);
-	}
 	ft_putstrn_fd(av[1], 2);
 }
+
 t_env	*ft_envnew(char *s)
 {
 	t_env	*n1;
@@ -31,8 +40,6 @@ t_env	*ft_envnew(char *s)
 	if (s[i] && s[i] == '=')
 		n1->env = 1;
 	n1->after_eql = ft_substr(s, i + 1, ft_strlen(s));
-	// n1->after_eql = ft_strjoin2("\"", n1->after_eql);
-	// n1->after_eql = ft_strjoin3(n1->after_eql, "\"");
 	n1->next = NULL;
 	return (n1);
 }

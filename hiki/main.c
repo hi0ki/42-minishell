@@ -84,6 +84,18 @@ int main(int ac, char **av, char **envr)
 	// signal(SIGQUIT, SIG_IGN);
 	// signal(SIGINT, sig_handle);
 	env_init(&env, envr);
+	
+	// test func envlist to **tab
+	// char **tab;
+	// int i = 0;
+	// tab = env_to_tab(env);
+	// while (i < ft_envsize(env))
+	// {
+	// 	printf("%s\n", tab[i]);
+	// 	i++;
+	// }
+	// exit (0);
+
 	line = readline("\033[0;32mminishell[$]:\033[0m ");
 	while (line != NULL)
 	{
@@ -95,7 +107,10 @@ int main(int ac, char **av, char **envr)
 			if (lexer != NULL)
 			{
 				create_lst(&lst, &lexer, &env, envr);
-				if (ft_exe(lst, env) == -1)
+				lst->pipe_fd[0] = 0;
+				lst->pipe_fd[1] = 1;
+				lst->prev_in = 0;
+				if (ft_exe(&lst, &env) == -1)
 				{
 					printf("exe khsrat hahaha\n");
 					// free_lst_lexer(&lexer);

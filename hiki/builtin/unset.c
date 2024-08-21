@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 09:46:11 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/06 13:19:52 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:57:57 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int ft_unset(char **av, t_env **env)
 		return (0);
 	while (av[i])
 	{
-		// printf("chaaa1111 %d\n", i);
+		printf("chaaa1111 %d\n", i);
 		if (strcmp(av[i], tmp->bfr_eql) == 0)
 		{
 			// printf("chaaa22222 %d\n", i);
-			(*env) = (*env)->next;
+			*env = (*env)->next;
 			free_node(tmp);
 			// printf("chaaa3333 %d\n", i);
 			i = 0;

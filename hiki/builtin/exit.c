@@ -6,41 +6,11 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:01:46 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/09 12:25:36 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:22:26 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-// void	ft_putstr_fd(char *s, int fd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		write(fd, &s[i], 1);
-// 		i++;
-// 	}
-// }
-// void	ft_putstrn_fd(char *s, int fd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (s == NULL)
-// 		return ;
-// 	while (s[i] != '\0')
-// 	{
-// 		write(fd, &s[i], 1);
-// 		i++;
-// 	}
-// 	write(fd, "\n", 1);
-// }
 
 static int	is_neg(const char *s, int *i)
 {
@@ -104,7 +74,6 @@ int	is_number(char *s)
 
 int    ft_exit(char **av)
 {
-	ft_putstrn_fd("exit", 2);
 	if (av[1] && !is_number(av[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -129,7 +98,3 @@ int    ft_exit(char **av)
 	}
 
 }
-
-// int main (int ac, char **av){
-// 	ft_exit(av);
-// }

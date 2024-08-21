@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/15 12:50:45 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:26:57 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,13 @@ typedef struct s_env{
 typedef struct s_list{
 	char			*path_cmd;
 	char			**arr;
-	char			**env; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
+	char			**envr; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
 	int				num_of_files;
 	t_files			*files;
+	int				pipe_fd[2];
 	int				in;
 	int				out;
+	int				prev_in;
 	struct s_list	*next;
 } t_list;
 
@@ -111,6 +113,7 @@ char    *ft_strjoin3(char *s1, char *s2);
 char	**ft_split(char *s, char *c);
 char	*ft_itoa(int n);
 int		ft_lstsize(t_list *lst);
+int		ft_envsize(t_env *env);
 t_list	*ft_lstlast(t_list *lst);
 void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
@@ -156,13 +159,13 @@ char	 *get_value_env(t_env *env, char *av);
 
 /*						builtin && utils builtin							*/
 int    	ft_cd(char **av, t_env *env);
-int		ft_echo(int ac, char **av);
+int		ft_echo(int ac, char **av, int fd_out);
 int		ft_exit(char **av);
-int 	ft_pwd(void);
-int		ft_export(char **av, t_env *env);
-int 	ft_unset(char **av, t_env **env);
-void    print_all_env(t_env *env);
-int		ft_env(t_env *env);
+int 	ft_pwd(int fd_out);
+int		ft_export(char **av, t_env *env, int fd_out);
+int ft_unset(char **av, t_env **env);
+void    print_all_env(t_env *env, int fd_out);
+int		ft_env(t_env *env, int fd_out);
 void	env_init(t_env **env, char **envr);
 void	ft_envaddback(t_env **head, t_env *new);
 t_env	*ft_envnew(char *s);
@@ -171,9 +174,11 @@ int		link_builtin(t_list *lst, t_env *env);
 */
 int 	err_msg(char *path, char *arr);				
 		
-int 	ft_exe(t_list *lst, t_env *env);
+int ft_exe(t_list **list, t_env **env);
 
 //           signals
 void	sig_handle(int sig);
+
+char	**env_to_tab(t_env *env);
 
 #endif

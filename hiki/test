@@ -1,0 +1,14 @@
+Makefile
+builtin
+exec
+includes
+lexer
+libft_utils
+main.c
+minishell
+parsing
+script.sh
+test
+tester
+text.txt
+walo.sh

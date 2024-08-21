@@ -61,7 +61,8 @@ void fill_path(t_list **lst, t_env *env, char **envr)
 			tmp->path_cmd = NULL;
 			// tmp->arr = NULL;
 		}
-		tmp->env = envr;
+		tmp->envr = envr;
+		// tmp->env = &env;
 		tmp = tmp->next;
 	}
 	if (str)

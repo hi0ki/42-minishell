@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static	int		print_error(char **args)
+static int		print_error(char **args)
 {
 	ft_putstr_fd("minishell: cd:", 2);
 	ft_putstr_fd(args[1], 2);
@@ -24,29 +24,14 @@ static	int		print_error(char **args)
 int	add_env(char *bfr, char *aftr, t_env *env)
 {
 	t_env	*tmp;
-	// if (env && env->after_eql == NULL && env->bfr_eql == NULL)
-	// {
-	// 	env->bfr_eql = ft_strdup(bfr);
-	// 	env->after_eql = ft_strdup(aftr);
-	// 	return (0);
-	// }
-	// if (!(new = malloc(sizeof(t_env))))
-	// 	return(-1);
-	// new->bfr_eql = ft_strdup(bfr);
-	// new->after_eql = ft_strdup(aftr);
+
 	tmp = env;
-	while(tmp && tmp->next && ft_strncmp(tmp->bfr_eql, bfr, 6))
+	while (tmp && tmp->next && ft_strncmp(tmp->bfr_eql, bfr, 6))
 	{
 		tmp = tmp->next;
-		// printf("%d\n", i);
-		// printf("---------------\n");
 	}
-	// printf("%s-- %d\n", tmp->bfr_eql, ft_strlen(tmp->bfr_eql));
-	// new->next = NULL;
-	// tmp->next = new;
 	if (!ft_strncmp(tmp->bfr_eql, bfr, 6))
 	{
-		// printf("\n\nHAAAAAAAA\n\n");
 		free(tmp->after_eql);
 		tmp->after_eql = ft_strdup(aftr);
 	}
@@ -60,16 +45,12 @@ int	add_oldpwd(t_env *env)
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (-1);
-	// if (old_pwd == ft_strjoin("OLDPWD=", cwd))
-	// 	return (-1);
-	// should check if it exist first then add
 	add_env("OLDPWD", cwd, env);
 	return (0);
 }
 
 char	*get_path(t_env *env, char *key)
 {
-	// char	*nwd;
 	while (env)
 	{
 		if (!ft_strcmp(env->bfr_eql, key))
@@ -82,7 +63,7 @@ char	*get_path(t_env *env, char *key)
 int	go_path(int opt, t_env *env)
 {
 	char	*path;
-	int	r;
+	int		r;
 
 	path = NULL;
 	if (opt == 0)
@@ -103,10 +84,10 @@ int	go_path(int opt, t_env *env)
 	return (r);
 }
 
-int    ft_cd(char **av, t_env *env)
+int	ft_cd(char **av, t_env *env)
 {
 	int	r;
-	
+
 	if (!av[1])
 		return (go_path(0, env));
 	else 
