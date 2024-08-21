@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 19:53:16 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 20:05:55 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,26 @@ int open_files(t_list **node)
     return (0);
 }
 
+void ft_close_fds(t_list **lst)
+{
+    t_list *tmp;
+    int i;
+
+    i = 0;
+    tmp = *lst;
+    while (tmp)
+    {
+        i = 0;
+        while (i < tmp->num_of_files)
+        {
+            if (tmp->files[i].fd != tmp->in && tmp->files[i].fd != tmp->out)
+                close(tmp->files[i].fd);
+            i++;
+        }
+        tmp = tmp->next;
+    }
+}
+
 int ft_exe(t_list *lst, t_env *env)
 {
     int *pid;
@@ -142,6 +162,12 @@ int ft_exe(t_list *lst, t_env *env)
         return (g_status = 1, g_status);
     else
         ft_close_fds(&lst);
+
+    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
+    {
+        return (g_status);
+    }
+
     int i = 0;
     last = ft_lstlast(lst);
     
@@ -163,8 +189,8 @@ int ft_exe(t_list *lst, t_env *env)
                 return (perror("fork error"), free(pid), -1);
             if (pid[i] == 0)
 			{
-                // signal(SIGINT, SIG_DFL);
-                // signal(SIGQUIT, SIG_DFL);
+                signal(SIGINT, SIG_DFL);
+                signal(SIGQUIT, SIG_DFL);
                 // handle_pipe();
                 g_status = 0;
                 if (lst->in != 0)
