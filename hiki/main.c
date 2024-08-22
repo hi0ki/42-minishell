@@ -120,6 +120,6 @@ int main(int ac, char **av, char **envr)
 	signal(SIGINT, sig_handle);
 	env_init(&env, envr);
 	start_readline(lexer, lst, env, envr);
-	// system("leaks -q minishell");
+	system("leaks -q minishell");
 	return (g_status);
 }
