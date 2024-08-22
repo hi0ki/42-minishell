@@ -24,11 +24,11 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/stat.h>
-// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
-// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
+#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
+#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
 
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
+// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
+// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
