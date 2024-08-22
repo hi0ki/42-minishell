@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 21:55:05 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 23:29:35 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,11 @@ int 	ft_exe(t_list *lst, t_env *env);
 //           signals
 void	sig_handle(int sig);
 
+//            norm
 char	**env_to_tab(t_env *env);
+int		go_path(int opt, t_env *env);
+char	*get_path(t_env *env, char *key);
+int		add_oldpwd(t_env *env);
+void	print_all_env(t_env *env, int fd_out);
 
 #endif

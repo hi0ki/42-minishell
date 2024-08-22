@@ -1,0 +1,21 @@
+total 176
+drwxr-xr-x  20 mel-hime  candidates    680 Aug 22 02:50 .
+drwxr-xr-x  11 mel-hime  candidates    374 Aug 21 22:11 ..
+-rw-r--r--   1 mel-hime  candidates  10244 Aug 18 09:56 .DS_Store
+-rw-r--r--   1 mel-hime  candidates   1548 Aug 21 22:59 Makefile
+-rw-r--r--   1 mel-hime  candidates     17 Aug 22 01:29 a
+-rw-r--r--   1 mel-hime  candidates      0 Aug 22 01:28 b
+drwxr-xr-x  13 mel-hime  candidates    442 Aug 21 17:24 builtin
+-rw-r--r--   1 mel-hime  candidates   1134 Aug 22 01:51 c
+drwxr-xr-x   4 mel-hime  candidates    136 Aug 21 19:52 exec
+-rw-r--r--   1 mel-hime  candidates      0 Aug 21 22:11 file
+drwxr-xr-x   3 mel-hime  candidates    102 Aug 21 17:24 includes
+drwxr-xr-x   7 mel-hime  candidates    238 Aug 21 19:52 lexer
+drwxr-xr-x  22 mel-hime  candidates    748 Aug 21 19:52 libft_utils
+-rw-r--r--   1 mel-hime  candidates   2661 Aug 21 23:02 main.c
+-rwxr-xr-x   1 mel-hime  candidates  48232 Aug 22 02:49 minishell
+-rw-r--r--   1 mel-hime  candidates     54 Aug 22 02:50 n
+drwxr-xr-x  12 mel-hime  candidates    408 Aug 21 17:24 parsing
+drwxr-xr-x  16 mel-hime  candidates    544 Aug 18 19:00 tester
+-rw-r--r--   1 mel-hime  candidates   1471 Aug 20 21:30 text.txt
+-rw-r--r--   1 mel-hime  candidates   1250 Aug 22 02:51 v
