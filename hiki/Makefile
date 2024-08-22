@@ -4,7 +4,7 @@ SRC = 	main.c\
 		parsing/fill_files.c parsing/fill_array.c parsing/fill_path.c parsing/heredoc.c parsing/utils_variables.c\
 		lexer/utils_lexer.c lexer/lexer.c lexer/token_type.c lexer/error_handler.c  lexer/check_operators.c\
 		builtin/cd.c builtin/init_env.c builtin/echo.c builtin/env.c builtin/export.c builtin/pwd.c builtin/unset.c builtin/exit.c \
-		exec/exec.c exec/link_builtin.c \
+		exec/exec.c exec/link_builtin.c builtin/builtin_utils.c \
 
 LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strlen.c libft_utils/ft_bzero.c libft_utils/ft_itoa.c\
@@ -19,15 +19,15 @@ RD_LINE2 = -L/goinfre/$(USER)/homebrew/opt/readline/lib
 NAME = minishell
 CC = cc
 HEADER = minishell.h
-FLAGS = -I./includes -I./libft -lreadline  #-fsanitize=address -g #-Wall -Wextra -Werror 
+FLAGS = -I./includes -I./libft -lreadline # -fsanitize=address -g #-Wall -Wextra -Werror 
 
 all: $(NAME)
-#
+# -L ~/goinfre/homebrew/opt/readline/lib/
 $(NAME): $(SRC) $(LIBFT)
-	$(CC) $(FLAGS)  -L ~/goinfre/homebrew/opt/readline/lib/  $(SRC) $(LIBFT) -lreadline -o $(NAME)
-#  
+	$(CC) $(FLAGS)   $(SRC) $(LIBFT) -lreadline -o $(NAME)
+# -I ~/goinfre/homebrew/opt/readline/include/
 %.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) -I ~/goinfre/homebrew/opt/readline/include/ -c $< -o $@
+	$(CC) $(CFLAGS)  -c $< -o $@
 
 clean:
 	rm -rf $(NAME)

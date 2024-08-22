@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:01:46 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 11:22:26 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 23:21:55 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_atoi(const char *str)
 	return (somme * sign);
 }
 
-
 int	is_number(char *s)
 {
 	int	i;
@@ -72,7 +71,7 @@ int	is_number(char *s)
 	return (1);
 }
 
-int    ft_exit(char **av)
+int	ft_exit(char **av)
 {
 	if (av[1] && !is_number(av[1]))
 	{
@@ -96,5 +95,4 @@ int    ft_exit(char **av)
 			exit(g_status % 256);
 		}
 	}
-
 }

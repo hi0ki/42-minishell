@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 21:55:27 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:05:31 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,6 @@ int err_msg(char *path, char *arr)
 	return (g_status);
 }
 
-int whit_processsu(int *pid, int i)
-{
-	int j = 0;
-	// printf ("i = %d\n",i);
-	while (j <i)
-	{
-		waitpid(pid[j], &g_status, 0);
-		j++;
-	}
-	// printf("******1111\n");
-	return (g_status);
-}
 void print_s_files(t_list *list) {
     int i = 0;
 
@@ -148,200 +136,132 @@ void ft_close_fds(t_list **lst)
     }
 }
 
-int handel_pip(t_list *lst, int *pid)
+void    pipe_handle(t_list *lst)
 {
-                signal(SIGINT, SIG_DFL);
-                signal(SIGQUIT, SIG_DFL);
-                g_status = 0;
-                if (lst->in != 0)
-				    dup2(lst->in, 0);
-                else if (lst->prev_in != 0)
-                {
-                    dup2(lst->prev_in, 0);
-                    close(lst->prev_in);
-                }
-    
-                // else if ()
-                    // dup2(lst->pipe_fd[0], 0);
-                if (lst->out != 1)
-				    dup2(lst->out, 1);
-                else if (lst->next)
-                {
-                    dup2(lst->pipe_fd[1], 1);
-                    close(lst->pipe_fd[1]);
-                    close(lst->pipe_fd[0]);
-                }
-                if (link_builtin(lst) == 1)
-                {
-                    free(pid);
-                    // break;
-                    exit (g_status);
-                }
-                else
-                {
-                    if (lst->path_cmd == NULL && !lst->arr[0])
-                        return (0);
-                    if (lst->path_cmd != NULL)
-                    {
-                        // printf("haaa\n");
-                        execve(lst->path_cmd, lst->arr, lst->envr);
-                    }
-                    g_status = err_msg(lst->path_cmd, lst->arr[0]);
-                    
-                    exit(g_status);
+      if (lst->in != 0)
+        dup2(lst->in, 0);
+    else if (lst->prev_in != 0)
+    {
+        dup2(lst->prev_in, 0);
+        close(lst->prev_in);
+    }
+    if (lst->out != 1)
+        dup2(lst->out, 1);
+    else if (lst->next)
+    {
+        dup2(lst->pipe_fd[1], 1);
+        close(lst->pipe_fd[1]);
+        close(lst->pipe_fd[0]);
+    }
+    return ;
+}
 
-                }
+int child_process(t_list *lst, int *pid)
+{
+    // signal(SIGINT, SIG_DFL);
+    // signal(SIGQUIT, SIG_DFL);
+    g_status = 0;
+    pipe_handle(lst);
+    if (link_builtin(lst) == 1)
+    {
+        free(pid);
+        exit (g_status);
+    }
+    else
+    {
+        if (lst->path_cmd == NULL && !lst->arr[0])
+            return (0);
+        if (lst->path_cmd != NULL)
+            execve(lst->path_cmd, lst->arr, lst->envr);
+        g_status = err_msg(lst->path_cmd, lst->arr[0]);
+        exit(g_status);
+    }
     return (1);
 }
 
-int ft_exe(t_list *lst, t_env *env)
+int wait_process(int *pid, int i)
 {
-    int *pid;
-    int j = 0;
-    t_list *last;
-    // int fd[2];
-    // int fd0;
-    // int fd1;
-    // fd0 = dup(0);
-    // fd1 = dup(1);
-    
-    int size = ft_lstsize(lst);
-    pid = malloc(size * sizeof(int));
-    if (!pid) {
-        perror("malloc error");
-        return (-1);
-    }
-    if (open_files(&lst) == -1)
-    {
-        g_status = 1;
-        return (g_status);
-    }
-    else
-        ft_close_fds(&lst);
+	int j;
 
-    // print_s_files(lst);
-
-    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
-    {
-        return (g_status);
-    }
-
-    int i = 0;
-    last = ft_lstlast(lst);
-    
-    if (size == 1) {
-        if (link_builtin(lst) == 1)
-        {
-            free(pid);
-            return (g_status);
-        }
-    }
-
-    while (lst)
+    j = 0;
+	while (j < i)
 	{
-        
-        if (i < size)
-		{
-            // if (pipe(fd) == -1)
-			// {
-            //     perror("pipe error");
-            //     free(pid);
-            //     return (-1);
-            // }
-            signal(SIGINT, SIG_IGN);
-            if(lst->next)
-            {
-                pipe(lst->pipe_fd);
-                // lst->out = lst->pipe_fd[1];
-            }
-            pid[i] = fork();
-            if (pid[i] < 0)
-			{
-                perror("fork error");
-                free(pid);
-                return (-1);
-            }
-
-            if (pid[i] == 0)
-			{
-                handel_pip(lst, pid);
-                signal(SIGINT, SIG_DFL);
-                signal(SIGQUIT, SIG_DFL);
-                // g_status = 0;
-                // if (lst->in != 0)
-				//     dup2(lst->in, 0);
-                // else if (lst->prev_in != 0)
-                // {
-                //     dup2(lst->prev_in, 0);
-                //     close(lst->prev_in);
-                // }
-    
-                // // else if ()
-                //     // dup2(lst->pipe_fd[0], 0);
-                // if (lst->out != 1)
-				//     dup2(lst->out, 1);
-                // else if (lst->next)
-                // {
-                //     dup2(lst->pipe_fd[1], 1);
-                //     close(lst->pipe_fd[1]);
-                //     close(lst->pipe_fd[0]);
-                // }
-                // if (link_builtin(lst, env) == 1)
-                // {
-                //     free(pid);
-                //     // break;
-                //     exit (g_status);
-                // }
-                // else
-                // {
-                //     if (lst->path_cmd == NULL && !lst->arr[0])
-                //         return (0);
-                //     if (lst->path_cmd != NULL)
-                //     {
-                //         // printf("haaa\n");
-                //         execve(lst->path_cmd, lst->arr, lst->envr);
-                //     }
-                //     g_status = err_msg(lst->path_cmd, lst->arr[0]);
-                    
-                //     exit(g_status);
-
-                // }
-            }
-			else
-			{
-                // close (lst->pipe_fd[0]);
-                if (lst->prev_in != 0)
-                    close (lst->prev_in);
-                if (lst->next)
-                    close (lst->pipe_fd[1]);
-                // if (lst != last)
-				// {
-                //     dup2(fd[0], 0);
-                // }
-                // close(fd[1]);
-                // close(fd[0]);
-            }
-
-            i++;
-        }
-        if (lst->next)
+        waitpid(pid[j++], &g_status, 0);
+        if (WIFEXITED(g_status))
+            g_status = WEXITSTATUS(g_status);
+        else if (WIFSIGNALED(g_status))
+            g_status = WTERMSIG(g_status) + 128;
+        // signal(SIGINT, sig_handle);
+    }
+    free(pid);
+	return (g_status);
+}
+void    setup_next_pipe(t_list *lst)
+{
+    if (lst->next)
             lst->next->prev_in = lst->pipe_fd[0];
         if (lst->in != 0)
             close(lst->in);
         if (lst->out != 1)
             close(lst->out);
+    return ;
+}
+
+int lst_handle(t_list *lst, int *pid, int size, int *i)
+{
+    while (lst)
+	{
+        if ((*i) < size)
+		{
+            // signal(SIGINT, SIG_IGN);
+            if(lst->next)
+                pipe(lst->pipe_fd);
+            pid[(*i)] = fork();
+            if (pid[(*i)] < 0)
+                return (-2);
+            if (pid[(*i)] == 0)
+                child_process(lst, pid);
+			else
+			{
+                if (lst->prev_in != 0)
+                    close (lst->prev_in);
+                if (lst->next)
+                    close (lst->pipe_fd[1]);
+            }
+            (*i)++;
+        }
+        setup_next_pipe(lst);
         lst = lst->next;
     }
+    return (0);
+}
 
-    while (j < i)
-	{
-        waitpid(pid[j++], &g_status, 0);
-        g_status = WEXITSTATUS(g_status);
-        signal(SIGINT, sig_handle);
+
+int ft_exe(t_list *lst, t_env *env)
+{
+    int *pid;
+    int i;
+    int size = ft_lstsize(lst);
+    
+    i = 0;
+    pid = malloc(size * sizeof(int));
+    if (!pid)
+        return(perror("malloc error"), -1);
+    if (open_files(&lst) == -1)
+        return (g_status = 1, 1);
+    else
+        ft_close_fds(&lst);
+    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
+        return (g_status);
+    if (size == 1)
+    {
+        if (link_builtin(lst) == 1)
+            return (free (pid), g_status);
     }
-    // dup2(fd0, 0);
-    // dup2(fd1, 1);
-
-    free(pid);
+    if ( lst_handle(lst, pid, size, &i) == -2)
+        return (perror("fork error"), free(pid), -1);
+    wait_process(pid, i);
     return (g_status);
 }
+
+

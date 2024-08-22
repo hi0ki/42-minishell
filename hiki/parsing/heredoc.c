@@ -64,7 +64,6 @@ char    *expand_for_heredoc(char *str, int i, int j, t_env **env)
 	j = get_len(str, i);
 	if (j - i == 1 && str[j - 1] == '?')
 	{
-		printf("%c\n", str[j - 1]);
 		value = ft_itoa(g_status);
 	}
 	else

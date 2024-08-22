@@ -6,37 +6,37 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 12:13:41 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 19:22:50 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 23:31:01 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    print_all_env(t_env *env, int fd_out)
-{
-	int i;
+// void	print_all_env(t_env *env, int fd_out)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!env)
-		return ;
-	while (env)
-	{
-		ft_putstr_fd("declare -x ", fd_out);
-		ft_putstr_fd(env->bfr_eql, fd_out);
-		if (env->env == 1)
-		{
-			write(fd_out, "=\"", 2);
-			ft_putstr_fd(env->after_eql, fd_out);
-			write(fd_out, "\"\n", 2);     
-		}
-		else
-			write (1, "\n", 1);
-		env = env->next;
-	}
-	return ;
-}
+// 	i = 0;
+// 	if (!env)
+// 		return ;
+// 	while (env)
+// 	{
+// 		ft_putstr_fd("declare -x ", fd_out);
+// 		ft_putstr_fd(env->bfr_eql, fd_out);
+// 		if (env->env == 1)
+// 		{
+// 			write(fd_out, "=\"", 2);
+// 			ft_putstr_fd(env->after_eql, fd_out);
+// 			write(fd_out, "\"\n", 2);
+// 		}
+// 		else
+// 			write (1, "\n", 1);
+// 		env = env->next;
+// 	}
+// 	return ;
+// }
 
-int	is_alpha(int c)
+static int	is_alpha(int c)
 {
 	if (c == '_')
 		return (0);
@@ -48,7 +48,7 @@ int	is_alpha(int c)
 		return (-1);
 }
 
-int	is_valid_char(int c)
+static int	is_valid_char(int c)
 {
 	if (c == '_')
 		return (0);
@@ -62,7 +62,7 @@ int	is_valid_char(int c)
 		return (-1);
 }
 
-int	is_valid_arg(char *s)
+static int	is_valid_arg(char *s)
 {
 	int	i;
 
@@ -78,11 +78,10 @@ int	is_valid_arg(char *s)
 	return (1);
 }
 
-
-int	env_already_exist(t_env *env, char *av)
+static int	env_already_exist(t_env *env, char *av)
 {
 	int		i;
-	char *str;
+	char	*str;
 
 	i = 0;
 	while (av[i] && av[i] != '=')
@@ -105,15 +104,13 @@ int	env_already_exist(t_env *env, char *av)
 		}
 		env = env->next;
 	}
-	free(str);
-	return (-1);
+	return (free(str), -1);
 }
 
 int	ft_export(char **av, t_env **env, int fd_out)
 {
-	int error;
-	int i;
-	// char *str_dlr;
+	int	error;
+	int	i;
 
 	i = 1;
 	if (!av || !av[i])

@@ -6,13 +6,13 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:16:22 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/09 12:01:10 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:49:01 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		print_error(char **args)
+static int	print_error(char **args)
 {
 	ft_putstr_fd("minishell: cd:", 2);
 	ft_putstr_fd(args[1], 2);
@@ -21,7 +21,7 @@ static int		print_error(char **args)
 	return (1);
 }
 
-int	add_env(char *bfr, char *aftr, t_env *env)
+static int	add_env(char *bfr, char *aftr, t_env *env)
 {
 	t_env	*tmp;
 
@@ -60,29 +60,29 @@ char	*get_path(t_env *env, char *key)
 	return (NULL);
 }
 
-int	go_path(int opt, t_env *env)
-{
-	char	*path;
-	int		r;
+// int	go_path(int opt, t_env *env)
+// {
+// 	char	*path;
+// 	int		r;
 
-	path = NULL;
-	if (opt == 0)
-	{
-		path = get_path(env, "HOME");
-		if (!path)
-		{
-			ft_putstrn_fd("minishell: cd: HOME not set", 2);
-			return (r);
-		}
-		add_oldpwd(env);
-	}
-	r = chdir(path);
-	free(path);
-	path = NULL;
-	if (r == -1)
-		r = 1;
-	return (r);
-}
+// 	path = NULL;
+// 	if (opt == 0)
+// 	{
+// 		path = get_path(env, "HOME");
+// 		if (!path)
+// 		{
+// 			ft_putstrn_fd("minishell: cd: HOME not set", 2);
+// 			return (r);
+// 		}
+// 		add_oldpwd(env);
+// 	}
+// 	r = chdir(path);
+// 	free(path);
+// 	path = NULL;
+// 	if (r == -1)
+// 		r = 1;
+// 	return (r);
+// }
 
 int	ft_cd(char **av, t_env *env)
 {
