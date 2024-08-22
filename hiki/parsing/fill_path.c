@@ -27,12 +27,13 @@ static void	check_path(t_list **node, char **array, int i)
 {
 	char	*path;
 
-	if (!(*node)->arr[0])
+	path = NULL;
+	if (!(*node)->arr ||!(*node)->arr[0])
 	{
 		(*node)->path_cmd = NULL;
 		return ;
 	}
-	while (array[i] && ft_strlen((*node)->arr[0]) != 0)
+	while (array && array[i] && ft_strlen((*node)->arr[0]) != 0)
 	{
 		path = join_path(array[i], (*node)->arr[0]);
 		if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
@@ -66,13 +67,11 @@ void	fill_path(t_list **lst, t_env **env, char **envr)
 		array = ft_split(str, ":");
 	while (tmp)
 	{
-		if (str)
-			check_path(&tmp, array, i);
-		else
-			tmp->path_cmd = NULL;
+		check_path(&tmp, array, i);
 		tmp->envr = envr;
 		tmp->env = env;
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 	if (str)
 		return (ft_free_arr(array), free(str));

@@ -76,7 +76,10 @@ void	delete_var(t_lexer **node)
 	save = *node;
 	(*node) = (*node)->prev;
 	if ((*node)->next->next != NULL)
+	{
 		(*node)->next = (*node)->next->next;
+		(*node)->next->prev = (*node);
+	}
 	else
 		(*node)->next = NULL;
 	free(save->data);

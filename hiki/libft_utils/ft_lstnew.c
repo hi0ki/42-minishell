@@ -25,6 +25,9 @@ t_list	*ft_lstnew(void)
 	node->pipe_fd[1] = 1;
 	node->prev_in = 0;
 	node->next = NULL;
+	node->path_cmd = NULL;
+	node->arr = NULL;
+	node->files = NULL;
 	return (node);
 }
 
@@ -37,6 +40,7 @@ t_lexer	*lexer_lstnew(char *data)
 		return (NULL);
 	node->data = data;
 	node->type = 0;
+	node->prev = NULL;
 	node->next = NULL;
 	return (node);
 }

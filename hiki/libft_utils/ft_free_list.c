@@ -39,6 +39,31 @@ void	free_lst_env(t_env **env)
 	}
 }
 
+void	free_files(t_files *file, int num_of_files)
+{
+	int	i;
+
+	i = 0;
+	if (file != NULL && num_of_files != 0)
+	{
+		while (i < num_of_files)
+		{
+			if (file[i].file_name != NULL)
+			{
+				free(file[i].file_name);
+				if (file[i].type == HEREDOC)
+				{
+					free(file[i].heredoce_name);
+				}
+				file[i].file_name = NULL;
+			}
+			i++;
+		}
+		free(file);
+		file = NULL;
+	}
+}
+
 void	free_list(t_list **lst)
 {
 	t_list	*temp;
@@ -57,35 +82,10 @@ void	free_list(t_list **lst)
 		}
 		free(temp->arr);
 		free(temp->path_cmd);
+		// free_files(temp->files, temp->num_of_files);
 		free(temp);
 		temp = NULL;
-		// free_files(temp->files, temp->num_of_files);
-	}
-}
-
-void	free_files(t_files *file, int num_of_files)
-{
-	int	i;
-
-	i = 0;
-	if (file != NULL)
-	{
-		while (i < num_of_files)
-		{
-			if (file[i].file_name != NULL)
-			{
-				free(file[i].file_name);
-				if (file[i].type == HEREDOC)
-				{
-					free(file[i].heredoce_name);
-					close(file[i].fd);
-				}
-				file[i].file_name = NULL;
-			}
-			i++;
-		}
-		free(file);
-		file = NULL;
+		// printf("hna\n");
 	}
 }
 
@@ -94,6 +94,8 @@ void	ft_free_arr(char **array)
 	int	i;
 
 	i = 0;
+	if (array == NULL)
+		return ;
 	while (array[i])
 	{
 		free(array[i]);

@@ -58,7 +58,7 @@ static void	give_type(t_lexer **node)
 		return ;
 	else if ((*node)->prev == NULL || ft_strcmp((*node)->prev->data, "|") == 0)
 		(*node)->type = CMD;
-	else if (ft_strcmp((*node)->data, "|") == 0)
+	else if (ft_strcmp((*node)->data, "|") == 0 && (*node)->type == PIPE)
 		(*node)->type = PIPE;
 	else
 		(*node)->type = ARG;

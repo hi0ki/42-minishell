@@ -9,10 +9,9 @@ void print_list(t_lexer *head)
 {
 	t_lexer *tmp;
 
-	
-	while (head != NULL)
+	tmp = head;
+	while (tmp != NULL)
 	{
-		tmp = head;
 		printf("Current Node:\n");
 		printf("Data: '%s'\n", tmp->data);
 		printf("Type: %d\n", tmp->type);
@@ -24,9 +23,7 @@ void print_list(t_lexer *head)
 		else
 			printf("Previous Node: NULL\n");
 		printf("--------------------------------\n");
-		head = head->next;
-		free(tmp->data);
-		free(tmp);
+		tmp = tmp->next;
 	}   
 }
 void print_array(t_list *lst)
@@ -89,8 +86,8 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 				if (ft_exe(lst, env) == -1)
 				{
 					printf("exe khsrat hahaha\n");
-					// free_lst_lexer(&lexer);
-					// free_list(&lst);
+					free_lst_lexer(&lexer);
+					free_list(&lst);
 				}
 				else
 				{
@@ -106,17 +103,16 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 			free_lst_lexer(&lexer);
 			lexer = NULL;
 		}
-		line = NULL;
 	}
 	free_lst_env(&env);
 }
 
 int main(int ac, char **av, char **envr)
 {
-	// atexit(ll);
-	t_lexer	*lexer;
-	t_list	*lst;
-	t_env 	*env;
+	atexit(ll);
+	static t_lexer	*lexer;
+	static t_list	*lst;
+	static t_env 	*env;
 
 	(void)ac;
 	(void)av;
@@ -124,6 +120,5 @@ int main(int ac, char **av, char **envr)
 	signal(SIGINT, sig_handle);
 	env_init(&env, envr);
 	start_readline(lexer, lst, env, envr);
-	// printf("%s\n", env->bfr_eql);
 	return (g_status);
 }
