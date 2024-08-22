@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 20:59:31 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:36:49 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,18 @@ int open_files(t_list **node)
             if (tmp->files[i].error_file == -1)
             {
                 printf("minishell : %s: ambiguous redirect\n", tmp->files[i].file_name);
-                return (-1);
+                tmp->num_of_files = i - 1;
+                g_status = 1;
+                tmp->error = false;
+                break ;
             }
             if (access(tmp->files[i].file_name, F_OK) == 0 && access(tmp->files[i].file_name, R_OK | W_OK) == -1)
             {
                 printf("minishell : %s: Permission denied\n", tmp->files[i].file_name);
+                tmp->num_of_files = i - 1;
+                tmp->error = false;
                 g_status = 1;
-                return (-1);
+                break ;
             }
             if (tmp->files[i].type == REDIRECT_INPUT)
             {
@@ -96,7 +101,10 @@ int open_files(t_list **node)
                 else
                 {
                     printf("minishell : %s: No such file or directory\n", tmp->files[i].file_name);
-                    return (-1);
+                    tmp->num_of_files = i - 1;
+                    tmp->error = false;
+                    g_status = 1;
+                    break ;
                 }
             }
             else if (tmp->files[i].type == REDIRECT_APPEND)
@@ -111,7 +119,8 @@ int open_files(t_list **node)
                 tmp->in = tmp->files[i].fd;
             i++;
         }
-        tmp = tmp->next;
+        if (tmp)
+            tmp = tmp->next;
     }
     return (0);
 }
@@ -158,8 +167,8 @@ void    pipe_handle(t_list *lst)
 
 int child_process(t_list *lst, int *pid)
 {
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
+    // signal(SIGINT, SIG_DFL);
+    // signal(SIGQUIT, SIG_DFL);
     g_status = 0;
     pipe_handle(lst);
     if (link_builtin(lst) == 1)
@@ -191,7 +200,7 @@ int wait_process(int *pid, int i)
             g_status = WEXITSTATUS(g_status);
         else if (WIFSIGNALED(g_status))
             g_status = WTERMSIG(g_status) + 128;
-        signal(SIGINT, sig_handle);
+        // signal(SIGINT, sig_handle);
     }
     free(pid);
 	return (g_status);
@@ -211,26 +220,29 @@ int lst_handle(t_list *lst, int *pid, int size, int *i)
 {
     while (lst)
 	{
-        if ((*i) < size)
-		{
-            signal(SIGINT, SIG_IGN);
-            if(lst->next)
-                pipe(lst->pipe_fd);
-            pid[(*i)] = fork();
-            if (pid[(*i)] < 0)
-                return (-2);
-            if (pid[(*i)] == 0)
-                child_process(lst, pid);
-			else
-			{
-                if (lst->prev_in != 0)
-                    close (lst->prev_in);
-                if (lst->next)
-                    close (lst->pipe_fd[1]);
+        if (lst->error != false)
+        {
+            if ((*i) < size)
+            {
+                // signal(SIGINT, SIG_IGN);
+                if(lst->next)
+                    pipe(lst->pipe_fd);
+                pid[(*i)] = fork();
+                if (pid[(*i)] < 0)
+                    return (-2);
+                if (pid[(*i)] == 0)
+                    child_process(lst, pid);
+                else
+                {
+                    if (lst->prev_in != 0)
+                        close (lst->prev_in);
+                    if (lst->next)
+                        close (lst->pipe_fd[1]);
+                }
+                (*i)++;
             }
-            (*i)++;
+            setup_next_pipe(lst);
         }
-        setup_next_pipe(lst);
         lst = lst->next;
     }
     return (0);
@@ -244,16 +256,14 @@ int ft_exe(t_list *lst, t_env *env)
     int size = ft_lstsize(lst);
     
     i = 0;
+    open_files(&lst);
+    ft_close_fds(&lst);
+    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
+        return (g_status);
     pid = malloc(size * sizeof(int));
     if (!pid)
         return(perror("malloc error"), -1);
-    if (open_files(&lst) == -1)
-        return (g_status = 1, 1);
-    else
-        ft_close_fds(&lst);
-    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
-        return (g_status);
-    if (size == 1)
+    if (size == 1 && lst->error == true)
     {
         if (link_builtin(lst) == 1)
             return (free (pid), g_status);

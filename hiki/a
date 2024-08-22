@@ -1,0 +1,13 @@
+Makefile
+a
+builtin
+exec
+file
+includes
+lexer
+libft_utils
+main.c
+minishell
+parsing
+tester
+text.txt

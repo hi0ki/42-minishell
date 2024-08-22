@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 20:55:31 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:26:59 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_list{
 	int				in;
 	int				out;
 	int				prev_in;
+	bool			error;
 	struct s_list	*next;
 } t_list;
 
@@ -197,5 +198,7 @@ int		go_path(int opt, t_env *env);
 char	*get_path(t_env *env, char *key);
 int		add_oldpwd(t_env *env);
 void	print_all_env(t_env *env, int fd_out);
+int err_msg(char *path, char *arr);
+void ft_close_fds(t_list **lst);
 
 #endif
