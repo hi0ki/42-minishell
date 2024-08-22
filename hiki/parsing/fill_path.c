@@ -23,12 +23,10 @@ static char	*join_path(char *arr, char *cmd)
 	return (str);
 }
 
-static void	check_path(t_list **node, char **array)
+static void	check_path(t_list **node, char **array, int i)
 {
-	int		i;
 	char	*path;
 
-	i = 0;
 	if (!(*node)->arr[0])
 	{
 		(*node)->path_cmd = NULL;
@@ -43,6 +41,7 @@ static void	check_path(t_list **node, char **array)
 			return (free(path));
 		}
 		free(path);
+		path = NULL;
 		i++;
 	}
 	if (path == NULL && access((*node)->arr[0], F_OK) == 0 && 
@@ -68,7 +67,7 @@ void	fill_path(t_list **lst, t_env **env, char **envr)
 	while (tmp)
 	{
 		if (str)
-			check_path(&tmp, array);
+			check_path(&tmp, array, i);
 		else
 			tmp->path_cmd = NULL;
 		tmp->envr = envr;
