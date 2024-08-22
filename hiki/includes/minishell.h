@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 23:29:35 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:24:45 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/stat.h>
-#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
-#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
+// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
+// #include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
 
-// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
-// #include <readline/readline.h>
-// #include <readline/history.h>
+#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
+#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #define CMD	1
 #define ARG 2

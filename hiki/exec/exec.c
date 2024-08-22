@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 02:52:55 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:29:51 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ void ft_close_fds(t_list **lst)
 
 int handel_pip(t_list *lst, int *pid)
 {
-    // signal(SIGINT, SIG_DFL);
-    // signal(SIGQUIT, SIG_DFL);
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
     g_status = 0;
     if (lst->in != 0)
         dup2(lst->in, 0);
@@ -208,22 +208,8 @@ int ft_exe(t_list *lst, t_env *env)
     }
     else
         ft_close_fds(&lst);
-<<<<<<< HEAD
     if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
         return (g_status);
-=======
-
-    // print_s_files(lst);
-
-    if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
-    {
-        return (g_status);
-    }
-
-    int i = 0;
-    last = ft_lstlast(lst);
-    
->>>>>>> 6d2d474efdd666306d5a9bccf795b2f52224b460
     if (size == 1) {
         if (link_builtin(lst) == 1)
         {
@@ -235,15 +221,6 @@ int ft_exe(t_list *lst, t_env *env)
 	{
         if (i < size)
 		{
-<<<<<<< HEAD
-=======
-            // if (pipe(fd) == -1)
-			// {
-            //     perror("pipe error");
-            //     free(pid);
-            //     return (-1);
-            // }
->>>>>>> 6d2d474efdd666306d5a9bccf795b2f52224b460
             signal(SIGINT, SIG_IGN);
             if(lst->next)
                 pipe(lst->pipe_fd);
@@ -252,51 +229,6 @@ int ft_exe(t_list *lst, t_env *env)
                 return (perror("fork error"), free(pid), -1);
             if (pid[i] == 0)
                 handel_pip(lst, pid);
-<<<<<<< HEAD
-=======
-                signal(SIGINT, SIG_DFL);
-                signal(SIGQUIT, SIG_DFL);
-                // g_status = 0;
-                // if (lst->in != 0)
-				//     dup2(lst->in, 0);
-                // else if (lst->prev_in != 0)
-                // {
-                //     dup2(lst->prev_in, 0);
-                //     close(lst->prev_in);
-                // }
-    
-                // // else if ()
-                //     // dup2(lst->pipe_fd[0], 0);
-                // if (lst->out != 1)
-				//     dup2(lst->out, 1);
-                // else if (lst->next)
-                // {
-                //     dup2(lst->pipe_fd[1], 1);
-                //     close(lst->pipe_fd[1]);
-                //     close(lst->pipe_fd[0]);
-                // }
-                // if (link_builtin(lst, env) == 1)
-                // {
-                //     free(pid);
-                //     // break;
-                //     exit (g_status);
-                // }
-                // else
-                // {
-                //     if (lst->path_cmd == NULL && !lst->arr[0])
-                //         return (0);
-                //     if (lst->path_cmd != NULL)
-                //     {
-                //         // printf("haaa\n");
-                //         execve(lst->path_cmd, lst->arr, lst->envr);
-                //     }
-                //     g_status = err_msg(lst->path_cmd, lst->arr[0]);
-                    
-                //     exit(g_status);
-
-                // }
-            }
->>>>>>> 6d2d474efdd666306d5a9bccf795b2f52224b460
 			else
 			{
                 if (lst->prev_in != 0)
@@ -314,11 +246,13 @@ int ft_exe(t_list *lst, t_env *env)
             close(lst->out);
         lst = lst->next;
     }
-
     while (j < i)
 	{
         waitpid(pid[j++], &g_status, 0);
-        g_status = WEXITSTATUS(g_status);
+        if (WIFEXITED(g_status))
+            g_status = WEXITSTATUS(g_status);
+        else if (WIFSIGNALED(g_status))
+            g_status = WTERMSIG(g_status) + 128;
         signal(SIGINT, sig_handle);
     }
     free(pid);

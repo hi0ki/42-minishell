@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:20:49 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 19:11:35 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:35:13 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ void	ft_envaddback(t_env **head, t_env *new)
 
 void	env_init(t_env **env, char **envr)
 {
-	int i = 0;
-	t_env *new;
+	int		i;
+	t_env	*new;
 
+	i = 0;
 	while (envr[i])
 	{
 		new = ft_envnew(envr[i]);
