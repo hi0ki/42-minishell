@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 21:43:22 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/21 21:43:23 by eel-ansa         ###   ########.fr       */
+/*   Updated: 2024/08/22 21:37:27 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_files(t_files *file, int num_of_files)
 	int	i;
 
 	i = 0;
-	if (file != NULL && num_of_files != 0)
+	if (file != NULL)
 	{
 		while (i < num_of_files)
 		{
@@ -82,7 +82,7 @@ void	free_list(t_list **lst)
 		}
 		free(temp->arr);
 		free(temp->path_cmd);
-		// free_files(temp->files, temp->num_of_files);
+		free_files(temp->files, temp->num_of_files);
 		free(temp);
 		temp = NULL;
 		// printf("hna\n");
