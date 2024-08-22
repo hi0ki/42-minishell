@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 18:53:31 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:05:31 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int child_process(t_list *lst, int *pid)
 int wait_process(int *pid, int i)
 {
 	int j;
+
     j = 0;
 	while (j < i)
 	{
@@ -195,15 +196,53 @@ int wait_process(int *pid, int i)
     free(pid);
 	return (g_status);
 }
+void    setup_next_pipe(t_list *lst)
+{
+    if (lst->next)
+            lst->next->prev_in = lst->pipe_fd[0];
+        if (lst->in != 0)
+            close(lst->in);
+        if (lst->out != 1)
+            close(lst->out);
+    return ;
+}
+
+int lst_handle(t_list *lst, int *pid, int size, int *i)
+{
+    while (lst)
+	{
+        if ((*i) < size)
+		{
+            // signal(SIGINT, SIG_IGN);
+            if(lst->next)
+                pipe(lst->pipe_fd);
+            pid[(*i)] = fork();
+            if (pid[(*i)] < 0)
+                return (-2);
+            if (pid[(*i)] == 0)
+                child_process(lst, pid);
+			else
+			{
+                if (lst->prev_in != 0)
+                    close (lst->prev_in);
+                if (lst->next)
+                    close (lst->pipe_fd[1]);
+            }
+            (*i)++;
+        }
+        setup_next_pipe(lst);
+        lst = lst->next;
+    }
+    return (0);
+}
+
 
 int ft_exe(t_list *lst, t_env *env)
 {
     int *pid;
-    int j;
     int i;
     int size = ft_lstsize(lst);
     
-    j = 0;
     i = 0;
     pid = malloc(size * sizeof(int));
     if (!pid)
@@ -219,35 +258,8 @@ int ft_exe(t_list *lst, t_env *env)
         if (link_builtin(lst) == 1)
             return (free (pid), g_status);
     }
-    while (lst)
-	{
-        if (i < size)
-		{
-            // signal(SIGINT, SIG_IGN);
-            if(lst->next)
-                pipe(lst->pipe_fd);
-            pid[i] = fork();
-            if (pid[i] < 0)
-                return (perror("fork error"), free(pid), -1);
-            if (pid[i] == 0)
-                child_process(lst, pid);
-			else
-			{
-                if (lst->prev_in != 0)
-                    close (lst->prev_in);
-                if (lst->next)
-                    close (lst->pipe_fd[1]);
-            }
-            i++;
-        }
-        if (lst->next)
-            lst->next->prev_in = lst->pipe_fd[0];
-        if (lst->in != 0)
-            close(lst->in);
-        if (lst->out != 1)
-            close(lst->out);
-        lst = lst->next;
-    }
+    if ( lst_handle(lst, pid, size, &i) == -2)
+        return (perror("fork error"), free(pid), -1);
     wait_process(pid, i);
     return (g_status);
 }
