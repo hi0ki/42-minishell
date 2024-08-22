@@ -88,7 +88,7 @@ int	set_variable_value(t_lexer **node, t_env *env, int i)
 	else
 		value = get_value_env(env, var_name);
 	if (value == NULL)
-		return (handle_no_value(node, var_name, i, j));
+		return (free(var_name), handle_no_value(node, var_name, i, j));
 	tmp = (*node)->data;
 	(*node)->data = edit_data(value, (*node)->data, i, j);
 	i = i + ft_strlen(value);
