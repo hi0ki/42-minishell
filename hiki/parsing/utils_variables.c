@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_variables.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 00:26:28 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/22 00:38:46 by eel-ansa         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:22:24 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*get_value_env(t_env *env, char *av)
 		return (NULL);
 	while (env)
 	{
+		if (ft_envsize(env) == 0)
+			break ;
 		if (ft_strcmp(av, env->bfr_eql) == 0)
 		{
 			if (env->after_eql && env->after_eql[0])

@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 16:29:51 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:53:31 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,6 @@ int err_msg(char *path, char *arr)
 	return (g_status);
 }
 
-int whit_processsu(int *pid, int i)
-{
-	int j = 0;
-	// printf ("i = %d\n",i);
-	while (j <i)
-	{
-		waitpid(pid[j], &g_status, 0);
-		j++;
-	}
-	// printf("******1111\n");
-	return (g_status);
-}
 void print_s_files(t_list *list) {
     int i = 0;
 
@@ -148,12 +136,9 @@ void ft_close_fds(t_list **lst)
     }
 }
 
-int handel_pip(t_list *lst, int *pid)
+void    pipe_handle(t_list *lst)
 {
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
-    g_status = 0;
-    if (lst->in != 0)
+      if (lst->in != 0)
         dup2(lst->in, 0);
     else if (lst->prev_in != 0)
     {
@@ -168,6 +153,15 @@ int handel_pip(t_list *lst, int *pid)
         close(lst->pipe_fd[1]);
         close(lst->pipe_fd[0]);
     }
+    return ;
+}
+
+int child_process(t_list *lst, int *pid)
+{
+    // signal(SIGINT, SIG_DFL);
+    // signal(SIGQUIT, SIG_DFL);
+    g_status = 0;
+    pipe_handle(lst);
     if (link_builtin(lst) == 1)
     {
         free(pid);
@@ -185,50 +179,58 @@ int handel_pip(t_list *lst, int *pid)
     return (1);
 }
 
+int wait_process(int *pid, int i)
+{
+	int j;
+    j = 0;
+	while (j < i)
+	{
+        waitpid(pid[j++], &g_status, 0);
+        if (WIFEXITED(g_status))
+            g_status = WEXITSTATUS(g_status);
+        else if (WIFSIGNALED(g_status))
+            g_status = WTERMSIG(g_status) + 128;
+        // signal(SIGINT, sig_handle);
+    }
+    free(pid);
+	return (g_status);
+}
+
 int ft_exe(t_list *lst, t_env *env)
 {
     int *pid;
     int j;
-    t_list *last;
     int i;
+    int size = ft_lstsize(lst);
     
     j = 0;
     i = 0;
-    last = ft_lstlast(lst);
-    int size = ft_lstsize(lst);
     pid = malloc(size * sizeof(int));
-    if (!pid) {
-        perror("malloc error");
-        return (-1);
-    }
+    if (!pid)
+        return(perror("malloc error"), -1);
     if (open_files(&lst) == -1)
-    {
-        g_status = 1;
-        return (g_status);
-    }
+        return (g_status = 1, 1);
     else
         ft_close_fds(&lst);
     if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
         return (g_status);
-    if (size == 1) {
+    if (size == 1)
+    {
         if (link_builtin(lst) == 1)
-        {
-            free(pid);
-            return (g_status);
-        }
+            return (free (pid), g_status);
     }
     while (lst)
 	{
         if (i < size)
 		{
-            signal(SIGINT, SIG_IGN);
+            // signal(SIGINT, SIG_IGN);
             if(lst->next)
                 pipe(lst->pipe_fd);
             pid[i] = fork();
             if (pid[i] < 0)
                 return (perror("fork error"), free(pid), -1);
             if (pid[i] == 0)
-                handel_pip(lst, pid);
+                child_process(lst, pid);
 			else
 			{
                 if (lst->prev_in != 0)
@@ -246,15 +248,8 @@ int ft_exe(t_list *lst, t_env *env)
             close(lst->out);
         lst = lst->next;
     }
-    while (j < i)
-	{
-        waitpid(pid[j++], &g_status, 0);
-        if (WIFEXITED(g_status))
-            g_status = WEXITSTATUS(g_status);
-        else if (WIFSIGNALED(g_status))
-            g_status = WTERMSIG(g_status) + 128;
-        signal(SIGINT, sig_handle);
-    }
-    free(pid);
+    wait_process(pid, i);
     return (g_status);
 }
+
+

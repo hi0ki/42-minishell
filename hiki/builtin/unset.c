@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 09:46:11 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 15:53:09 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:30:35 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	ft_unset(char **av, t_list **lst)
 	{
 		if (strcmp(av[i], (*(*lst)->env)->bfr_eql) == 0)
 		{
+			if (ft_envsize(tmp) == 1)
+				return (free(tmp->after_eql), free(tmp->bfr_eql), 0);
 			tmp = (*(*lst)->env);
 			(*(*lst)->env) = (*(*lst)->env)->next;
 			free_node(tmp);
