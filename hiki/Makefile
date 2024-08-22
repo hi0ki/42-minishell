@@ -25,9 +25,15 @@ all: $(NAME)
 # -L ~/goinfre/homebrew/opt/readline/lib/
 $(NAME): $(SRC) $(LIBFT)
 	$(CC) $(FLAGS)   $(SRC) $(LIBFT) -lreadline -o $(NAME)
+<<<<<<< HEAD
 # -I ~/goinfre/homebrew/opt/readline/include/
 %.o : %.c $(HEADER)
 	$(CC) $(CFLAGS)  -c $< -o $@
+=======
+#  -I ~/goinfre/homebrew/opt/readline/include/
+%.o : %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $< -o $@
+>>>>>>> e0c1fa3876e126527faaf02387d05ae72d99ca68
 
 clean:
 	rm -rf $(NAME)

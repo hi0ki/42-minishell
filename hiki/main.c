@@ -85,7 +85,6 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 				create_lst(&lst, &lexer, &env, envr);
 				if (ft_exe(lst, env) == -1)
 				{
-					printf("exe khsrat hahaha\n");
 					free_lst_lexer(&lexer);
 					free_list(&lst);
 				}
