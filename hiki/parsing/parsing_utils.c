@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/22 00:38:29 by eel-ansa          #+#    #+#             */
+/*   Updated: 2024/08/22 00:38:31 by eel-ansa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int size_node(t_lexer *head)
+int	size_node(t_lexer *head)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (head)
@@ -14,12 +26,12 @@ int size_node(t_lexer *head)
 	return (i);
 }
 
-int count_cmd(t_lexer *head)
+int	count_cmd(t_lexer *head)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(head && head->type != PIPE)
+	while (head && head->type != PIPE)
 	{
 		if (head->type >= 5 && head->type <= 8)
 			head = head->next->next;
@@ -29,13 +41,14 @@ int count_cmd(t_lexer *head)
 			head = head->next;
 		}
 	}
-	return i;
+	return (i);
 }
+
 void	num_of_files(t_list **lst, t_lexer **lexer)
 {
-	t_list *tmp;
-	t_lexer *lextmp;
-	int i;
+	t_list	*tmp;
+	t_lexer	*lextmp;
+	int		i;
 
 	i = 0;
 	tmp = *lst;
@@ -49,7 +62,8 @@ void	num_of_files(t_list **lst, t_lexer **lexer)
 			tmp = tmp->next;
 			lextmp = lextmp->next;
 		}
-		if (lextmp->type == HEREDOC || lextmp->type == REDIRECT_APPEND || lextmp->type == REDIRECT_INPUT || lextmp->type == REDIRECT_OUTPUT)
+		if (lextmp->type == HEREDOC || lextmp->type == REDIRECT_APPEND || 
+			lextmp->type == REDIRECT_INPUT || lextmp->type == REDIRECT_OUTPUT)
 		{
 			i++;
 		}
@@ -59,7 +73,7 @@ void	num_of_files(t_list **lst, t_lexer **lexer)
 		tmp->num_of_files = i;
 }
 
-int check_variable(t_lexer *node)
+int	check_variable(t_lexer *node)
 {
 	if (node->prev != NULL && node->prev->type != HEREDOC)
 	{

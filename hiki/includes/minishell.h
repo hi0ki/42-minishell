@@ -24,8 +24,11 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/stat.h>
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-#include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
+#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
+#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
+
+// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
+// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
 // #include <readline/readline.h>
 // #include <readline/history.h>
 
@@ -116,6 +119,7 @@ char	*ft_itoa(int n);
 int		ft_lstsize(t_list *lst);
 int		ft_envsize(t_env *env);
 t_list	*ft_lstlast(t_list *lst);
+void	ft_free_arr(char **array);
 void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
 void 	free_list(t_list **lst);
@@ -146,6 +150,10 @@ void	parsing_type(t_lexer **head);
 int		count_cmd(t_lexer *head);
 int		size_node(t_lexer *head);
 void	num_of_files(t_list **lst, t_lexer **lexer);
+int get_name_index(t_lexer **node, int j, int i);
+char	*edit_data(char *value, char *old_value, int i, int j);
+char	*get_value_env(t_env *env, char *av);
+void	delete_var(t_lexer **node);
 /*					check utils						*/
 int		check_oper(t_lexer *node);
 int		check_variable(t_lexer *node);

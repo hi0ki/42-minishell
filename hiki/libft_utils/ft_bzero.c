@@ -27,8 +27,8 @@ void	ft_bzero(char *str, int n)
 char	**env_to_tab(t_env *env)
 {
 	t_env	*tmp;
-	char 	**str;
-	int i;
+	char	**str;
+	int		i;
 
 	i = 0;
 	tmp = env;

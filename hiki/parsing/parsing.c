@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/22 00:38:37 by eel-ansa          #+#    #+#             */
+/*   Updated: 2024/08/22 00:38:40 by eel-ansa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void split_env_var(t_lexer **head)
@@ -41,6 +53,7 @@ void split_env_var(t_lexer **head)
 		tmp = tmp->next;
 	}
 }
+
 void remove_variables(t_lexer **head)
 {
 	t_lexer *tmp;
@@ -60,6 +73,7 @@ void remove_variables(t_lexer **head)
 		(*head)->prev = NULL;
 	}
 }
+
 void start_parsing(t_lexer **head, t_env *env)
 {
 	fill_variables(head, env);

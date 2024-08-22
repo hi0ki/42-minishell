@@ -23,6 +23,7 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
+
 void	ft_putstrn_fd(char *s, int fd)
 {
 	int	i;

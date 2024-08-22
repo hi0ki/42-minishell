@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_type.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/22 00:38:18 by eel-ansa          #+#    #+#             */
+/*   Updated: 2024/08/22 00:38:24 by eel-ansa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void remove_spaces(t_lexer **head)
+static void	remove_spaces(t_lexer **head)
 {
-	t_lexer *tmp;
-	t_lexer *save;
+	t_lexer	*tmp;
+	t_lexer	*save;
 
 	tmp = *head;
 	while (tmp)
@@ -25,9 +37,10 @@ void remove_spaces(t_lexer **head)
 		tmp = tmp->next;
 	}
 }
-void remove_front_space(t_lexer **head)
+
+static void	remove_front_space(t_lexer **head)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	if ((*head)->type == SPC)
 	{
@@ -38,7 +51,8 @@ void remove_front_space(t_lexer **head)
 		free(tmp);
 	}
 }
-void give_type(t_lexer **node)
+
+static void	give_type(t_lexer **node)
 {
 	if ((*node)->type >= 5 && (*node)->type <= 8)
 		return ;
@@ -50,9 +64,9 @@ void give_type(t_lexer **node)
 		(*node)->type = ARG;
 }
 
-void parsing_type(t_lexer **head)
+void	parsing_type(t_lexer **head)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	remove_front_space(head);
 	remove_spaces(head);

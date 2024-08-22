@@ -99,8 +99,6 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 					free_list(&lst);
 					lst = NULL;
 				}
-				// printf("%s\n", env->bfr_eql);
-				// printf("%s\n", (*lst->env)->bfr_eql);
 			}
 		}
 		else if (lexer != NULL)

@@ -1,7 +1,7 @@
 SRC = 	main.c\
 		../get_next_line/get_next_line.c ../get_next_line/get_next_line_utils.c \
 		parsing/parsing.c parsing/fill_variables.c parsing/join_data.c parsing/create_lst.c parsing/parsing_utils.c parsing/parsing_type.c \
-		parsing/fill_files.c parsing/fill_array.c parsing/fill_path.c parsing/heredoc.c\
+		parsing/fill_files.c parsing/fill_array.c parsing/fill_path.c parsing/heredoc.c parsing/utils_variables.c\
 		lexer/utils_lexer.c lexer/lexer.c lexer/token_type.c lexer/error_handler.c  lexer/check_operators.c\
 		builtin/cd.c builtin/init_env.c builtin/echo.c builtin/env.c builtin/export.c builtin/pwd.c builtin/unset.c builtin/exit.c \
 		exec/exec.c exec/link_builtin.c builtin/builtin_utils.c \
@@ -22,10 +22,17 @@ HEADER = minishell.h
 FLAGS = -I./includes -I./libft -lreadline  #-fsanitize=address -g #-Wall -Wextra -Werror 
 
 all: $(NAME)
+<<<<<<< HEAD
 # -L ~/goinfre/homebrew/opt/readline/lib/
 $(NAME): $(SRC) $(LIBFT)
 	$(CC) $(FLAGS)   $(SRC) $(LIBFT) -lreadline -o $(NAME)
 # -I ~/goinfre/homebrew/opt/readline/include/
+=======
+#
+$(NAME): $(SRC) $(LIBFT)
+	$(CC) $(FLAGS)  -L ~/goinfre/homebrew/opt/readline/lib/  $(SRC) $(LIBFT) -lreadline -o $(NAME)
+#  
+>>>>>>> 6d2d474efdd666306d5a9bccf795b2f52224b460
 %.o : %.c $(HEADER)
 	$(CC) $(CFLAGS)  -c $< -o $@
 
