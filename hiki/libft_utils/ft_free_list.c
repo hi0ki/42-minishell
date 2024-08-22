@@ -49,6 +49,7 @@ void	free_list(t_list **lst)
 	{
 		temp = *lst;
 		*lst = (*lst)->next;
+		i = 0;
 		while (temp->arr[i] != NULL)
 		{
 			free(temp->arr[i]);
@@ -57,7 +58,8 @@ void	free_list(t_list **lst)
 		free(temp->arr);
 		free(temp->path_cmd);
 		free(temp);
-		free_files(temp->files, temp->num_of_files);
+		temp = NULL;
+		// free_files(temp->files, temp->num_of_files);
 	}
 }
 
@@ -86,6 +88,7 @@ void	free_files(t_files *file, int num_of_files)
 		file = NULL;
 	}
 }
+
 void	ft_free_arr(char **array)
 {
 	int	i;

@@ -48,6 +48,8 @@ void	fill_arr(t_list **lst, t_lexer **head, int size)
 			lstmp->arr = malloc((size + 1) * sizeof(char *));
 			if (size != 0)
 				put_cmd_in_arr(lstmp, tmp, size);
+			else
+				lstmp->arr[0] = NULL;
 			lstmp = lstmp->next;
 			while (tmp && tmp->type != PIPE)
 				tmp = tmp->next;

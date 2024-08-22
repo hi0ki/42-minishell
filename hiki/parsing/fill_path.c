@@ -61,6 +61,7 @@ void	fill_path(t_list **lst, t_env **env, char **envr)
 
 	i = 0;
 	tmp = *lst;
+	str = NULL;
 	str = get_value_env(*env, "PATH");
 	if (str)
 		array = ft_split(str, ":");
@@ -75,8 +76,5 @@ void	fill_path(t_list **lst, t_env **env, char **envr)
 		tmp = tmp->next;
 	}
 	if (str)
-	{
-		ft_free_arr(array);
-		free(str);
-	}
+		return (ft_free_arr(array), free(str));
 }
