@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:16:22 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/21 22:49:01 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:41:12 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	add_env(char *bfr, char *aftr, t_env *env)
 int	add_oldpwd(t_env *env)
 {
 	char	cwd[PATH_MAX];
-	char	*old_pwd;
 
 	if (getcwd(cwd, PATH_MAX) == NULL)
 		return (-1);

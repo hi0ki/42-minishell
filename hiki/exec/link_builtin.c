@@ -6,13 +6,13 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:20:00 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/23 14:31:29 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:42:27 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_after_built(t_list *lst, t_env *env)
+int	exec_after_built(t_list *lst)
 {
 	int	r;
 	int	pid;

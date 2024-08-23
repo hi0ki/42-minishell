@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 23:59:24 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/21 19:00:18 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:41:01 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static	t_lexer	*get_node(char *line, int i, int index, int type)
 {
 	char	*str;
-	int		helper;
+	static int		helper;
 	t_lexer	*node;
 
 	str = NULL;

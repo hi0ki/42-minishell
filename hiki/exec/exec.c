@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/23 15:31:36 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:41:37 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	child_process(t_list *lst, int *pid)
 	return (1);
 }
 
-int ft_exe(t_list *lst, t_env *env)
+int ft_exe(t_list *lst)
 {
 	int *pid;
 	int i;

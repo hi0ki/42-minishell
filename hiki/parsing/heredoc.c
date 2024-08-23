@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 00:37:49 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/23 15:20:35 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:40:43 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char    *expand_for_heredoc(char *str, int i, int j, t_env **env)
 	char	*old_value;
 	char	*new_str;
 	char	*name;
-	int		len;
 
 	j = get_len(str, i);
 	if (j - i == 1 && str[j - 1] == '?')
@@ -147,7 +146,6 @@ static void	heredoce_handler(t_files *file, t_env **env, int fd)
 
 void	heredoce_start(t_files *file, t_env **env)
 {
-	char	*str;
 	int		fd;
 	char	*name;
 	int		pid;

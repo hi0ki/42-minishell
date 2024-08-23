@@ -19,8 +19,8 @@ RD_LINE2 = -L/goinfre/$(USER)/homebrew/opt/readline/lib
 NAME = minishell
 CC = cc
 HEADER = minishell.h
-FLAGS = -I./includes -I./libft -lreadline # -fsanitize=address -g #-Wall -Wextra -Werror 
-
+FLAGS = -I./includes -I./libft -lreadline  -Wall -Wextra -Werror 
+# -fsanitize=address -g
 all: $(NAME)
 # -L ~/goinfre/homebrew/opt/readline/lib/
 $(NAME): $(SRC) $(LIBFT)

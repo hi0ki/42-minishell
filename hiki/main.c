@@ -83,7 +83,7 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 			if (lexer != NULL)
 			{
 				create_lst(&lst, &lexer, &env, envr);
-				if (ft_exe(lst, env) == -1)
+				if (ft_exe(lst) == -1)
 				{
 					free_lst_lexer(&lexer);
 					free_list(&lst);

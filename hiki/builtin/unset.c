@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 09:46:11 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 17:30:35 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:41:21 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	unset_mid(char **av, t_list **lst)
 int	ft_unset(char **av, t_list **lst)
 {
 	t_env	*tmp;
-	t_env	*todel;
 	int		i;
 
 	i = 1;

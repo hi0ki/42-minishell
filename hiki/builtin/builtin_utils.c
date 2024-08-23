@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 21:38:30 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 15:33:48 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:44:56 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ int	go_path(int opt, t_env *env)
 	int		r;
 
 	path = NULL;
+	r = 0;
 	if (opt == 0)
 	{
 		path = get_path(env, "HOME");
 		if (!path)
 		{
+			r = 1;
 			ft_putstrn_fd("minishell: cd: HOME not set", 2);
 			return (r);
 		}
