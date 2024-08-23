@@ -158,7 +158,7 @@ int		valid_to_split(t_lexer *node);
 /*					check utils						*/
 int		check_oper(t_lexer *node);
 int		check_variable(t_lexer *node);
-void	remove_variables(t_lexer **head);
+// void	remove_variables(t_lexer **head);
 /*					fill files						*/
 void	fill_variables(t_lexer **head, t_env *env);
 int		fill_files(t_list **lst, t_lexer **lexer, t_env **env);
