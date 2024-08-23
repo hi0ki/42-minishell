@@ -12,41 +12,46 @@
 
 #include "minishell.h"
 
-void split_env_var(t_lexer **head)
+static void	split_env_helper(t_lexer *tmp, char **arr, int i)
 {
-	t_lexer *tmp;
-	char	 *save;
-	t_lexer *node;
-	int		i;
-	char **arr;
+	t_lexer	*node;
+
+	while (arr[i])
+	{
+		if (i == 0)
+			tmp->data = ft_strdup(arr[0]);
+		else
+		{
+			node = lexer_lstnew(ft_strdup(arr[i]));
+			node->next = tmp->next;
+			node->type = WORD;
+			if (tmp->next)
+				tmp->next->prev = node;
+			node->prev = tmp;
+			tmp->next = node;
+			tmp = tmp->next;
+		}
+		tmp->type = WORD;
+		free(arr[i]);
+		i++;
+	}
+}
+
+static void	split_env_var(t_lexer **head)
+{
+	t_lexer	*tmp;
+	char	*save;
+	char	**arr;
 
 	tmp = *head;
 	while (tmp)
 	{
-		if (tmp->type == DOLLAR && check_variable(tmp) == 0)
+		if (tmp->type == DOLLAR && (check_variable(tmp) == 0 || 
+				tmp->prev == NULL) && valid_to_split(tmp) == 0)
 		{
 			arr = ft_split(tmp->data, " \t");
 			save = tmp->data;
-			i = 0;
-			while (arr[i])
-			{
-				if (i == 0)
-					tmp->data = ft_strdup(arr[0]);
-				else
-				{
-					node = lexer_lstnew(ft_strdup(arr[i]));
-					node->next = tmp->next;
-					node->type = WORD;
-					if (tmp->next)
-						tmp->next->prev = node;
-					node->prev = tmp;
-					tmp->next = node;
-					tmp = tmp->next;
-				}
-				tmp->type = WORD;
-				free(arr[i]);
-				i++;
-			}
+			split_env_helper(tmp, arr, 0);
 			free(arr);
 			free(save);
 		}
@@ -54,18 +59,20 @@ void split_env_var(t_lexer **head)
 	}
 }
 
-void remove_variables(t_lexer **head)
+static void	remove_variables(t_lexer **head)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	tmp = (*head)->next;
-	if ((*head)->next == NULL && (*head)->type == DOLLAR && ft_strlen((*head)->data) == 0)
+	if ((*head)->next == NULL && 
+		(*head)->type == DOLLAR && ft_strlen((*head)->data) == 0)
 	{
 		free((*head)->data);
 		free(*head);
 		(*head) = NULL;
 	}
-	else if ((*head)->next != NULL && (*head)->type == DOLLAR && ft_strlen((*head)->data) == 0)
+	else if ((*head)->next != NULL && 
+		(*head)->type == DOLLAR && ft_strlen((*head)->data) == 0)
 	{
 		free((*head)->data);
 		free(*head);
@@ -74,7 +81,7 @@ void remove_variables(t_lexer **head)
 	}
 }
 
-void start_parsing(t_lexer **head, t_env *env)
+void	start_parsing(t_lexer **head, t_env *env)
 {
 	fill_variables(head, env);
 	remove_variables(head);

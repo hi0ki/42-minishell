@@ -22,7 +22,7 @@ int	exec_after_built(t_list *lst)
 	if (pid == 0)
 	{
 		if (lst->path_cmd != NULL)
-			execve(lst->path_cmd, lst->arr, lst->envr);
+			execve(lst->path_cmd, lst->arr, env_to_tab(*lst->env));
 		r = err_msg(lst->path_cmd, lst->arr[0]);
 		exit(r);
 	}

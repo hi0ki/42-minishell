@@ -24,11 +24,10 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/stat.h>
-// # include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
-// # include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
-
-# include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-# include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
+# include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
+# include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
+// # include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
+// # include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -155,6 +154,7 @@ int		get_name_index(t_lexer **node, int j, int i);
 char	*edit_data(char *value, char *old_value, int i, int j);
 char	*get_value_env(t_env *env, char *av);
 void	delete_var(t_lexer **node);
+int		valid_to_split(t_lexer *node);
 /*					check utils						*/
 int		check_oper(t_lexer *node);
 int		check_variable(t_lexer *node);
@@ -166,6 +166,7 @@ void	fill_arr(t_list **lst, t_lexer **head, int size);
 void	fill_path(t_list **lst, t_env **env, char **envr);
 /*					heredoc							*/
 void	heredoce_start(t_files *file, t_env **env);
+char	*expand_for_heredoc(char *str, int i, int j, t_env **env);
 /*						env 						*/
 char	*get_value_env(t_env *env, char *av);
 

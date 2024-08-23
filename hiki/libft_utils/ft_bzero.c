@@ -27,18 +27,22 @@ void	ft_bzero(char *str, int n)
 char	**env_to_tab(t_env *env)
 {
 	t_env	*tmp;
+	char	*bfr;
 	char	**str;
 	int		i;
 
 	i = 0;
 	tmp = env;
-	str = malloc(ft_envsize(env) * sizeof(char *));
+	str = malloc((ft_envsize(env) + 1) * sizeof(char *));
 	while (tmp)
 	{
-		str[i] = ft_strjoin(ft_strjoin(tmp->bfr_eql, "="), tmp->after_eql);
+		bfr = ft_strjoin(tmp->bfr_eql, "=");
+		str[i] = ft_strjoin(bfr, tmp->after_eql);
+		free(bfr);
 		i++;
 		tmp = tmp->next;
 	}
+	str[i] = NULL;
 	return (str);
 }
 

@@ -14,9 +14,9 @@
 
 static	t_lexer	*get_node(char *line, int i, int index, int type)
 {
-	char	*str;
-	static int		helper;
-	t_lexer	*node;
+	char		*str;
+	static int	helper;
+	t_lexer		*node;
 
 	str = NULL;
 	if (type == 0)

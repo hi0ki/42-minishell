@@ -25,91 +25,32 @@ static char	*generate_heredoc_name(void)
 	return (name);
 }
 
-static int	get_len(char *str, int i)
-{
-	while (str[i] && !ft_isdigit(str[i]) && str[i] != '$' && str[i] != '?' && 
-		(ft_isalnum(str[i]) == 1 || str[i] == '_'))
-		i++;
-	if (str[i] == '?')
-		i++;
-	return (i);
-}
-
-static char *edit_heredoc_value(char *str, char *value, int i, int j)
-{
-	char *tmp;
-	char *bfr;
-	char *aft;
-	char *new_str;
-
-	bfr = ft_substr(str, 0, i - 1);
-	tmp = ft_strjoin(bfr, value);
-	free(bfr);
-	bfr = tmp;
-    aft = ft_substr(str, j, ft_strlen(str) - j);
-    new_str = ft_strjoin(bfr, aft);
-    free(bfr);
-    free(aft);
-    return (new_str);
-}
-
-char    *expand_for_heredoc(char *str, int i, int j, t_env **env)
-{
-	char	*value;
-	char	*old_value;
-	char	*new_str;
-	char	*name;
-
-	j = get_len(str, i);
-	if (j - i == 1 && str[j - 1] == '?')
-	{
-		value = ft_itoa(g_status);
-	}
-	else
-	{
-		name = ft_substr(str, i, j - i);
-		value = get_value_env(*env, name);
-	}
-	if (value == NULL)
-	{
-		if (ft_strlen(name) == ft_strlen(str) - 2)
-			return (ft_strdup("\n"));
-		else
-		{
-			if (i == 1)
-			{
-				if (j == i)
-					new_str = ft_substr(str, j + 1, ft_strlen(str) - j);
-				else
-					new_str = ft_substr(str, j, ft_strlen(str) - j);
-				free(name);
-				return (new_str);
-			}
-			else
-			{
-				old_value = ft_substr(str, 0, i - 1);
-				if (j - i == 0)
-					value = ft_substr(str, j + 1, ft_strlen(str) - j - 1);
-				else
-					value = ft_substr(str, j, ft_strlen(str) - j);
-				new_str = ft_strjoin(old_value, value);
-				free(name);
-				free(old_value);
-				free(value);
-				return (new_str);
-			}
-		}
-	}
-	new_str = edit_heredoc_value(str, value, i, j);
-    return (new_str);
-}
-
-void sig_heredoc(int sig)
+void	sig_heredoc(int sig)
 {
 	(void) sig;
 	g_status = 1;
-	printf("\n");
+	write(1, "\n", 1);
 	exit (g_status);
+}
+
+static char	*start_expand(char *str, int i, t_env **env)
+{
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 2])
+		{
+			if (str[i + 1] == '$')
+				i += 2;
+			else
+			{
+				str = expand_for_heredoc(str, i + 1, 0, env);
+				i = 0;
+			}
+		}
+		else
+			i++;
+	}
+	return (str);
 }
 
 static void	heredoce_handler(t_files *file, t_env **env, int fd)
@@ -117,7 +58,8 @@ static void	heredoce_handler(t_files *file, t_env **env, int fd)
 	char	*str;
 	int		i;
 
-	// signal(SIGINT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, sig_heredoc);
 	while (1)
 	{
 		write(1, "> ", 2);
@@ -127,22 +69,13 @@ static void	heredoce_handler(t_files *file, t_env **env, int fd)
 		if (str != NULL && file->heredoce_expand != false)
 		{
 			i = 0;
-			while (str[i])
-			{
-				if (str[i] == '$' && str[i + 1] != '$' && str[i + 1])
-				{
-					str = expand_for_heredoc(str, i + 1, 0, env);
-					i = 0;
-				}
-				i++;
-			}
+			str = start_expand(str, i, env);
 		}
 		write(fd, str, ft_strlen(str));
 		free(str);
 	}
 	free(str);
 }
-
 
 void	heredoce_start(t_files *file, t_env **env)
 {
@@ -153,21 +86,17 @@ void	heredoce_start(t_files *file, t_env **env)
 	name = generate_heredoc_name();
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (file->fd == -1)
-	{
 		perror(file->file_name);
-		exit(g_status);
-	}
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
-		// signal(SIGINT, SIG_IGN);
-		// signal(SIGINT, sig_heredoc);
+		signal(SIGINT, sig_heredoc);
 		heredoce_handler(file, env, fd);
 		exit(0);
 	}
 	else
 	{
-		// signal(SIGINT, sig_heredoc);
 		waitpid(pid, &g_status, 0);
 		close(fd);
 	}

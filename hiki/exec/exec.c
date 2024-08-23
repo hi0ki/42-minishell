@@ -29,7 +29,7 @@ static int	open_handler(t_list *tmp, int i)
 	{
 		tmp->error = false;
 		tmp->files[i].error_file = -1;
-		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		perror(tmp->files[i].file_name);
 		g_status = 1;
 		return (-1);
@@ -92,8 +92,8 @@ void	pipe_handle(t_list *lst)
 
 int	child_process(t_list *lst, int *pid)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	// signal(SIGINT, SIG_DFL);
+	// signal(SIGQUIT, SIG_DFL);
 	g_status = 0;
 	pipe_handle(lst);
 	if (link_builtin(lst) == 1)
@@ -106,7 +106,7 @@ int	child_process(t_list *lst, int *pid)
 		if (lst->path_cmd == NULL && !lst->arr[0])
 			return (0);
 		if (lst->path_cmd != NULL)
-			execve(lst->path_cmd, lst->arr, lst->envr);
+			execve(lst->path_cmd, lst->arr, env_to_tab(*lst->env));
 		g_status = err_msg(lst->path_cmd, lst->arr[0]);
 		exit(g_status);
 	}

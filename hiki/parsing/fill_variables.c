@@ -92,9 +92,9 @@ int	set_variable_value(t_lexer **node, t_env *env, int i)
 	tmp = (*node)->data;
 	(*node)->data = edit_data(value, (*node)->data, i, j);
 	i = i + ft_strlen(value);
-	free(var_name);
-	free(value);
 	free(tmp);
+	free(value);
+	free(var_name);
 	return (i);
 }
 

@@ -77,7 +77,7 @@ int	wait_process(int *pid, int i)
 			g_status = WEXITSTATUS(g_status);
 		else if (WIFSIGNALED(g_status))
 			g_status = WTERMSIG(g_status) + 128;
-		signal(SIGINT, sig_handle);
+		// signal(SIGINT, sig_handle);
 	}
 	free(pid);
 	return (g_status);
@@ -100,7 +100,7 @@ int	lst_handle(t_list *lst, int *pid, int size, int *i)
 	{
 		if ((*i) < size)
 		{
-			signal(SIGINT, SIG_IGN);
+			// signal(SIGINT, SIG_IGN);
 			if (lst->next)
 				pipe(lst->pipe_fd);
 			pid[(*i)] = fork();

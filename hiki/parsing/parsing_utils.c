@@ -60,13 +60,12 @@ void	num_of_files(t_list **lst, t_lexer **lexer)
 			tmp->num_of_files = i;
 			i = 0;
 			tmp = tmp->next;
-			lextmp = lextmp->next;
 		}
-		if (lextmp && (lextmp->type == HEREDOC || lextmp->type == REDIRECT_APPEND || 
-			lextmp->type == REDIRECT_INPUT || lextmp->type == REDIRECT_OUTPUT))
-		{
+		else if (lextmp && (lextmp->type == HEREDOC || 
+				lextmp->type == REDIRECT_APPEND || 
+				lextmp->type == REDIRECT_INPUT || 
+				lextmp->type == REDIRECT_OUTPUT))
 			i++;
-		}
 		if (lextmp)
 			lextmp = lextmp->next;
 	}
@@ -82,7 +81,18 @@ int	check_variable(t_lexer *node)
 			return (0);
 		else if (node->prev->prev == NULL)
 			return (0);
-		return (1);
+	}
+	return (1);
+}
+
+int	valid_to_split(t_lexer *node)
+{
+	if (node && node->prev && check_oper(node) != 0)
+	{
+		if (node->prev->prev && check_oper(node->prev->prev) != 0)
+			return (0);
+		else if (!node->prev->prev)
+			return (0);
 	}
 	return (1);
 }

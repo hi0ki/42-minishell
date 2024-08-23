@@ -55,8 +55,6 @@ char	*get_value_env(t_env *env, char *av)
 		return (NULL);
 	while (env)
 	{
-		if (ft_envsize(env) == 0)
-			break ;
 		if (ft_strcmp(av, env->bfr_eql) == 0)
 		{
 			if (env->after_eql && env->after_eql[0])
