@@ -105,11 +105,20 @@ char    *expand_for_heredoc(char *str, int i, int j, t_env **env)
     return (new_str);
 }
 
+void sig_heredoc(int sig)
+{
+	(void) sig;
+	g_status = 1;
+	printf("\n");
+	exit (g_status);
+}
+
 static void	heredoce_handler(t_files *file, t_env **env, int fd)
 {
 	char	*str;
 	int		i;
 
+	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
 		write(1, "> ", 2);
@@ -154,12 +163,17 @@ void	heredoce_start(t_files *file, t_env **env)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_IGN);
+		// signal(SIGINT, sig_heredoc);
 		heredoce_handler(file, env, fd);
 		close(fd);
 		exit(0);
 	}
 	else
+	{
+		signal(SIGINT, sig_heredoc);
 		waitpid(pid, &g_status, 0);
+	}
 	file->heredoce_name = ft_strdup(name);
 	free(name);
 }
