@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:07:57 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/23 15:16:31 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:54:50 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	ft_close_fds(t_list **lst)
 				break ;
 			if (tmp->files[i].fd != tmp->in && tmp->files[i].fd != tmp->out)
 				close(tmp->files[i].fd);
-			else if ((tmp->files[i].fd == tmp->in || tmp->files[i].fd == tmp->out)
+			else if ((tmp->files[i].fd == tmp->in || 
+					tmp->files[i].fd == tmp->out)
 				&& tmp->error == false)
 				close(tmp->files[i].fd);
 			i++;
@@ -76,7 +77,7 @@ int	wait_process(int *pid, int i)
 			g_status = WEXITSTATUS(g_status);
 		else if (WIFSIGNALED(g_status))
 			g_status = WTERMSIG(g_status) + 128;
-		// signal(SIGINT, sig_handle);
+		signal(SIGINT, sig_handle);
 	}
 	free(pid);
 	return (g_status);
@@ -99,7 +100,7 @@ int	lst_handle(t_list *lst, int *pid, int size, int *i)
 	{
 		if ((*i) < size)
 		{
-			// signal(SIGINT, SIG_IGN);
+			signal(SIGINT, SIG_IGN);
 			if (lst->next)
 				pipe(lst->pipe_fd);
 			pid[(*i)] = fork();

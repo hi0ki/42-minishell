@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/23 15:41:37 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:56:33 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	pipe_handle(t_list *lst)
 
 int	child_process(t_list *lst, int *pid)
 {
-	// signal(SIGINT, SIG_DFL);
-	// signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	g_status = 0;
 	pipe_handle(lst);
 	if (link_builtin(lst) == 1)
@@ -113,12 +113,13 @@ int	child_process(t_list *lst, int *pid)
 	return (1);
 }
 
-int ft_exe(t_list *lst)
+int	ft_exe(t_list *lst)
 {
-	int *pid;
-	int i;
-	int size = ft_lstsize(lst);
-	
+	int	*pid;
+	int	i;
+	int	size;
+
+	size = ft_lstsize(lst);
 	i = 0;
 	open_files(&lst);
 	ft_close_fds(&lst);
@@ -126,18 +127,16 @@ int ft_exe(t_list *lst)
 		return (g_status);
 	pid = malloc(size * sizeof(int));
 	if (!pid)
-		return(perror("malloc error"), -1);
+		return (perror("malloc error"), -1);
 	if (size == 1 && lst->error == true)
 	{
 		if (link_builtin(lst) == 1)
 			return (free (pid), g_status);
 	}
 	else if (size == 1 && lst->error == false)
-		return (free(pid) ,g_status);
-	if ( lst_handle(lst, pid, size, &i) == -2)
+		return (free(pid), g_status);
+	if (lst_handle(lst, pid, size, &i) == -2)
 		return (perror("fork error"), free(pid), -1);
 	wait_process(pid, i);
 	return (g_status);
 }
-
-
