@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 22:07:57 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/23 14:44:38 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:16:31 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ void	ft_close_fds(t_list **lst)
 		i = 0;
 		while (i < tmp->num_of_files)
 		{
+			if (tmp->files[i].error_file == -1)
+				break ;
 			if (tmp->files[i].fd != tmp->in && tmp->files[i].fd != tmp->out)
+				close(tmp->files[i].fd);
+			else if ((tmp->files[i].fd == tmp->in || tmp->files[i].fd == tmp->out)
+				&& tmp->error == false)
 				close(tmp->files[i].fd);
 			i++;
 		}

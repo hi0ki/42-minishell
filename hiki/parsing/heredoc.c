@@ -6,7 +6,7 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 00:37:49 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/23 14:45:31 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:20:35 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ void	heredoce_start(t_files *file, t_env **env)
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (file->fd == -1)
 	{
-		printf("exit f heredoc\n");
 		perror(file->file_name);
 		exit(g_status);
 	}
@@ -166,13 +165,13 @@ void	heredoce_start(t_files *file, t_env **env)
 		// signal(SIGINT, SIG_IGN);
 		// signal(SIGINT, sig_heredoc);
 		heredoce_handler(file, env, fd);
-		close(fd);
 		exit(0);
 	}
 	else
 	{
-		signal(SIGINT, sig_heredoc);
+		// signal(SIGINT, sig_heredoc);
 		waitpid(pid, &g_status, 0);
+		close(fd);
 	}
 	file->heredoce_name = ft_strdup(name);
 	free(name);
