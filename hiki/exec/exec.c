@@ -6,64 +6,37 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 18:08:20 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 22:36:49 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:44:04 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int err_msg(char *path, char *arr)
-{
-	DIR *f;
-	int fd;
+// void print_s_files(t_list *list) {
+//     int i = 0;
 
-	fd = open(path, O_WRONLY);
-	f = opendir(path);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(arr, 2);
-    if (path == NULL && strchr(arr, '/') == NULL)
-        ft_putstrn_fd(": command not found", 2);
-	else if ((fd == -1 && f == NULL))
-		ft_putstrn_fd(": No such file or directory", 2);
-	else if (fd == -1 && f != NULL)
-		ft_putstrn_fd(": is a directory", 2);
-	else if (fd != -1 && f == NULL)
-		ft_putstrn_fd(" permission denied", 2);
-	if (path == NULL || (fd == -1 && f == NULL))
-		g_status = 127;
-	else
-		g_status = 126;
-	if (f)
-		closedir(f);
-	close(fd);
-	return (g_status);
-}
-
-void print_s_files(t_list *list) {
-    int i = 0;
-
-    while (list)
-    {
-        i = 0;
-        while (i < list->num_of_files)
-        {
-            // if (list != NULL && list->files != NULL) {
-            //     printf("File Name: %s\n", list->files[i].file_name);
-            //     printf("Heredoce Name: %s\n", list->files[i].heredoce_name);
-            //     printf("Type: %d\n", list->files[i].type);
-            //     printf("File Descriptor: %d\n", list->files[i].fd);
-            //     printf("Error File: %d\n", list->files[i].error_file);
-            //     printf("\n----------------------\n");
-            // } else {
-            //     printf("No files in list.\n");
-            // }
-            i++;
-        }
-        printf("Last in = %d\n", list->in);
-        printf("Last out = %d\n", list->out);
-    list = list->next;
-    }
-}
+//     while (list)
+//     {
+//         i = 0;
+//         while (i < list->num_of_files)
+//         {
+//             // if (list != NULL && list->files != NULL) {
+//             //     printf("File Name: %s\n", list->files[i].file_name);
+//             //     printf("Heredoce Name: %s\n", list->files[i].heredoce_name);
+//             //     printf("Type: %d\n", list->files[i].type);
+//             //     printf("File Descriptor: %d\n", list->files[i].fd);
+//             //     printf("Error File: %d\n", list->files[i].error_file);
+//             //     printf("\n----------------------\n");
+//             // } else {
+//             //     printf("No files in list.\n");
+//             // }
+//             i++;
+//         }
+//         printf("Last in = %d\n", list->in);
+//         printf("Last out = %d\n", list->out);
+//     list = list->next;
+//     }
+// }
 
 int open_files(t_list **node)
 {
@@ -113,26 +86,6 @@ int open_files(t_list **node)
     return (0);
 }
 
-void ft_close_fds(t_list **lst)
-{
-    t_list *tmp;
-    int i;
-
-    i = 0;
-    tmp = *lst;
-    while (tmp)
-    {
-        i = 0;
-        while (i < tmp->num_of_files)
-        {
-            if (tmp->files[i].fd != tmp->in && tmp->files[i].fd != tmp->out)
-                close(tmp->files[i].fd);
-            i++;
-        }
-        tmp = tmp->next;
-    }
-}
-
 void    pipe_handle(t_list *lst)
 {
     if (lst->in != 0)
@@ -155,8 +108,8 @@ void    pipe_handle(t_list *lst)
 
 int child_process(t_list *lst, int *pid)
 {
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
+    // signal(SIGINT, SIG_DFL);
+    // signal(SIGQUIT, SIG_DFL);
     g_status = 0;
     pipe_handle(lst);
     if (link_builtin(lst) == 1)
@@ -175,68 +128,6 @@ int child_process(t_list *lst, int *pid)
     }
     return (1);
 }
-
-int wait_process(int *pid, int i)
-{
-	int j;
-
-    j = 0;
-	while (j < i)
-	{
-        waitpid(pid[j++], &g_status, 0);
-        if (WIFEXITED(g_status))
-            g_status = WEXITSTATUS(g_status);
-        else if (WIFSIGNALED(g_status))
-            g_status = WTERMSIG(g_status) + 128;
-        signal(SIGINT, sig_handle);
-    }
-    free(pid);
-	return (g_status);
-}
-void    setup_next_pipe(t_list *lst)
-{
-    if (lst->next)
-            lst->next->prev_in = lst->pipe_fd[0];
-        if (lst->in != 0)
-            close(lst->in);
-        if (lst->out != 1)
-            close(lst->out);
-    return ;
-}
-
-int lst_handle(t_list *lst, int *pid, int size, int *i)
-{
-    while (lst)
-	{
-            if ((*i) < size)
-            {
-                signal(SIGINT, SIG_IGN);
-                if(lst->next)
-                    pipe(lst->pipe_fd);
-                pid[(*i)] = fork();
-                if (pid[(*i)] < 0)
-                    return (-2);
-                if (pid[(*i)] == 0)
-                {
-                    if (!lst->error)
-                        exit(g_status);
-                    child_process(lst, pid);
-                }
-                else
-                {
-                    if (lst->prev_in != 0)
-                        close (lst->prev_in);
-                    if (lst->next)
-                        close (lst->pipe_fd[1]);
-                }
-                (*i)++;
-            }
-            setup_next_pipe(lst);
-        lst = lst->next;
-    }
-    return (0);
-}
-
 
 int ft_exe(t_list *lst, t_env *env)
 {

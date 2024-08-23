@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-ansa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 00:37:49 by eel-ansa          #+#    #+#             */
-/*   Updated: 2024/08/22 00:37:52 by eel-ansa         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:45:31 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static void	heredoce_handler(t_files *file, t_env **env, int fd)
 	char	*str;
 	int		i;
 
-	signal(SIGINT, SIG_DFL);
+	// signal(SIGINT, SIG_DFL);
 	while (1)
 	{
 		write(1, "> ", 2);
@@ -163,7 +163,7 @@ void	heredoce_start(t_files *file, t_env **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_IGN);
+		// signal(SIGINT, SIG_IGN);
 		// signal(SIGINT, sig_heredoc);
 		heredoce_handler(file, env, fd);
 		close(fd);

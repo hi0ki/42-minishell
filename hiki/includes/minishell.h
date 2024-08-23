@@ -6,70 +6,71 @@
 /*   By: mel-hime <mel-hime@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:03:08 by mel-hime          #+#    #+#             */
-/*   Updated: 2024/08/22 22:26:59 by mel-hime         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:43:21 by mel-hime         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdbool.h>
-#include <string.h>
-#include <limits.h>
-#include <dirent.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <sys/stat.h>
-#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
-#include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdbool.h>
+# include <string.h>
+# include <limits.h>
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <sys/stat.h>
+// # include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
+// # include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
 
-// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-// #include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
-#include <readline/readline.h>
-#include <readline/history.h>
+# include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
+# include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
-#define CMD	1
-#define ARG 2
-#define PIPE 3                // For the pipe symbol '|'
-#define WORD 4                // For general words, command names, arguments, etc.
-#define REDIRECT_OUTPUT 5     // For output redirection '>'
-#define REDIRECT_APPEND 6     // For append output redirection '>>'
-#define REDIRECT_INPUT 7      // For input redirection '<'
-#define HEREDOC 8             // For here-document '<<'
-#define SQUOTE 9        // For single quotes '''
-#define DQUOTE 10        // For double quotes '"'
-#define DOLLAR 11              // For variable expansion '$'
-#define BUILTIN_CD 12         // Built-in command: cd
-#define BUILTIN_ECHO 13       // Built-in command: echo
-#define BUILTIN_ENV 14        // Built-in command: env
-#define BUILTIN_EXIT 15       // Built-in command: exit
-#define BUILTIN_EXPORT 16     // Built-in command: export
-#define BUILTIN_PWD 17        // Built-in command: pwd
-#define BUILTIN_UNSET 18      // Built-in command: unset
-#define SPC 19              // For space character ' '
+# define CMD	1
+# define ARG 2
+# define PIPE 3                // For the pipe symbol '|'
+# define WORD 4                // For general words, command names, arguments,
+# define REDIRECT_OUTPUT 5     // For output redirection '>'
+# define REDIRECT_APPEND 6     // For append output redirection '>>'
+# define REDIRECT_INPUT 7      // For input redirection '<'
+# define HEREDOC 8             // For here-document '<<'
+# define SQUOTE 9        // For single quotes '''
+# define DQUOTE 10        // For double quotes '"'
+# define DOLLAR 11              // For variable expansion '$'
+# define BUILTIN_CD 12         // Built-in command: cd
+# define BUILTIN_ECHO 13       // Built-in command: echo
+# define BUILTIN_ENV 14        // Built-in command: env
+# define BUILTIN_EXIT 15       // Built-in command: exit
+# define BUILTIN_EXPORT 16     // Built-in command: export
+# define BUILTIN_PWD 17        // Built-in command: pwd
+# define BUILTIN_UNSET 18      // Built-in command: unset
+# define SPC 19              // For space character ' '
 
-int g_status;
+int	g_status;
 
 typedef struct s_files{
-	char *file_name;
-	char *heredoce_name;
-	bool heredoce_expand;
-	int type;
-	int fd;
-	int				error_file;
-}t_files;
+	char	*file_name;
+	char	*heredoce_name;
+	bool	heredoce_expand;
+	int		type;
+	int		fd;
+	int		error_file;
+}	t_files;
 
-typedef struct s_lexer{
+typedef struct s_lexer
+{
 	char			*data;
 	int				type;
 	int				error_quotes;
 	struct s_lexer	*next;
-    struct s_lexer	*prev;
-} t_lexer;
+	struct s_lexer	*prev;
+}	t_lexer;
 
 typedef struct s_env{
 	char			*bfr_eql;
@@ -81,7 +82,7 @@ typedef struct s_env{
 typedef struct s_list{
 	char			*path_cmd;
 	char			**arr;
-	char			**envr; // ndwoz main env machi copy li kayna f int main bach la bdlat fiha exec
+	char			**envr;
 	t_env			**env;
 	int				num_of_files;
 	t_files			*files;
@@ -91,8 +92,7 @@ typedef struct s_list{
 	int				prev_in;
 	bool			error;
 	struct s_list	*next;
-} t_list;
-
+}	t_list;
 
 /*						GNL								*/
 void	print_list(t_lexer *head);
@@ -103,7 +103,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 int		ft_strlen(char *str);
 void	ft_bzero(char *str, int n);
 char	*ft_strdup(char *s1);
-char    *ft_strtrim(char *s1, char *set);
+char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);
 int		ft_isalnum(int c);
 int		ft_isdigit(int c);
@@ -111,10 +111,10 @@ char	*ft_substr(char *s, int start, int len);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putstrn_fd(char *s, int fd);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_strncmp(char *s1, char *s2,int n);
-char    *ft_strjoin(char *s1, char *s2);
-char    *ft_strjoin2(char *s1, char *s2);
-char    *ft_strjoin3(char *s1, char *s2);
+int		ft_strncmp(char *s1, char *s2, int n);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin2(char *s1, char *s2);
+char	*ft_strjoin3(char *s1, char *s2);
 char	**ft_split(char *s, char *c);
 char	*ft_itoa(int n);
 int		ft_lstsize(t_list *lst);
@@ -123,15 +123,15 @@ t_list	*ft_lstlast(t_list *lst);
 void	ft_free_arr(char **array);
 void	free_lst_lexer(t_lexer **head);
 void	free_lst_env(t_env **env);
-void 	free_list(t_list **lst);
-void 	free_files(t_files *file, int num_of_files);
+void	free_list(t_list **lst);
+void	free_files(t_files *file, int num_of_files);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_lenarray(char **array);
 
 /*						Error handler						*/
 int		error_handler(t_lexer *lexer);
 /*					lexer & set_tyep &utils_lexer			*/
-t_lexer *start_lexer(t_lexer *head, char *line);
+t_lexer	*start_lexer(t_lexer *head, char *line);
 t_lexer	*lexer_lstnew(char *data);
 void	lexer_add_back(t_lexer **lst, t_lexer *new);
 char	*ft_str_alloc(char *line, int size);
@@ -139,7 +139,7 @@ char	*alloc_special_char(char *line);
 int		check_special_char(char *str);
 int		get_index(char *line, char *str);
 int		ft_handle_quotes(char *line);
-void 	set_type(t_lexer **head);
+void	set_type(t_lexer **head);
 
 /*						parsing							*/
 void	start_parsing(t_lexer **head, t_env *env);
@@ -151,7 +151,7 @@ void	parsing_type(t_lexer **head);
 int		count_cmd(t_lexer *head);
 int		size_node(t_lexer *head);
 void	num_of_files(t_list **lst, t_lexer **lexer);
-int get_name_index(t_lexer **node, int j, int i);
+int		get_name_index(t_lexer **node, int j, int i);
 char	*edit_data(char *value, char *old_value, int i, int j);
 char	*get_value_env(t_env *env, char *av);
 void	delete_var(t_lexer **node);
@@ -163,21 +163,20 @@ void	remove_variables(t_lexer **head);
 void	fill_variables(t_lexer **head, t_env *env);
 int		fill_files(t_list **lst, t_lexer **lexer, t_env **env);
 void	fill_arr(t_list **lst, t_lexer **head, int size);
-void fill_path(t_list **lst, t_env **env, char **envr);
+void	fill_path(t_list **lst, t_env **env, char **envr);
 /*					heredoc							*/
-void heredoce_start(t_files *file, t_env **env);
+void	heredoce_start(t_files *file, t_env **env);
 /*						env 						*/
 char	*get_value_env(t_env *env, char *av);
 
-
 /*						builtin && utils builtin							*/
-int    	ft_cd(char **av, t_env *env);
+int		ft_cd(char **av, t_env *env);
 int		ft_echo(int ac, char **av, int fd_out);
 int		ft_exit(char **av);
-int 	ft_pwd(int fd_out);
-int	ft_export(char **av, t_env **env, int fd_out);
-int 	ft_unset(char **av, t_list **lst);
-void    print_all_env(t_env *env, int fd_out);
+int		ft_pwd(int fd_out);
+int		ft_export(char **av, t_env **env, int fd_out);
+int		ft_unset(char **av, t_list **lst);
+void	print_all_env(t_env *env, int fd_out);
 int		ft_env(t_env *env, int fd_out);
 void	env_init(t_env **env, char **envr);
 void	ft_envaddback(t_env **head, t_env *new);
@@ -186,8 +185,8 @@ int		link_builtin(t_list *lst);
 /*						execution	
 */
 int		err_msg(char *path, char *arr);				
-		
-int 	ft_exe(t_list *lst, t_env *env);
+
+int		ft_exe(t_list *lst, t_env *env);
 
 //           signals
 void	sig_handle(int sig);
@@ -198,7 +197,12 @@ int		go_path(int opt, t_env *env);
 char	*get_path(t_env *env, char *key);
 int		add_oldpwd(t_env *env);
 void	print_all_env(t_env *env, int fd_out);
-int err_msg(char *path, char *arr);
-void ft_close_fds(t_list **lst);
+int		err_msg(char *path, char *arr);
+void	ft_close_fds(t_list **lst);
+int		wait_process(int *pid, int i);
+void	setup_next_pipe(t_list *lst);
+void	ft_close_pr(t_list *lst);
+int		lst_handle(t_list *lst, int *pid, int size, int *i);
+int		child_process(t_list *lst, int *pid);
 
 #endif
