@@ -16,7 +16,8 @@ static int	write_error(t_lexer *tmp)
 {
 	if (tmp->error_quotes == -1)
 	{
-		ft_putstrn_fd("minishell: syntax error: no end of quotes", 2);
+		ft_putstrn_fd("minishell: unexpected EOF while looking for matching", 
+			2);
 		g_status = 258;
 		return (-1);
 	}

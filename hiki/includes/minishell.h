@@ -54,10 +54,10 @@
 
 int g_status;
 
-
 typedef struct s_files{
 	char *file_name;
 	char *heredoce_name;
+	bool heredoce_expand;
 	int type;
 	int fd;
 	int				error_file;

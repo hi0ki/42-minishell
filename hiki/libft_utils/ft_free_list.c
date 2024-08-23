@@ -85,7 +85,6 @@ void	free_list(t_list **lst)
 		free_files(temp->files, temp->num_of_files);
 		free(temp);
 		temp = NULL;
-		// printf("hna\n");
 	}
 }
 

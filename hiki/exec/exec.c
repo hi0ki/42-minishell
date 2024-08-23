@@ -23,7 +23,7 @@ int err_msg(char *path, char *arr)
 	ft_putstr_fd(arr, 2);
     if (path == NULL && strchr(arr, '/') == NULL)
         ft_putstrn_fd(": command not found", 2);
-	else if ((fd == -1 && f == NULL) || (strchr(arr, '/') != NULL))
+	else if ((fd == -1 && f == NULL))
 		ft_putstrn_fd(": No such file or directory", 2);
 	else if (fd == -1 && f != NULL)
 		ft_putstrn_fd(": is a directory", 2);
@@ -79,41 +79,29 @@ int open_files(t_list **node)
             if (tmp->files[i].error_file == -1)
             {
                 printf("minishell : %s: ambiguous redirect\n", tmp->files[i].file_name);
-                tmp->num_of_files = i - 1;
-                g_status = 1;
-                tmp->error = false;
-                break ;
-            }
-            if (access(tmp->files[i].file_name, F_OK) == 0 && access(tmp->files[i].file_name, R_OK | W_OK) == -1)
-            {
-                printf("minishell : %s: Permission denied\n", tmp->files[i].file_name);
-                tmp->num_of_files = i - 1;
                 tmp->error = false;
                 g_status = 1;
                 break ;
             }
             if (tmp->files[i].type == REDIRECT_INPUT)
             {
-                if (access(tmp->files[i].file_name, F_OK) == 0 && tmp->files[i].file_name[0] != '$')
-                {
-                    tmp->files[i].fd = open(tmp->files[i].file_name, O_RDONLY, 0644);
-                }
-                else
-                {
-                    printf("minishell : %s: No such file or directory\n", tmp->files[i].file_name);
-                    tmp->num_of_files = i - 1;
-                    tmp->error = false;
-                    g_status = 1;
-                    break ;
-                }
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_RDONLY, 0644);
             }
             else if (tmp->files[i].type == REDIRECT_APPEND)
                 tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
             else if (tmp->files[i].type == REDIRECT_OUTPUT)
-                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_WRONLY, 0644);
+                tmp->files[i].fd = open(tmp->files[i].file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
             else
                 tmp->files[i].fd = open(tmp->files[i].heredoce_name, O_CREAT | O_RDWR | O_APPEND, 0644);
-            if (tmp->files[i].type >= 5 && tmp->files[i].type <= 6)
+            if (tmp->files[i].fd < 0)
+            {
+                tmp->error = false;
+                ft_putstr_fd("minishell : ", 2);
+                perror(tmp->files[i].file_name);
+                g_status = 1;
+                break ;
+            }
+            else if (tmp->files[i].type >= 5 && tmp->files[i].type <= 6)
                 tmp->out = tmp->files[i].fd;
             else if (tmp->files[i].type >= 7 && tmp->files[i].type <= 8)
                 tmp->in = tmp->files[i].fd;
@@ -147,7 +135,7 @@ void ft_close_fds(t_list **lst)
 
 void    pipe_handle(t_list *lst)
 {
-      if (lst->in != 0)
+    if (lst->in != 0)
         dup2(lst->in, 0);
     else if (lst->prev_in != 0)
     {
@@ -220,8 +208,6 @@ int lst_handle(t_list *lst, int *pid, int size, int *i)
 {
     while (lst)
 	{
-        if (lst->error != false)
-        {
             if ((*i) < size)
             {
                 // signal(SIGINT, SIG_IGN);
@@ -231,7 +217,11 @@ int lst_handle(t_list *lst, int *pid, int size, int *i)
                 if (pid[(*i)] < 0)
                     return (-2);
                 if (pid[(*i)] == 0)
+                {
+                    if (!lst->error)
+                        exit(g_status);
                     child_process(lst, pid);
+                }
                 else
                 {
                     if (lst->prev_in != 0)
@@ -242,7 +232,6 @@ int lst_handle(t_list *lst, int *pid, int size, int *i)
                 (*i)++;
             }
             setup_next_pipe(lst);
-        }
         lst = lst->next;
     }
     return (0);
@@ -257,7 +246,7 @@ int ft_exe(t_list *lst, t_env *env)
     
     i = 0;
     open_files(&lst);
-    ft_close_fds(&lst);
+    // ft_close_fds(&lst);
     if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
         return (g_status);
     pid = malloc(size * sizeof(int));
@@ -268,6 +257,8 @@ int ft_exe(t_list *lst, t_env *env)
         if (link_builtin(lst) == 1)
             return (free (pid), g_status);
     }
+    else if (size == 1 && lst->error == false)
+        return (free(pid) ,g_status);
     if ( lst_handle(lst, pid, size, &i) == -2)
         return (perror("fork error"), free(pid), -1);
     wait_process(pid, i);

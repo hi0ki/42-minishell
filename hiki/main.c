@@ -96,6 +96,8 @@ void start_readline(t_lexer *lexer, t_list *lst, t_env *env, char **envr)
 					lst = NULL;
 				}
 			}
+			else
+				g_status = 0;
 		}
 		else if (lexer != NULL)
 		{
@@ -119,6 +121,6 @@ int main(int ac, char **av, char **envr)
 	// signal(SIGINT, sig_handle);
 	env_init(&env, envr);
 	start_readline(lexer, lst, env, envr);
-	system("leaks -q minishell");
+	// system("leaks -q minishell");
 	return (g_status);
 }

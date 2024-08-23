@@ -116,7 +116,7 @@ static void	heredoce_handler(t_files *file, t_env **env, int fd)
 		str = get_next_line(1);
 		if (!str || ft_strcmp(str, file->file_name) == 0)
 			break ;
-		if (str != NULL)
+		if (str != NULL && file->heredoce_expand != false)
 		{
 			i = 0;
 			while (str[i])

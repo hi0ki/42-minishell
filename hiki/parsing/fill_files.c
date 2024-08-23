@@ -17,6 +17,10 @@ static void	files_helper(t_list *tmp, t_lexer *lextmp, t_env **env, int i)
 	if (lextmp->type == HEREDOC)
 	{
 		tmp->files[i].file_name = ft_strjoin(lextmp->next->data, "\n");
+		if (lextmp->next->type == SQUOTE || lextmp->next->type == DQUOTE)
+			tmp->files[i].heredoce_expand = false;
+		else
+			tmp->files[i].heredoce_expand = true;
 		heredoce_start(&tmp->files[i], env);
 	}
 	else

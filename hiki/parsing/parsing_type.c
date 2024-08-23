@@ -54,6 +54,8 @@ static void	remove_front_space(t_lexer **head)
 
 static void	give_type(t_lexer **node)
 {
+	if (check_variable(*node) == 1)
+		return ;
 	if ((*node)->type >= 5 && (*node)->type <= 8)
 		return ;
 	else if ((*node)->prev == NULL || ft_strcmp((*node)->prev->data, "|") == 0)
