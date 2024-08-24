@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static void	files_helper(t_list *tmp, t_lexer *lextmp, t_env **env, int i)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static void	put_cmd_in_arr(t_list *lstmp, t_lexer *tmp, int size)
 {

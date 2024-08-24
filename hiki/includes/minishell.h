@@ -26,30 +26,21 @@
 # include <sys/stat.h>
 # include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/history.h"
 # include "/goinfre/eel-ansa/homebrew/opt/readline/include/readline/readline.h"
-// # include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/history.h"
-// # include "/goinfre/mel-hime/homebrew/opt/readline/include/readline/readline.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define CMD	1
+# define CMD 1
 # define ARG 2
-# define PIPE 3                // For the pipe symbol '|'
-# define WORD 4                // For general words, command names, arguments,
-# define REDIRECT_OUTPUT 5     // For output redirection '>'
-# define REDIRECT_APPEND 6     // For append output redirection '>>'
-# define REDIRECT_INPUT 7      // For input redirection '<'
-# define HEREDOC 8             // For here-document '<<'
-# define SQUOTE 9        // For single quotes '''
-# define DQUOTE 10        // For double quotes '"'
-# define DOLLAR 11              // For variable expansion '$'
-# define BUILTIN_CD 12         // Built-in command: cd
-# define BUILTIN_ECHO 13       // Built-in command: echo
-# define BUILTIN_ENV 14        // Built-in command: env
-# define BUILTIN_EXIT 15       // Built-in command: exit
-# define BUILTIN_EXPORT 16     // Built-in command: export
-# define BUILTIN_PWD 17        // Built-in command: pwd
-# define BUILTIN_UNSET 18      // Built-in command: unset
-# define SPC 19              // For space character ' '
+# define PIPE 3
+# define WORD 4
+# define REDIRECT_OUTPUT 5
+# define REDIRECT_APPEND 6
+# define REDIRECT_INPUT 7
+# define HEREDOC 8
+# define SQUOTE 9
+# define DQUOTE 10
+# define DOLLAR 11
+# define SPC 19
 
 int	g_status;
 
@@ -158,7 +149,6 @@ int		valid_to_split(t_lexer *node);
 /*					check utils						*/
 int		check_oper(t_lexer *node);
 int		check_variable(t_lexer *node);
-// void	remove_variables(t_lexer **head);
 /*					fill files						*/
 void	fill_variables(t_lexer **head, t_env *env);
 int		fill_files(t_list **lst, t_lexer **lexer, t_env **env);
@@ -183,16 +173,15 @@ void	env_init(t_env **env, char **envr);
 void	ft_envaddback(t_env **head, t_env *new);
 t_env	*ft_envnew(char *s);
 int		link_builtin(t_list *lst);
-/*						execution	
-*/
+/*						execution	*/
 int		err_msg(char *path, char *arr);				
 
 int		ft_exe(t_list *lst);
 
-//           signals
+/*         signals	*/
 void	sig_handle(int sig);
 
-//            norm
+/*            norm		*/
 char	**env_to_tab(t_env *env);
 int		go_path(int opt, t_env *env);
 char	*get_path(t_env *env, char *key);

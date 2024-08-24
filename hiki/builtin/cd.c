@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int	print_error(char **args)
 {
@@ -58,30 +58,6 @@ char	*get_path(t_env *env, char *key)
 	}
 	return (NULL);
 }
-
-// int	go_path(int opt, t_env *env)
-// {
-// 	char	*path;
-// 	int		r;
-
-// 	path = NULL;
-// 	if (opt == 0)
-// 	{
-// 		path = get_path(env, "HOME");
-// 		if (!path)
-// 		{
-// 			ft_putstrn_fd("minishell: cd: HOME not set", 2);
-// 			return (r);
-// 		}
-// 		add_oldpwd(env);
-// 	}
-// 	r = chdir(path);
-// 	free(path);
-// 	path = NULL;
-// 	if (r == -1)
-// 		r = 1;
-// 	return (r);
-// }
 
 int	ft_cd(char **av, t_env *env)
 {

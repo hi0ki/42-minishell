@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int	open_handler(t_list *tmp, int i)
 {
@@ -92,8 +92,10 @@ void	pipe_handle(t_list *lst)
 
 int	child_process(t_list *lst, int *pid)
 {
-	// signal(SIGINT, SIG_DFL);
-	// signal(SIGQUIT, SIG_DFL);
+	if (!lst->error)
+		exit(g_status);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	g_status = 0;
 	pipe_handle(lst);
 	if (link_builtin(lst) == 1)
@@ -121,10 +123,10 @@ int	ft_exe(t_list *lst)
 
 	size = ft_lstsize(lst);
 	i = 0;
-	open_files(&lst);
-	ft_close_fds(&lst);
 	if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
 		return (g_status);
+	open_files(&lst);
+	ft_close_fds(&lst);
 	pid = malloc(size * sizeof(int));
 	if (!pid)
 		return (perror("malloc error"), -1);

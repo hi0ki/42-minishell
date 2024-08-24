@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	ft_free(void *ptr)
 {
@@ -59,40 +59,43 @@ void	unset_mid(char **av, t_list **lst)
 	return ;
 }
 
+static void	unset_handler(t_list **lst, char **av, int i)
+{
+	t_env	*tmp;
+	t_env	*prev;
+
+	tmp = (*(*lst)->env);
+	prev = NULL;
+	while (tmp)
+	{
+		if (strcmp(av[i], tmp->bfr_eql) == 0)
+		{
+			if (prev == NULL)
+				(*(*lst)->env) = tmp->next;
+			else
+				prev->next = tmp->next;
+			free_node(tmp);
+			break ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
+
 int	ft_unset(char **av, t_list **lst)
 {
-    t_env	*tmp, *prev;
-    int		i;
+	int	i;
 
-    i = 1;
-    if (!av[1])
-        return (0);
-    if (!(*lst)->env || !(*(*lst)->env))
-        return (0);
-    tmp = (*(*lst)->env); // Initialize tmp here
-    prev = NULL;
-    while (av[i])
-    {
-        if (strcmp(av[i], tmp->bfr_eql) == 0)
-        {
-            t_env *nextNode = tmp->next; // Save the next node before freeing tmp
-            if (ft_envsize(tmp) == 1)
-                return (free(tmp->after_eql), free(tmp->bfr_eql), 0);
-            if (prev == NULL) // This is the first node
-                (*(*lst)->env) = nextNode;
-            else
-                prev->next = nextNode;
-            free_node(tmp);
-            tmp = nextNode; // Set tmp to the next node
-            i = 0;
-        }
-        else
-        {
-            prev = tmp;
-            tmp = tmp->next;
-        }
-        i++;
-    }
-    unset_mid(av, lst);
-    return (0);
+	i = 1;
+	if (!av[1])
+		return (0);
+	if (!(*lst)->env || !(*(*lst)->env))
+		return (0);
+	while (av[i])
+	{
+		unset_handler(lst, av, i);
+		i++;
+	}
+	unset_mid(av, lst);
+	return (0);
 }

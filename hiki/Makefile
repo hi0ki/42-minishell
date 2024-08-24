@@ -14,20 +14,34 @@ LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strcmp.c libft_utils/ft_free_list.c libft_utils/ft_split.c \
 		libft_utils/ft_lstsize.c libft_utils/ft_lstlast.c libft_utils/ft_calloc.c\
 
-RD_LINE2 = -L/goinfre/$(USER)/homebrew/opt/readline/lib
-
 NAME = minishell
 CC = cc
-HEADER = minishell.h
-FLAGS = -I./includes -I./libft -lreadline  -Wall -Wextra -Werror 
-# -fsanitize=address -g
+FLAGS =  -Wall -Wextra -Werror -I./libft -lreadline
+HEADER = includes/minishell.h
+
+OBJS = $(SRC:.c=.o)
+LIBOBJ = $(LIBFT:.c=.o)
+
+RED=\033[0;31m
+GREEN=\033[0;32m
+NC=\033[0m 
+
 all: $(NAME)
-# -L ~/goinfre/homebrew/opt/readline/lib/
-$(NAME): $(SRC) $(LIBFT)
-	$(CC) $(FLAGS)   $(SRC) $(LIBFT) -lreadline -o $(NAME)
-# -I ~/goinfre/homebrew/opt/readline/include/
+
+$(NAME): $(OBJS) $(LIBOBJ)
+	@$(CC) $(FLAGS) -L ~/goinfre/homebrew/opt/readline/lib/ $(OBJS) $(LIBOBJ) -o $(NAME)
+
 %.o : %.c $(HEADER)
-	$(CC) $(CFLAGS)  -c $< -o $@
+	@$(CC) $(CFLAGS) -I ~/goinfre/homebrew/opt/readline/include/  -c $< -o $@
 
 clean:
-	rm -rf $(NAME)
+	@echo "${RED}Cleaning objects...${NC}"
+	@rm -rf $(OBJS) $(LIBOBJ)
+	@echo "${GREEN}Objects cleaned${NC}"
+
+fclean: clean
+	@echo "${RED}Cleaning executable...${NC}"
+	@rm -rf $(NAME)
+	@echo "${GREEN}Executable cleaned${NC}"
+
+re: fclean all

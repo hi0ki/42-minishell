@@ -10,31 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-// void	print_all_env(t_env *env, int fd_out)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!env)
-// 		return ;
-// 	while (env)
-// 	{
-// 		ft_putstr_fd("declare -x ", fd_out);
-// 		ft_putstr_fd(env->bfr_eql, fd_out);
-// 		if (env->env == 1)
-// 		{
-// 			write(fd_out, "=\"", 2);
-// 			ft_putstr_fd(env->after_eql, fd_out);
-// 			write(fd_out, "\"\n", 2);
-// 		}
-// 		else
-// 			write (1, "\n", 1);
-// 		env = env->next;
-// 	}
-// 	return ;
-// }
+#include "../includes/minishell.h"
 
 static int	is_alpha(int c)
 {

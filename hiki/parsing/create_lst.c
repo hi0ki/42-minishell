@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	create_lst(t_list **lst, t_lexer **head, t_env **env, char **envr)
 {

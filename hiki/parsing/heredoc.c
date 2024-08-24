@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static char	*generate_heredoc_name(void)
 {
@@ -63,7 +63,7 @@ static void	heredoce_handler(t_files *file, t_env **env, int fd)
 	while (1)
 	{
 		write(1, "> ", 2);
-		str = get_next_line(1);
+		str = get_next_line(0);
 		if (!str || ft_strcmp(str, file->file_name) == 0)
 			break ;
 		if (str != NULL && file->heredoce_expand != false)

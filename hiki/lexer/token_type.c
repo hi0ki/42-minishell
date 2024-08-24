@@ -10,21 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-/*
-
-khsni nchecki kola data fiha bach n3rf ach khas it3tahom
-
-*/
-
-/*
-
-nhandly dak lblan dyal double qoates 
-ila malgitch space njm3 dakchi li morah nichan
-
-
-*/
+#include "../includes/minishell.h"
 
 static int	_strcmp(char *s1, char *s2)
 {

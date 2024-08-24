@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static void	handle_one_char(t_lexer **node, int i, int j)
 {
@@ -59,7 +59,7 @@ static int	handle_no_value(t_lexer **node, char *var_name, int i, int j)
 	if ((*node)->type == DOLLAR && j == ft_strlen((*node)->data) && 
 		((*node)->prev && (!check_oper((*node)->prev) || 
 				((*node)->prev->prev && !check_oper((*node)->prev->prev)))))
-		return (i + 1);
+		return (free(var_name), i + 1);
 	if (j - i == 1)
 		handle_one_char(node, i, j);
 	else
