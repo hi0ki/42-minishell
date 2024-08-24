@@ -4,7 +4,7 @@ SRC = 	main.c\
 		parsing/fill_files.c parsing/fill_array.c parsing/fill_path.c parsing/heredoc.c parsing/utils_variables.c parsing/heredoc_utils.c\
 		lexer/utils_lexer.c lexer/lexer.c lexer/token_type.c lexer/error_handler.c  lexer/check_operators.c\
 		builtin/cd.c builtin/init_env.c builtin/echo.c builtin/env.c builtin/export.c builtin/pwd.c builtin/unset.c builtin/exit.c \
-		exec/exec.c exec/link_builtin.c exec/exec_utils.c builtin/builtin_utils.c \
+		exec/exec.c exec/link_builtin.c exec/exec_utils.c builtin/builtin_utils.c exec/more_utils.c \
 
 LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 		libft_utils/ft_strlen.c libft_utils/ft_bzero.c libft_utils/ft_itoa.c\
@@ -16,7 +16,7 @@ LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 
 NAME = minishell
 CC = cc
-FLAGS =  -Wall -Wextra -Werror -I./libft -lreadline
+FLAGS =  -Wall -Wextra -Werror  -I./libft -lreadline #-fsanitize=address -g
 HEADER = includes/minishell.h
 
 OBJS = $(SRC:.c=.o)
@@ -27,12 +27,12 @@ GREEN=\033[0;32m
 NC=\033[0m 
 
 all: $(NAME)
-
+#   -L ~/goinfre/homebrew/opt/readline/lib/
 $(NAME): $(OBJS) $(LIBOBJ)
-	@$(CC) $(FLAGS) -L ~/goinfre/homebrew/opt/readline/lib/ $(OBJS) $(LIBOBJ) -o $(NAME)
-
+	@$(CC) $(FLAGS) $(OBJS) $(LIBOBJ) -o $(NAME)
+#  -I ~/goinfre/homebrew/opt/readline/include/
 %.o : %.c $(HEADER)
-	@$(CC) $(CFLAGS) -I ~/goinfre/homebrew/opt/readline/include/  -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "${RED}Cleaning objects...${NC}"

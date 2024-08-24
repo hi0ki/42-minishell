@@ -47,7 +47,7 @@ static void	split_env_var(t_lexer **head)
 	while (tmp)
 	{
 		if (tmp->type == DOLLAR && (check_variable(tmp) == 0 || 
-				tmp->prev == NULL) && valid_to_split(tmp) == 0)
+				tmp->prev == NULL))
 		{
 			arr = ft_split(tmp->data, " \t");
 			save = tmp->data;

@@ -123,10 +123,10 @@ int	ft_exe(t_list *lst)
 
 	size = ft_lstsize(lst);
 	i = 0;
-	if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
-		return (g_status);
 	open_files(&lst);
 	ft_close_fds(&lst);
+	if (ft_lenarray(lst->arr) == 0 && lst->path_cmd == NULL)
+		return (g_status);
 	pid = malloc(size * sizeof(int));
 	if (!pid)
 		return (perror("malloc error"), -1);

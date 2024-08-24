@@ -12,33 +12,6 @@
 
 #include "../includes/minishell.h"
 
-int	err_msg(char *path, char *arr)
-{
-	DIR	*f;
-	int	fd;
-
-	fd = open(path, O_WRONLY);
-	f = opendir(path);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(arr, 2);
-	if (path == NULL && strchr(arr, '/') == NULL)
-		ft_putstrn_fd(": command not found", 2);
-	else if ((fd == -1 && f == NULL) || (strchr(arr, '/') != NULL))
-		ft_putstrn_fd(": No such file or directory", 2);
-	else if (fd == -1 && f != NULL)
-		ft_putstrn_fd(": is a directory", 2);
-	else if (fd != -1 && f == NULL)
-		ft_putstrn_fd(" permission denied", 2);
-	if (path == NULL || (fd == -1 && f == NULL))
-		g_status = 127;
-	else
-		g_status = 126;
-	if (f)
-		closedir(f);
-	close(fd);
-	return (g_status);
-}
-
 void	ft_close_fds(t_list **lst)
 {
 	t_list	*tmp;
@@ -57,7 +30,8 @@ void	ft_close_fds(t_list **lst)
 				close(tmp->files[i].fd);
 			else if ((tmp->files[i].fd == tmp->in || 
 					tmp->files[i].fd == tmp->out)
-				&& tmp->error == false)
+				&& (tmp->error == false || (ft_lenarray((*lst)->arr) == 0 && 
+						(*lst)->path_cmd == NULL)))
 				close(tmp->files[i].fd);
 			i++;
 		}
@@ -94,6 +68,14 @@ void	setup_next_pipe(t_list *lst)
 	return ;
 }
 
+void	void_comnd(t_list **lst)
+{
+	ft_close_pr(*lst);
+	setup_next_pipe(*lst);
+	*lst = (*lst)->next;
+	return ;
+}
+
 int	lst_handle(t_list *lst, int *pid, int size, int *i)
 {
 	while (lst)
@@ -104,16 +86,15 @@ int	lst_handle(t_list *lst, int *pid, int size, int *i)
 			if (lst->next)
 				pipe(lst->pipe_fd);
 			if (ft_lenarray(lst->arr) == 0)
-				return (g_status);
+			{
+				void_comnd(&lst);
+				continue ;
+			}
 			pid[(*i)] = fork();
 			if (pid[(*i)] < 0)
 				return (-2);
 			if (pid[(*i)] == 0)
-			{
-				if (!lst->error)
-					exit(g_status);
 				child_process(lst, pid);
-			}
 			else
 				ft_close_pr(lst);
 			(*i)++;

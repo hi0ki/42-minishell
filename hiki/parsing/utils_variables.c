@@ -18,7 +18,7 @@ int	get_name_index(t_lexer **node, int j, int i)
 		(*node)->data[j] != '$' && (*node)->data[j] != '?' && 
 		(ft_isalnum((*node)->data[j]) == 1 || (*node)->data[j] == '_'))
 		j++;
-	if ((*node)->data[j] == '?')
+	if (j - i == 1 && (*node)->data[j] == '?')
 		j++;
 	return (j);
 }
