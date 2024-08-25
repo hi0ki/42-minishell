@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+/*				gnl				*/
 char	*get_next_line(int fd);
 char	*ft_save(char *save);
 char	*ft_line(char *save);
