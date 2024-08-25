@@ -16,7 +16,7 @@ LIBFT = libft_utils/ft_lstadd_back.c libft_utils/ft_lstnew.c \
 
 NAME = minishell
 CC = cc
-FLAGS =  -Wall -Wextra -Werror  -I./libft -lreadline
+FLAGS =  -Wall -Wextra -Werror
 HEADER = includes/minishell.h
 
 OBJS = $(SRC:.c=.o)
@@ -29,10 +29,10 @@ NC=\033[0m
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBOBJ)
-	@$(CC) $(FLAGS) -L ~/goinfre/homebrew/opt/readline/lib/ $(OBJS) $(LIBOBJ) -o $(NAME)
+	@$(CC) $(FLAGS) -L ~/goinfre/homebrew/opt/readline/lib/ -lreadline $(OBJS) $(LIBOBJ) -o $(NAME)
 
 %.o : %.c $(HEADER)
-	@$(CC) $(CFLAGS) -I ~/goinfre/homebrew/opt/readline/include/ -c $< -o $@
+	@$(CC) $(FLAGS) -I ~/goinfre/homebrew/opt/readline/include/ -c $< -o $@
 
 clean:
 	@echo "${RED}Cleaning objects...${NC}"
