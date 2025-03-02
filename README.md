@@ -13,14 +13,7 @@ Minishell is a simplified shell implementation based on bash. This project chall
 - Error Handling
 - Inter-Process Communication
 
-## Features
-
-### Command Execution
-- Execute commands with arguments
-- Handle absolute and relative paths (using PATH environment variable)
-- Support for simple commands, pipes, and redirections
-
-### Built-in Commands
+## Built-in Commands
 - `echo` with option `-n`
 - `cd` with relative or absolute path
 - `pwd` without any options
@@ -28,22 +21,6 @@ Minishell is a simplified shell implementation based on bash. This project chall
 - `unset` without any options
 - `env` without any options or arguments
 - `exit` without any options
-
-### Signal Handling
-- Handle `Ctrl+C` (SIGINT)
-- Handle `Ctrl+D` (EOF)
-- Handle `Ctrl+\` (SIGQUIT)
-
-### Line Editing
-- Command history (up and down arrows)
-- Input editing capabilities
-
-### Advanced Features
-- Redirections: `<`, `>`, `<<`, `>>`
-- Pipes: `|`
-- Environment variables: `$VAR`
-- Exit status: `$?`
-- Quotes handling (single and double)
 
 ## Installation
 
@@ -57,46 +34,9 @@ cd minishell
 # Compile the project
 make
 
-# (Optional) Compile with bonus features
-make bonus
-```
-
-## Usage
-
-```bash
-# Run the shell
+# Run the program
 ./minishell
+
+# Test a simple command inside the shell
+minishell$ echo "Hello, Minishell is working!"
 ```
-
-## Dependencies
-
-This project requires the readline library:
-
-**For Ubuntu/Debian:**
-```bash
-sudo apt-get install libreadline-dev
-```
-
-**For macOS (using Homebrew):**
-```bash
-brew install readline
-```
-
-## Examples
-
-Once running, you can use minishell like any standard shell:
-
-```bash
-minishell$ ls -la
-minishell$ echo "Hello World" > output.txt
-minishell$ cat < output.txt | grep Hello
-minishell$ cd /path/to/directory
-minishell$ pwd
-minishell$ export VAR=value
-minishell$ echo $VAR
-minishell$ exit
-```
-
-## Author
-
-- Your Name (@your_intra_login)
