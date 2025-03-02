@@ -3,6 +3,16 @@
 ## Overview
 Minishell is a simplified shell implementation based on bash. This project challenges students to recreate a basic command-line interface with core shell functionalities, providing a deep understanding of processes, file descriptors, and signal handling in Unix-like systems.
 
+## Skills & Concepts
+- Unix Processes
+- Signal Handling
+- Parser Implementation
+- Memory Management
+- File Operations
+- Environment Variables
+- Error Handling
+- Inter-Process Communication
+
 ## Features
 
 ### Command Execution
@@ -86,15 +96,6 @@ minishell$ export VAR=value
 minishell$ echo $VAR
 minishell$ exit
 ```
-
-## Learning Outcomes
-- Process creation and management
-- File descriptor manipulation
-- Signal handling
-- Parser and lexer implementation
-- Command execution logic
-- Environment variable management
-- Memory management in a complex program
 
 ## Author
 
